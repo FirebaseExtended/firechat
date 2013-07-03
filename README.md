@@ -1,4 +1,4 @@
-FireChat.js
+Firechat.js
 ===========
 
 Simple, extensible chat build on [Firebase](https://firebase.com).
