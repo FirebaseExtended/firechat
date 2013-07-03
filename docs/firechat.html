@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>firechat.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>firechat.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Firechat is a simple, easily-extensible data layer for multi-user,
+multi-room chat, built entirely on <a href="https://firebase.com">Firebase</a>.</p>
+<p>The Firechat object is the primary conduit for all underlying data events.
+It exposes a number of methods for binding event listeners, creating,
+entering, or leaving chat rooms, initiating chats, sending messages,
+and moderator actions such as warning, kicking, or suspending users.</p>
+<pre><code>Firechat.js 0.1.0
+https://firebase.com
+(c) 2013 Firebase
+License: MIT</code></pre>
+<h2>Setup</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="keyword">function</span>(Firebase) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Establish a reference to the <code>window</code> object, and save the previous value
+of the <code>Firechat</code> variable.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> root = <span class="keyword">this</span>,
+      previousFirechat = root.Firechat;
+
+  <span class="function"><span class="keyword">function</span> <span class="title">Firechat</span><span class="params">(firebaseRef, options)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Instantiate a new connection to Firebase.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._firebase = firebaseRef;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>User-specific instance variables.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._user = <span class="literal">null</span>;
+    <span class="keyword">this</span>._userId = <span class="literal">null</span>;
+    <span class="keyword">this</span>._userName = <span class="literal">null</span>;
+    <span class="keyword">this</span>._isModerator = <span class="literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>A unique id generated for each session.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._sessionId = <span class="literal">null</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>A mapping of event IDs to an array of callbacks.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._events = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>A mapping of room IDs to a boolean indicating presence.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._rooms = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>A mapping of operations to re-queue on disconnect.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._presenceBits = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Commonly-used Firebase references.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._userRef        = <span class="literal">null</span>;
+    <span class="keyword">this</span>._messageRef     = <span class="keyword">this</span>._firebase.child(<span class="string">'room-messages'</span>);
+    <span class="keyword">this</span>._roomRef        = <span class="keyword">this</span>._firebase.child(<span class="string">'room-metadata'</span>);
+    <span class="keyword">this</span>._privateRoomRef = <span class="keyword">this</span>._firebase.child(<span class="string">'room-private-metadata'</span>);
+    <span class="keyword">this</span>._moderatorsRef  = <span class="keyword">this</span>._firebase.child(<span class="string">'moderators'</span>);
+    <span class="keyword">this</span>._suspensionsRef = <span class="keyword">this</span>._firebase.child(<span class="string">'suspensions'</span>);
+    <span class="keyword">this</span>._usersOnlineRef = <span class="keyword">this</span>._firebase.child(<span class="string">'user-names-online'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Setup and establish default options.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._options = options || {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>The number of historical messages to load per room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">this</span>._options.numMaxMessages = <span class="keyword">this</span>._options.numMaxMessages || <span class="number">50</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Run Firechat in <em>noConflict</em> mode, returning the <code>Firechat</code> variable to
+its previous owner, and returning a reference to the Firechat object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.noConflict = <span class="function"><span class="keyword">function</span> <span class="title">noConflict</span><span class="params">()</span> {</span>
+    root.Firechat = previousFirechat;
+    <span class="keyword">return</span> Firechat;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Export the Firechat object as a global.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  root.Firechat = Firechat;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <h2>Firechat Internal Methods</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Load the initial metadata for the user&#39;s account and set initial state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _loadUserMetadata: <span class="keyword">function</span>(onComplete) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Update the user record with a default name on user&#39;s first visit.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>._userRef.transaction(<span class="keyword">function</span>(current) {
+        <span class="keyword">if</span> (!current || !current.id || !current.name) {
+          <span class="keyword">return</span> {
+            id: self._userId,
+            name: self._userName
+          };
+        }
+      }, <span class="keyword">function</span>(error, committed, snapshot) {
+        self._user = snapshot.val();
+        self._moderatorsRef.child(self._userId).once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+          self._isModerator = !!snapshot.val();
+          root.setTimeout(onComplete, <span class="number">0</span>);
+        });
+      });
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Initialize Firebase listeners and callbacks for the supported bindings.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _setupDataEvents: <span class="keyword">function</span>() {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Monitor connection state so we can requeue disconnect operations if need be.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>._firebase.root().child(<span class="string">'.info/connected'</span>).on(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+        <span class="keyword">if</span> (snapshot.val() === <span class="literal">true</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>We&#39;re connected (or reconnected)! Set up our presence state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>._presenceBits; i++) {
+            <span class="keyword">var</span> op = <span class="keyword">this</span>._presenceBits[i],
+                ref = <span class="keyword">this</span>._firebase.root().child(op.ref);
+
+            ref.onDisconnect().set(op.offlineValue);
+            ref.set(op.onlineValue);
+          }
+        }
+      }, <span class="keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Generate a unique session id for the visit.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">var</span> sessionRef = <span class="keyword">this</span>._userRef.child(<span class="string">'sessions'</span>).push();
+      <span class="keyword">this</span>._sessionId = sessionRef.name();
+      <span class="keyword">this</span>._queuePresenceOperation(sessionRef, <span class="literal">true</span>, <span class="literal">null</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Register our username in the public user listing.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">var</span> usernameRef = <span class="keyword">this</span>._usersOnlineRef.child(<span class="keyword">this</span>._userName.toLowerCase());
+      <span class="keyword">var</span> usernameSessionRef = usernameRef.child(<span class="keyword">this</span>._sessionId);
+      <span class="keyword">this</span>._queuePresenceOperation(usernameSessionRef, {
+        id: <span class="keyword">this</span>._userId,
+        name: <span class="keyword">this</span>._userName
+      }, <span class="literal">null</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Listen for state changes for the given user.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>._userRef.on(<span class="string">'value'</span>, <span class="keyword">this</span>._onUpdateUser, <span class="keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Listen for chat invitations from other users.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>._userRef.child(<span class="string">'invites'</span>).on(<span class="string">'child_added'</span>, <span class="keyword">this</span>._onFirechatInvite, <span class="keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Listen for messages from moderators and adminstrators.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">this</span>._userRef.child(<span class="string">'notifications'</span>).on(<span class="string">'child_added'</span>, <span class="keyword">this</span>._onNotification, <span class="keyword">this</span>);
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Append the new callback to our list of event handlers.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _addEventCallback: <span class="keyword">function</span>(eventId, callback) {
+      <span class="keyword">this</span>._events[eventId] = <span class="keyword">this</span>._events[eventId] || [];
+      <span class="keyword">this</span>._events[eventId].push(callback);
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Retrieve the list of event handlers for a given event id.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _getEventCallbacks: <span class="keyword">function</span>(eventId) {
+      <span class="keyword">if</span> (<span class="keyword">this</span>._events.hasOwnProperty(eventId)) {
+        <span class="keyword">return</span> <span class="keyword">this</span>._events[eventId];
+      }
+      <span class="keyword">return</span> [];
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Invoke each of the event handlers for a given event id with specified data.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _invokeEventCallbacks: <span class="keyword">function</span>(eventId) {
+      <span class="keyword">var</span> args = [],
+          callbacks = <span class="keyword">this</span>._getEventCallbacks(eventId);
+
+      Array.prototype.push.apply(args, arguments);
+      args = args.slice(<span class="number">1</span>);
+
+      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; callbacks.length; i += <span class="number">1</span>) {
+        callbacks[i].apply(<span class="literal">null</span>, args);
+      }
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Keep track of on-disconnect events so they can be requeued if we disconnect the reconnect.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _queuePresenceOperation: <span class="keyword">function</span>(ref, onlineValue, offlineValue) {
+      ref.onDisconnect().set(offlineValue);
+      ref.set(onlineValue);
+      <span class="keyword">this</span>._presenceBits[ref.toString()] = {
+        ref: ref,
+        onlineValue: onlineValue,
+        offlineValue: offlineValue
+      };
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>Remove an on-disconnect event from firing upon future disconnect and reconnect.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _removePresenceOperation: <span class="keyword">function</span>(path, value) {
+      <span class="keyword">var</span> ref = <span class="keyword">new</span> Firebase(path);
+      ref.onDisconnect().cancel();
+      ref.set(value);
+      <span class="keyword">delete</span> <span class="keyword">this</span>._presenceBits[path];
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>Event to monitor user current user state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _onUpdateUser: <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">this</span>._user = snapshot.val();
+      <span class="keyword">this</span>._invokeEventCallbacks(<span class="string">'user-update'</span>, <span class="keyword">this</span>._user);
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>Events to monitor room entry / exit and messages additional / removal.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _onEnterRoom: <span class="keyword">function</span>(room) {
+      <span class="keyword">this</span>._invokeEventCallbacks(<span class="string">'room-enter'</span>, room);
+    },
+    _onNewMessage: <span class="keyword">function</span>(roomId, snapshot) {
+      <span class="keyword">var</span> message = snapshot.val();
+      message.id = snapshot.name();
+      <span class="keyword">this</span>._invokeEventCallbacks(<span class="string">'message-add'</span>, roomId, message);
+    },
+    _onRemoveMessage: <span class="keyword">function</span>(roomId, snapshot) {
+      <span class="keyword">var</span> messageId = snapshot.name();
+      <span class="keyword">this</span>._invokeEventCallbacks(<span class="string">'message-remove'</span>, roomId, messageId);
+    },
+    _onLeaveRoom: <span class="keyword">function</span>(roomId) {
+      <span class="keyword">this</span>._invokeEventCallbacks(<span class="string">'room-exit'</span>, roomId);
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Event to listen for notifications from administrators and moderators.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _onNotification: <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">var</span> notification = snapshot.val();
+      <span class="keyword">if</span> (!notification.read) {
+        <span class="keyword">if</span> (notification.notificationType !== <span class="string">'suspension'</span> || notification.data.suspendedUntil &lt; Firebase.ServerValue.TIMESTAMP) {
+          snapshot.ref().child(<span class="string">'read'</span>).set(<span class="literal">true</span>);
+        }
+        <span class="keyword">this</span>._invokeEventCallbacks(<span class="string">'notification'</span>, notification);
+      }
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>Events to monitor chat invitations and invitation replies.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _onFirechatInvite: <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          invite = snapshot.val();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>Skip invites we&#39;ve already responded to.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> (invite.status) {
+        <span class="keyword">return</span>;
+      }
+
+      invite.id = invite.id || snapshot.name();
+      self.getRoom(invite.roomId, <span class="keyword">function</span>(room) {
+        invite.toRoomName = room.name;
+        self._invokeEventCallbacks(<span class="string">'room-invite'</span>, invite);
+      });
+    },
+    _onFirechatInviteResponse: <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          invite = snapshot.val();
+
+      invite.id = invite.id || snapshot.name();
+      <span class="keyword">this</span>._invokeEventCallbacks(<span class="string">'room-invite-response'</span>, invite);
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <h2>Firechat External Methods</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Initialize the library and setup data listeners.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.initWithUser = <span class="keyword">function</span>(userId, userName, callback) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    self._firebase.root().child(<span class="string">'.info/authenticated'</span>).on(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">if</span> (snapshot.val() === <span class="literal">true</span>) {
+        self._firebase.root().child(<span class="string">'.info/authenticated'</span>).off();
+
+        self._userId = userId.toString();
+        self._userName = userName.toString();
+        self._userRef = self._firebase.child(<span class="string">'users'</span>).child(self._userId);
+        self._loadUserMetadata(<span class="keyword">function</span>() {
+          root.setTimeout(<span class="keyword">function</span>() {
+            callback(self._user);
+            self._setupDataEvents();
+          }, <span class="number">0</span>);
+        });
+      }
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>Resumes the previous session by automatically entering rooms.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.resumeSession = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>._userRef.child(<span class="string">'rooms'</span>).once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">var</span> rooms = snapshot.val();
+      <span class="keyword">for</span> (<span class="keyword">var</span> roomId <span class="keyword">in</span> rooms) {
+        <span class="keyword">this</span>.enterRoom(rooms[roomId].id);
+      }
+    }, <span class="comment">/* onError */</span> <span class="keyword">function</span>(){}, <span class="comment">/* context */</span> <span class="keyword">this</span>);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Callback registration. Supports each of the following events:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.on = <span class="keyword">function</span>(eventType, cb) {
+    <span class="keyword">this</span>._addEventCallback(eventType, cb);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Create and automatically enter a new chat room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.createRoom = <span class="keyword">function</span>(roomName, roomType, callback) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        newRoomRef = <span class="keyword">this</span>._roomRef.push();
+
+    <span class="keyword">var</span> newRoom = {
+      id: newRoomRef.name(),
+      name: roomName,
+      type: roomType || <span class="string">'public'</span>,
+      createdByUserId: <span class="keyword">this</span>._userId,
+      createdAt: Firebase.ServerValue.TIMESTAMP
+    };
+
+    <span class="keyword">if</span> (roomType === <span class="string">'private'</span>) {
+      newRoom.authorizedUsers = {};
+      newRoom.authorizedUsers[<span class="keyword">this</span>._userId] = <span class="literal">true</span>;
+    }
+
+    newRoomRef.set(newRoom, <span class="keyword">function</span>(error) {
+      <span class="keyword">if</span> (!error) {
+        self.enterRoom(newRoomRef.name());
+      }
+      <span class="keyword">if</span> (callback) {
+        callback(newRoomRef.name());
+      }
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Enter a chat room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.enterRoom = <span class="keyword">function</span>(roomId) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+    self.getRoom(roomId, <span class="keyword">function</span>(room) {
+      <span class="keyword">var</span> roomName = room.name;
+
+      <span class="keyword">if</span> (!roomId || !roomName) <span class="keyword">return</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>Skip if we&#39;re already in this room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> (self._rooms[roomId]) {
+        <span class="keyword">return</span>;
+      }
+
+      self._rooms[roomId] = <span class="literal">true</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>Save entering this room to resume the session again later.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      self._userRef.child(<span class="string">'rooms'</span>).child(roomId).set({
+        id: roomId,
+        name: roomName,
+        active: <span class="literal">true</span>
+      });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>Set presence bit for the room and queue it for removal on disconnect.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">var</span> presenceRef = self._firebase.child(<span class="string">'room-users'</span>).child(roomId).child(self._userId).child(self._sessionId);
+      self._queuePresenceOperation(presenceRef, {
+        id: self._userId,
+        name: self._userName
+      }, <span class="literal">null</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>Invoke our callbacks before we start listening for new messages.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      self._onEnterRoom({ id: roomId, name: roomName });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>Setup message listeners</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      self._roomRef.child(roomId).once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+        self._messageRef.child(roomId).limit(self._options.numMaxMessages).on(<span class="string">'child_added'</span>, <span class="keyword">function</span>(snapshot) {
+          self._onNewMessage(roomId, snapshot);
+        }, <span class="comment">/* onCancel */</span> <span class="keyword">function</span>() {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>Turns out we don&#39;t have permission to access these messages.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          self.leaveRoom(roomId);
+        }, <span class="comment">/* context */</span> self);
+
+        self._messageRef.child(roomId).limit(self._options.numMaxMessages).on(<span class="string">'child_removed'</span>, <span class="keyword">function</span>(snapshot) {
+          self._onRemoveMessage(roomId, snapshot);
+        }, <span class="comment">/* onCancel */</span> <span class="keyword">function</span>(){}, <span class="comment">/* context */</span> self);
+      }, <span class="comment">/* onFailure */</span> <span class="keyword">function</span>(){}, self);
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>Leave a chat room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.leaveRoom = <span class="keyword">function</span>(roomId) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        userRoomRef = self._firebase.child(<span class="string">'room-users'</span>).child(roomId),
+        presenceRef = userRoomRef.child(self._userId).child(self._sessionId);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Remove listener for new messages to this room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    self._messageRef.child(roomId).off();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>Remove presence bit for the room and cancel on-disconnect removal.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    self._removePresenceOperation(presenceRef.toString(), <span class="literal">null</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>Remove session bit for the room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    self._userRef.child(<span class="string">'rooms'</span>).child(roomId).remove();
+
+    <span class="keyword">delete</span> self._rooms[roomId];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Invoke event callbacks for the room-exit event.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    self._onLeaveRoom(roomId);
+  };
+
+  Firechat.prototype.sendMessage = <span class="keyword">function</span>(roomId, messageContent, messageType, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        message = {
+          userId: self._userId,
+          name: self._userName,
+          timestamp: Firebase.ServerValue.TIMESTAMP,
+          message: messageContent,
+          type: messageType || <span class="string">'default'</span>
+        },
+        newMessageRef = self._messageRef.child(roomId).push();
+
+    newMessageRef.setWithPriority(message, Firebase.ServerValue.TIMESTAMP, cb);
+  };
+
+  Firechat.prototype.deleteMessage = <span class="keyword">function</span>(roomId, messageId, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    self._messageRef.child(roomId).child(messageId).remove(cb);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>Mute or unmute a given user by id. This list will be stored internally and
+all messages from the muted clients will be filtered client-side after
+receipt of each new message.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.toggleUserMute = <span class="keyword">function</span>(userId, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    self._userRef.child(<span class="string">'muted'</span>).child(userId).transaction(<span class="keyword">function</span>(isMuted) {
+      <span class="keyword">return</span> (isMuted) ? <span class="literal">null</span> : <span class="literal">true</span>;
+    }, cb);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>Send a moderator notification to a specific user.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.sendSuperuserNotification = <span class="keyword">function</span>(userId, notificationType, data, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        userNotificationsRef = self._firebase.child(<span class="string">'users'</span>).child(userId).child(<span class="string">'notifications'</span>);
+
+    userNotificationsRef.push({
+      fromUserId: self._userId,
+      timestamp: Firebase.ServerValue.TIMESTAMP,
+      notificationType: notificationType,
+      data: data || {}
+    }, cb);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>Warn a user for violating the terms of service or being abusive.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.warnUser = <span class="keyword">function</span>(userId) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    self.sendSuperuserNotification(userId, <span class="string">'warning'</span>);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>Suspend a user by putting the user into read-only mode for a period.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.suspendUser = <span class="keyword">function</span>(userId, timeLengthSeconds, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        suspendedUntil = Firebase.ServerValue.TIMESTAMP + <span class="number">1000</span>*timeLengthSeconds;
+
+    self._suspensionsRef.child(userId).set(suspendedUntil, <span class="keyword">function</span>(error) {
+      <span class="keyword">if</span> (error &amp;&amp; cb) {
+        <span class="keyword">return</span> cb(error);
+      } <span class="keyword">else</span> {
+        self.sendSuperuserNotification(userId, <span class="string">'suspension'</span>, {
+          suspendedUntil: suspendedUntil
+        });
+        <span class="keyword">return</span> cb(<span class="literal">null</span>);
+      }
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-58">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-58">&#182;</a>
+              </div>
+              <p>Invite a user to a specific chat room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.inviteUser = <span class="keyword">function</span>(userId, roomId) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        sendInvite = <span class="keyword">function</span>() {
+          <span class="keyword">var</span> inviteRef = self._firebase.child(<span class="string">'users'</span>).child(userId).child(<span class="string">'invites'</span>).push();
+          inviteRef.set({
+            id: inviteRef.name(),
+            fromUserId: self._userId,
+            fromUserName: self._userName,
+            toRoomId: roomId
+          });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-59">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-59">&#182;</a>
+              </div>
+              <p>Handle listen unauth / failure in case we&#39;re kicked.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          inviteRef.on(<span class="string">'value'</span>, self._onFirechatInviteResponse, <span class="keyword">function</span>(){}, self);
+        };
+
+    self.getRoom(roomId, <span class="keyword">function</span>(room) {
+      <span class="keyword">if</span> (room.type === <span class="string">'private'</span>) {
+        <span class="keyword">var</span> authorizedUserRef = self._roomRef.child(roomId).child(<span class="string">'authorizedUsers'</span>);
+        authorizedUserRef.child(userId).set(<span class="literal">true</span>, <span class="keyword">function</span>(error) {
+          <span class="keyword">if</span> (!error) {
+            sendInvite();
+          }
+        });
+      } <span class="keyword">else</span> {
+        sendInvite();
+      }
+    });
+  };
+
+  Firechat.prototype.acceptInvite = <span class="keyword">function</span>(inviteId, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    self._userRef.child(<span class="string">'invites'</span>).child(inviteId).once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">var</span> invite = snapshot.val();
+      <span class="keyword">if</span> (invite === <span class="literal">null</span> &amp;&amp; cb) {
+        <span class="keyword">return</span> cb(<span class="keyword">new</span> Error(<span class="string">'acceptInvite('</span> + inviteId + <span class="string">'): invalid invite id'</span>));
+      } <span class="keyword">else</span> {
+        self.enterRoom(invite.toRoomId);
+        self._userRef.child(<span class="string">'invites'</span>).child(inviteId).update({
+          <span class="string">'status'</span>: <span class="string">'accepted'</span>,
+          <span class="string">'toUserName'</span>: self._userName
+        }, cb);
+      }
+    }, self);
+  };
+
+  Firechat.prototype.declineInvite = <span class="keyword">function</span>(inviteId, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        updates = {
+          <span class="string">'status'</span>: <span class="string">'declined'</span>,
+          <span class="string">'toUserName'</span>: self._userName
+        };
+
+    self._userRef.child(<span class="string">'invites'</span>).child(inviteId).update(updates, cb);
+  };
+
+  Firechat.prototype.getRoomList = <span class="keyword">function</span>(cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    self._roomRef.once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+      cb(snapshot.val());
+    });
+  };
+
+  Firechat.prototype.getUsersByRoom = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        roomId = arguments[<span class="number">0</span>],
+        query = self._firebase.child(<span class="string">'room-users'</span>).child(roomId),
+        cb = arguments[arguments.length - <span class="number">1</span>],
+        limit = <span class="literal">null</span>;
+
+    <span class="keyword">if</span> (arguments.length &gt; <span class="number">2</span>) {
+      limit = arguments[<span class="number">1</span>];
+    }
+
+    query = (limit) ? query.limit(limit) : query;
+
+    query.once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">var</span> usernames = snapshot.val() || {},
+          usernamesUnique = {};
+
+      <span class="keyword">for</span> (<span class="keyword">var</span> username <span class="keyword">in</span> usernames) {
+        <span class="keyword">for</span> (<span class="keyword">var</span> session <span class="keyword">in</span> usernames[username]) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              <p>Skip all other sessions for this user as we only need one.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          usernamesUnique[username] = usernames[username][session];
+          <span class="keyword">break</span>;
+        }
+      }
+
+      root.setTimeout(<span class="keyword">function</span>() {
+        cb(usernamesUnique);
+      }, <span class="number">0</span>);
+    });
+  };
+
+  Firechat.prototype.getUsersByPrefix = <span class="keyword">function</span>(prefix, startAt, endAt, limit, cb) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        query = <span class="keyword">this</span>._usersOnlineRef,
+        prefixLower = prefix.toLowerCase();
+
+    <span class="keyword">if</span> (startAt) {
+      query = query.startAt(<span class="literal">null</span>, startAt);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (endAt) {
+      query = query.endAt(<span class="literal">null</span>, endAt);
+    } <span class="keyword">else</span> {
+      query = (prefixLower) ? query.startAt(<span class="literal">null</span>, prefixLower) : query.startAt();
+    }
+
+    query = (limit) ? query.limit(limit) : query;
+
+    query.once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+      <span class="keyword">var</span> usernames = snapshot.val() || {},
+          usernamesFiltered = {};
+
+      <span class="keyword">for</span> (<span class="keyword">var</span> userNameKey <span class="keyword">in</span> usernames) {
+        <span class="keyword">var</span> sessions = usernames[userNameKey],
+            userName, userId, usernameClean;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-61">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-61">&#182;</a>
+              </div>
+              <p>Grab the user data from the first registered active session.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">for</span> (<span class="keyword">var</span> sessionId <span class="keyword">in</span> sessions) {
+          userName = sessions[sessionId].name;
+          userId = sessions[sessionId].id;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <p>Skip all other sessions for this user as we only need one.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">break</span>;
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-63">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-63">&#182;</a>
+              </div>
+              <p>Filter out any usernames that don&#39;t match our prefix and break.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> ((prefix.length &gt; <span class="number">0</span>) &amp;&amp; (userName.toLowerCase().indexOf(prefixLower) !== <span class="number">0</span>))
+          <span class="keyword">continue</span>;
+
+        usernamesFiltered[userName] = {
+          name: userName,
+          id: userId
+        };
+      }
+
+      root.setTimeout(<span class="keyword">function</span>() {
+        cb(usernamesFiltered);
+      }, <span class="number">0</span>);
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-64">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-64">&#182;</a>
+              </div>
+              <p>Miscellaneous helper methods.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  Firechat.prototype.getRoom = <span class="keyword">function</span>(roomId, callback) {
+    <span class="keyword">this</span>._roomRef.child(roomId).once(<span class="string">'value'</span>, <span class="keyword">function</span>(snapshot) {
+      callback(snapshot.val());
+    });
+  };
+
+  Firechat.prototype.userIsModerator = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>._isModerator;
+  };
+
+  Firechat.prototype.sessionIdGet = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>._sessionId;
+  };
+})(Firebase);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
