@@ -1,5 +1,11 @@
+# Mac OS-X
 .DS_Store
-build
-compiled
+
+# Node / NPM
 node_modules
+
+# Jekyll
 _site
+
+# Compiled
+build
