@@ -136,6 +136,7 @@
         $('.message[data-user-id="' + userId + '"]').fadeOut();
       }
     },
+
     _onEnterRoom: function(room) {
       this.attachTab(room.id, room.name);
     },
@@ -149,7 +150,7 @@
     },
     _onNewMessage: function(roomId, message) {
       var userId = message.userId;
-      if (!this._user.muted || !this._user.muted[userId]) {
+      if (!this._user || !this._user.muted || !this._user.muted[userId]) {
         this.showMessage(roomId, message);
       }
     },
@@ -220,11 +221,16 @@
     }
   };
 
-  FirechatUI.prototype.initWithUser = function(userId, userName) {
+  /**
+   * Initialize an authenticated session with a user id and name.
+   * This method assumes that the underlying Firebase reference has
+   * already been authenticated.
+   */
+  FirechatUI.prototype.setUser = function(userId, userName) {
     var self = this;
 
     // Initialize data events
-    self._chat.initWithUser(userId, userName, function(user) {
+    self._chat.setUser(userId, userName, function(user) {
       self._user = user;
 
       if (self._chat.userIsModerator()) {
@@ -233,6 +239,15 @@
 
       self._chat.resumeSession();
     });
+  };
+
+  /**
+   * Exposes internal chat bindings via this external interface.
+   */
+  FirechatUI.prototype.on = function(eventType, cb) {
+    var self = this;
+
+    this._chat.on(eventType, cb);
   };
 
   /**
@@ -412,9 +427,9 @@
       self._chat.getUsersByRoom(roomId, function(users) {
         for (var username in users) {
           user = users[username];
-          user.disableActions = (user.id === self._user.id);
+          user.disableActions = (!self._user || user.id === self._user.id);
           user.nameTrimmed = self.trimWithEllipsis(user.name, self.maxLengthUsernameDisplay);
-          user.isMuted = (self._user.muted && self._user.muted[user.id]);
+          user.isMuted = (self._user && self._user.muted && self._user.muted[user.id]);
           $target.append($(template(user)));
         }
         self.sortListLexicographically('#' + targetId);
@@ -457,7 +472,7 @@
               var user = users[username];
 
               // Disable buttons for <me>.
-              user.disableActions = (user.id === self._user.id);
+              user.disableActions = (!self._user || user.id === self._user.id);
 
               numResults += 1;
 
@@ -944,12 +959,13 @@
     // Setup defaults
     var message = {
       id              : rawMessage.id,
-      localtime       : this.formatTime(rawMessage.timestamp),
+      localtime       : self.formatTime(rawMessage.timestamp),
       message         : rawMessage.message || '',
       userId          : rawMessage.userId,
       name            : rawMessage.name,
       type            : rawMessage.type || 'default',
-      isSelfMessage   : (rawMessage.userId == this._user.id)
+      isSelfMessage   : (self._user && rawMessage.userId == self._user.id),
+      disableActions  : (!self._user || rawMessage.userId == self._user.id)
     };
 
     // While other data is escaped in the Underscore.js templates, escape and
@@ -963,12 +979,12 @@
         return _.escape(token);
       }
     }).join(' ');
-    message.message = this.trimWithEllipsis(message.message, this.maxLengthMessage);
+    message.message = self.trimWithEllipsis(message.message, self.maxLengthMessage);
 
     // Populate and render the message template.
     var template = FirechatDefaultTemplates["templates/message.html"];
     var $message = $(template(message));
-    var $messages = this.$messages[roomId];
+    var $messages = self.$messages[roomId];
     if ($messages) {
 
       var scrollToBottom = false;

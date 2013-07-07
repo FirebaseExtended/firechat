@@ -179,10 +179,15 @@
       delete this._presenceBits[path];
     },
 
-    // Event to monitor user current user state.
+    // Event to monitor current user state.
     _onUpdateUser: function(snapshot) {
       this._user = snapshot.val();
       this._invokeEventCallbacks('user-update', this._user);
+    },
+
+    // Event to monitor current auth + user state.
+    _onAuthRequired: function() {
+      this._invokeEventCallbacks('auth-required');
     },
 
     // Events to monitor room entry / exit and messages additional / removal.
@@ -242,7 +247,7 @@
   // --------------
 
   // Initialize the library and setup data listeners.
-  Firechat.prototype.initWithUser = function(userId, userName, callback) {
+  Firechat.prototype.setUser = function(userId, userName, callback) {
     var self = this;
 
     self._firebase.root().child('.info/authenticated').on('value', function(snapshot) {
@@ -320,19 +325,21 @@
 
       self._rooms[roomId] = true;
 
-      // Save entering this room to resume the session again later.
-      self._userRef.child('rooms').child(roomId).set({
-        id: roomId,
-        name: roomName,
-        active: true
-      });
+      if (self._user) {
+        // Save entering this room to resume the session again later.
+        self._userRef.child('rooms').child(roomId).set({
+          id: roomId,
+          name: roomName,
+          active: true
+        });
 
-      // Set presence bit for the room and queue it for removal on disconnect.
-      var presenceRef = self._firebase.child('room-users').child(roomId).child(self._userId).child(self._sessionId);
-      self._queuePresenceOperation(presenceRef, {
-        id: self._userId,
-        name: self._userName
-      }, null);
+        // Set presence bit for the room and queue it for removal on disconnect.
+        var presenceRef = self._firebase.child('room-users').child(roomId).child(self._userId).child(self._sessionId);
+        self._queuePresenceOperation(presenceRef, {
+          id: self._userId,
+          name: self._userName
+        }, null);
+      }
 
       // Invoke our callbacks before we start listening for new messages.
       self._onEnterRoom({ id: roomId, name: roomName });
@@ -362,11 +369,13 @@
     // Remove listener for new messages to this room.
     self._messageRef.child(roomId).off();
 
-    // Remove presence bit for the room and cancel on-disconnect removal.
-    self._removePresenceOperation(presenceRef.toString(), null);
+    if (self._user) {
+      // Remove presence bit for the room and cancel on-disconnect removal.
+      self._removePresenceOperation(presenceRef.toString(), null);
 
-    // Remove session bit for the room.
-    self._userRef.child('rooms').child(roomId).remove();
+      // Remove session bit for the room.
+      self._userRef.child('rooms').child(roomId).remove();
+    }
 
     delete self._rooms[roomId];
 
@@ -383,8 +392,17 @@
           message: messageContent,
           type: messageType || 'default'
         },
-        newMessageRef = self._messageRef.child(roomId).push();
+        newMessageRef;
 
+    if (!self._user) {
+      self._onAuthRequired();
+      if (cb) {
+        cb(new Error('Not authenticated or user not set!'));
+      }
+      return;
+    }
+
+    newMessageRef = self._messageRef.child(roomId).push();
     newMessageRef.setWithPriority(message, Firebase.ServerValue.TIMESTAMP, cb);
   };
 
@@ -399,6 +417,14 @@
   // receipt of each new message.
   Firechat.prototype.toggleUserMute = function(userId, cb) {
     var self = this;
+
+    if (!self._user) {
+      self._onAuthRequired();
+      if (cb) {
+        cb(new Error('Not authenticated or user not set!'));
+      }
+      return;
+    }
 
     self._userRef.child('muted').child(userId).transaction(function(isMuted) {
       return (isMuted) ? null : true;
@@ -457,6 +483,11 @@
           // Handle listen unauth / failure in case we're kicked.
           inviteRef.on('value', self._onFirechatInviteResponse, function(){}, self);
         };
+
+    if (!self._user) {
+      self._onAuthRequired();
+      return;
+    }
 
     self.getRoom(roomId, function(room) {
       if (room.type === 'private') {
@@ -595,9 +626,5 @@
 
   Firechat.prototype.userIsModerator = function() {
     return this._isModerator;
-  };
-
-  Firechat.prototype.sessionIdGet = function() {
-    return this._sessionId;
   };
 })(Firebase);
