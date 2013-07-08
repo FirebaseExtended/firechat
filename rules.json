@@ -35,10 +35,7 @@
         "$msgId": {
           // Allow anyone to append to this list and allow admins to edit or remove.
           ".write": "(auth != null) && (data.val() === null || root.child('moderators').hasChild(auth.id)) && (root.child('room-metadata').child($roomId).child('type').val() != 'private' || root.child('room-metadata').child($roomId).child('authorizedUsers').hasChild(auth.id)) && (!root.child('suspensions').hasChild(auth.id) || root.child('suspensions').child(auth.id).val() < now)",
-          ".validate": "(newData.hasChildren(['userId','name','message','timestamp']))",
-          "name": {
-            ".validate": "(newData.val() === root.child('users').child(auth.id).child('name').val())"
-          }
+          ".validate": "(newData.hasChildren(['userId','name','message','timestamp']))"
         }
       }
     },
@@ -88,7 +85,7 @@
         "$sessionId": {
           ".write": "(auth != null) && (!data.exists() || !newData.exists() || data.child('id').val() === auth.id)",
           "id": {
-            ".validate": "(newData.val() === auth.id)" 
+            ".validate": "(newData.val() === auth.id)"
           },
           "name": {
             ".validate": "(newData.isString())"
