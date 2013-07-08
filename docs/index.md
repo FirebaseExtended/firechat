@@ -45,7 +45,7 @@ To initialize Firechat, you must initialize Firebase, and then Firechat.  Here i
 <script type='text/javascript'>
   var chatRef = new Firebase('https://<your-firebase>.firebaseio.com/chat');
   var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
-  chat.initWithUser('<user-id>', '<display-name>');
+  chat.setUser('<user-id>', '<display-name>');
 </script>
 {% endhighlight %}
 
@@ -138,7 +138,7 @@ Firechat exposes a number of useful methods and bindings to initiate chat, enter
 #### Instantiating Firechat
 {% highlight javascript %}
 var chat = new Firechat(firebaseRef);
-chat.initWithUser(userId, userName, function(user) {
+chat.setUser(userId, userName, function(user) {
   chat.resumeSession();
 });
 {% endhighlight %}
@@ -147,7 +147,7 @@ chat.initWithUser(userId, userName, function(user) {
 <a name="api_methods"> </a>
 #### API - Public Methods
 
-`Firechat.initWithUser(userId, userName, onComplete)`
+`Firechat.setUser(userId, userName, onComplete)`
 
 > Initiates the authenticated connection to Firebase, loads any user metadata,
 > and initializes Firebase listeners for chat events.
