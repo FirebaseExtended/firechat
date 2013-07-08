@@ -142,21 +142,21 @@ header {
           box-shadow: 0 5px 25px #666;
 }
 
-#twitter-signin-overlay {
+#auth-modal {
+  width: 30%;
+  margin-left: -15%;
+  left: 50%;
+}
+
+#user-info {
   display: block;
-  height: 100%;
-  width: 100%;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  background-color: #ffa233;
+  margin-top: 10px;
 }
 
-#twitter-signin-btn {
-  margin-top: 66%;
-  display: none;
+#user-info a {
+  color: #fff;
+  text-decoration: underline;
 }
-
 
 /* Social Buttons
 -------------------------------------------------- */
@@ -263,7 +263,7 @@ footer {
 }
 
 .home-page #top-content {
-  height: 885px;
+  height: 925px;
   padding-bottom: 35px;
 }
 
@@ -493,7 +493,7 @@ footer {
 ------------------------- */
 @media (min-width: 768px) and (max-width: 979px) {
   .home-page #top-content {
-    height: 885px;
+    height: 925px;
   }
   .sidenav {
     width: 166px;
@@ -510,7 +510,7 @@ footer {
     padding: 0;
   }
   .home-page #top-content {
-    height: 925px;
+    height: 975px;
   }
   .sidenav {
     width: auto;
@@ -536,7 +536,7 @@ footer {
     padding: 0;
   }
   .home-page #top-content {
-    height: 945px;
+    height: 985px;
   }
   .header-links {
     text-align: center;

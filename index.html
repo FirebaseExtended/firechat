@@ -46,10 +46,10 @@
         </div>
         <div class="row">
           <div class="span6 offset3">
-            <div id="firechat-container" class="clearfix">
-              <a id="twitter-signin-overlay" href="javascript:login('twitter');">
-                <img id="twitter-signin-btn" src="images/sign-in-with-twitter.png">
-              </a>
+            <div id="firechat-container" class="clearfix"></div>
+            <div id="user-info">
+              Logged in as <span id="user-name">.</span>
+              <a href="javascript:logout();">Logout</a>
             </div>
           </div>
         </div>
@@ -144,48 +144,69 @@
     </div>
   </footer>
 
+  <div id="auth-modal" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <h4 id="myModalLabel">Authenticate to continue</h4>
+    </div>
+    <div class="modal-body text-center">
+      <p>
+        <a id="twitter-signin" href="javascript:login('twitter');">
+          <img id="twitter-signin-btn" src="images/sign-in-with-twitter.png">
+        </a>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal">Cancel</button>
+    </div>
+  </div>
+
   <!-- Firechat -->
   <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-  <script src="https://cdn.firebase.com/v0/firebase-auth-client.js"></script>
+  <script src="https://cdn.firebase.com/v0/firebase-simple-login.js"></script>
   <script src="https://cdn.firebase.com/v0/firebase-token-generator.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-modal.min.js"></script>
 
   <!-- Download from https://github.com/firebase/Firechat -->
-  <link rel="stylesheet" href="firechat/0.1.1/firechat-default.css" />
-  <script src="firechat/0.1.1/firechat-default.js"></script>
+  <link rel="stylesheet" href="firechat/0.1.2/firechat-default.css" />
+  <script src="firechat/0.1.2/firechat-default.js"></script>
   <script>
     var chatRef = new Firebase('https://firechat-demo.firebaseio.com'),
         target = document.getElementById("firechat-container"),
-        spinner = new Spinner({ length: 12, width: 3, radius: 18 }),
-        chat;
+        authModal = $('#auth-modal').modal({ show: false }),
+        chat = new FirechatUI(chatRef, target);
 
-    spinner.spin(target)
-    var auth = new FirebaseAuthClient(chatRef, function(error, user) {
-      spinner.stop();
+    chat.on('auth-required', function() {
+      authModal.modal('show');
+      return false;
+    });
 
+    var auth = new FirebaseSimpleLogin(chatRef, function(error, user) {
       if (user) {
-        $("#twitter-signin-btn").hide();
-
         var userId = user.id,
             username = user.displayName;
 
-        chat = new FirechatUI(chatRef, target);
-        chat.initWithUser(user.id, username);
+        chat.setUser(user.id, username);
+        $('#user-name').text(username);
+        $('#user-info').show();
         setTimeout(function() {
           chat._chat.enterRoom('-Iy1N3xs4kN8iALHV0QA')
         }, 500);
       } else {
-        $("#twitter-signin-btn").show();
+        $('#user-info').hide();
+        chat._chat.enterRoom('-Iy1N3xs4kN8iALHV0QA')
       }
     });
 
     function login(provider) {
-      spinner.spin(target)
-
-      $("#twitter-signin-btn").hide();
-
+      authModal.modal('hide');
       auth.login(provider);
+    }
+
+    function logout() {
+      auth.logout();
+      location.reload();
     }
   </script>
 
