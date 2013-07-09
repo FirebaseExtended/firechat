@@ -477,7 +477,7 @@
             id: inviteRef.name(),
             fromUserId: self._userId,
             fromUserName: self._userName,
-            toRoomId: roomId
+            roomId: roomId
           });
 
           // Handle listen unauth / failure in case we're kicked.
@@ -511,7 +511,7 @@
       if (invite === null && cb) {
         return cb(new Error('acceptInvite(' + inviteId + '): invalid invite id'));
       } else {
-        self.enterRoom(invite.toRoomId);
+        self.enterRoom(invite.roomId);
         self._userRef.child('invites').child(inviteId).update({
           'status': 'accepted',
           'toUserName': self._userName
