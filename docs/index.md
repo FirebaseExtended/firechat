@@ -127,7 +127,7 @@ Next, create a primary JavaScript interface for your UI using the name `firechat
 
 Lastly, begin hooking into the Firechat API, detailed below, using the exposed methods and defined bindings.
 
-<div class="emphasis-box">Missing something? Send us a pull request and contribute to the repository!</div>
+<div class="emphasis-box">Missing something? Send us a <a href="https://github.com/firebase/firechat/pulls" target="_blank">pull request</a> and contribute to the repository!</div>
 
 
 <a name="api"> </a>
