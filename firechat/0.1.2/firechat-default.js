@@ -1100,6 +1100,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
         self.$roomList.empty();
         for (var roomId in rooms) {
           var room = rooms[roomId];
+          if (room.type != "public") continue;
           room.isRoomOpen = !!self.$messages[room.id];
           var $roomItem = $(template(room));
           $roomItem.children('a').bind('click', selectRoomListItem);
