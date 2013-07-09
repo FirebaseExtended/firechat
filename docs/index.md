@@ -8,7 +8,7 @@ permalink: index.html
 
 Firechat is a simple, extensible chat widget powered by [Firebase](https://firebase.com/?utm_source=docs&utm_medium=site&utm_campaign=Firechat).
 
-It is inteded to serve as a concise, documented foundation for chat products built on Firebase. It works out of the box, and is easily extended. Fork the repo to start extending and customizing!
+It is intended to serve as a concise, documented foundation for chat products built on Firebase. It works out of the box, and is easily extended. Fork the repo to start extending and customizing!
 
 
 <a name="getting_started"> </a>
