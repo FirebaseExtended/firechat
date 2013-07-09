@@ -9,7 +9,7 @@
       "$roomId": {
         // Append-only by anyone, and admins can add official rooms, and edit or remove rooms as well.
         ".write": "(auth != null) && (!data.exists() || root.child('moderators').hasChild(auth.id) || data.child('createdByUserId').val() === auth.id)",
-        ".validate": "newData.hasChildren(['name','type','createdByUserId','createdAt','numUsers'])",
+        ".validate": "newData.hasChildren(['name','type'])",
         "id": {
           ".validate": "(newData.val() === $roomId)"
         },
@@ -63,7 +63,7 @@
             // Allow the user who created the invitation to read the status of the invitation.
             ".read": "(auth != null) && (auth.id === data.child('fromUserId').val())",
             ".write": "(auth != null) && (!data.exists() || $userId === auth.id || data.child('fromUserId').val() === auth.id)",
-            ".validate": "newData.hasChildren(['fromUserId','fromUserName','toRoomId']) && (newData.child('id').val() === $inviteId)"
+            ".validate": "newData.hasChildren(['fromUserId','fromUserName','roomId']) && (newData.child('id').val() === $inviteId)"
           }
         },
         "notifications": {
@@ -85,7 +85,7 @@
         "$sessionId": {
           ".write": "(auth != null) && (!data.exists() || !newData.exists() || data.child('id').val() === auth.id)",
           "id": {
-            ".validate": "(newData.val() === auth.id)"
+            ".validate": "(newData.val() === auth.id)" 
           },
           "name": {
             ".validate": "(newData.isString())"
