@@ -211,7 +211,7 @@
     _onNotification: function(snapshot) {
       var notification = snapshot.val();
       if (!notification.read) {
-        if (notification.notificationType !== 'suspension' || notification.data.suspendedUntil < Firebase.ServerValue.TIMESTAMP) {
+        if (notification.notificationType !== 'suspension' || notification.data.suspendedUntil < new Date().getTime()) {
           snapshot.ref().child('read').set(true);
         }
         this._invokeEventCallbacks('notification', notification);
@@ -454,7 +454,7 @@
   // Suspend a user by putting the user into read-only mode for a period.
   Firechat.prototype.suspendUser = function(userId, timeLengthSeconds, cb) {
     var self = this,
-        suspendedUntil = Firebase.ServerValue.TIMESTAMP + 1000*timeLengthSeconds;
+        suspendedUntil = new Date().getTime() + 1000*timeLengthSeconds;
 
     self._suspensionsRef.child(userId).set(suspendedUntil, function(error) {
       if (error && cb) {
