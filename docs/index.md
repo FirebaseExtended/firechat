@@ -6,7 +6,7 @@ permalink: index.html
 <a name="overview"> </a>
 ### Overview
 
-Firechat is a simple, extensible chat widget powered by [Firebase](https://firebase.com/?utm_source=docs&utm_medium=site&utm_campaign=Firechat).
+Firechat is a simple, extensible chat widget powered by [Firebase](https://firebase.com/?utm_source=docs&utm_medium=site&utm_campaign=firechat).
 
 It is intended to serve as a concise, documented foundation for chat products built on Firebase. It works out of the box, and is easily extended. Fork the repo to start extending and customizing!
 
@@ -55,7 +55,7 @@ In the above example, `chatRef` should be an authenticated Firebase reference. M
 <a name="authentication"> </a>
 ### Authentication
 
-Firechat uses Firebase [Authentication](https://firebase.com/docs/security/authentication.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat) and [Security Rules](https://firebase.com/docs/security/security-rules.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat), giving you the flexibility to authenticate with either your own custom authentication system or a number of built-in providers.
+Firechat uses Firebase [Authentication](https://firebase.com/docs/security/authentication.html?utm_source=docs&utm_medium=site&utm_campaign=firechat) and [Security Rules](https://firebase.com/docs/security/security-rules.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), giving you the flexibility to authenticate with either your own custom authentication system or a number of built-in providers.
 
 #### Integrate Your Own Authentication
 
@@ -74,11 +74,11 @@ var firechatRef = new Firebase('https://<your-firebase>.firebaseio.com');
 firechatRef.auth(<token>);
 {% endhighlight %}
 
-For more information, check out the documentation for [Firebase Custom Login](https://www.firebase.com/docs/security/custom-login.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat).
+For more information, check out the documentation for [Firebase Custom Login](https://www.firebase.com/docs/security/custom-login.html?utm_source=docs&utm_medium=site&utm_campaign=firechat).
 
 #### Delegate Authentication to Firebase Simple Login
 
-[Firebase Simple Login](https://www.firebase.com/docs/security/simple-login-overview.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat) is a built-in service that allows you to authenticate with [Facebook](https://www.firebase.com/docs/security/simple-login-facebook.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat), [Twitter](https://www.firebase.com/docs/security/simple-login-twitter.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat), [GitHub](https://www.firebase.com/docs/security/simple-login-github.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat), [Persona](https://www.firebase.com/docs/security/simple-login-persona.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat), or [email / password](https://www.firebase.com/docs/security/simple-login-email-password.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat) using only client-side code.
+[Firebase Simple Login](https://www.firebase.com/docs/security/simple-login-overview.html?utm_source=docs&utm_medium=site&utm_campaign=firechat) is a built-in service that allows you to authenticate with [Facebook](https://www.firebase.com/docs/security/simple-login-facebook.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), [Twitter](https://www.firebase.com/docs/security/simple-login-twitter.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), [GitHub](https://www.firebase.com/docs/security/simple-login-github.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), [Persona](https://www.firebase.com/docs/security/simple-login-persona.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), or [email / password](https://www.firebase.com/docs/security/simple-login-email-password.html?utm_source=docs&utm_medium=site&utm_campaign=firechat) using only client-side code.
 
 * To begin, include the Firebase Simple Login script include in your page:
 
@@ -97,7 +97,7 @@ var auth = new FirebaseSimpleLogin(firechatRef, function(error, user) { ... });
 auth.login('twitter'); // or 'facebook', 'github, 'persona', 'password'
 {% endhighlight %}
 
-For more information, check out the documentation for [Firebase Simple Login](https://www.firebase.com/docs/security/simple-login-overview.html?utm_source=docs&utm_medium=site&utm_campaign=Firechat).
+For more information, check out the documentation for [Firebase Simple Login](https://www.firebase.com/docs/security/simple-login-overview.html?utm_source=docs&utm_medium=site&utm_campaign=firechat).
 
 
 <a name="customizing"> </a>
@@ -231,7 +231,7 @@ To bind events to Firechat, invoke the public `on` method using an event ID and 
 <a name="data_structure"> </a>
 ### Data Structure
 
-Firechat uses [Firebase](https://www.firebase.com/?utm_source=docs&utm_medium=site&utm_campaign=Firechat) for its data storage and synchronization. This means (a) you don't need to run any server code and (b) you get access to all the the Firebase features, including first-class data security, automatic scaling, and data portability.
+Firechat uses [Firebase](https://www.firebase.com/?utm_source=docs&utm_medium=site&utm_campaign=firechat) for its data storage and synchronization. This means (a) you don't need to run any server code and (b) you get access to all the the Firebase features, including first-class data security, automatic scaling, and data portability.
 
 You own all of the data and can interact with it in a variety of ways. Firechat stores your data at the Firebase location you specify using the
 following data structure:
