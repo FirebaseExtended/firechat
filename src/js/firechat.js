@@ -363,13 +363,14 @@
   // Leave a chat room.
   Firechat.prototype.leaveRoom = function(roomId) {
     var self = this,
-        userRoomRef = self._firebase.child('room-users').child(roomId),
-        presenceRef = userRoomRef.child(self._userId).child(self._sessionId);
+        userRoomRef = self._firebase.child('room-users').child(roomId);
 
     // Remove listener for new messages to this room.
     self._messageRef.child(roomId).off();
 
     if (self._user) {
+      var presenceRef = userRoomRef.child(self._userId).child(self._sessionId);
+
       // Remove presence bit for the room and cancel on-disconnect removal.
       self._removePresenceOperation(presenceRef.toString(), null);
 
