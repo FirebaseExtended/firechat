@@ -187,8 +187,8 @@
 
       if (invitation.status && invitation.status === 'accepted') {
         $prompt = this.prompt('Accepted', template(invitation));
-        this._chat.getRoom(invitation.toRoomId, function(room) {
-          self.attachTab(invitation.toRoomId, room.name);
+        this._chat.getRoom(invitation.roomId, function(room) {
+          self.attachTab(invitation.roomId, room.name);
         });
       } else {
         $prompt = this.prompt('Declined', template(invitation));
