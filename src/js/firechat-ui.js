@@ -166,16 +166,19 @@
       $prompt.find('a.close').click(function() {
         $prompt.remove();
         self._chat.declineInvite(invitation.id);
+        return false;
       });
 
       $prompt.find('[data-toggle=accept]').click(function() {
         $prompt.remove();
         self._chat.acceptInvite(invitation.id);
+        return false;
       });
 
       $prompt.find('[data-toggle=decline]').click(function() {
         $prompt.remove();
         self._chat.declineInvite(invitation.id);
+        return false;
       });
     },
     _onChatInviteResponse: function(invitation) {
@@ -196,6 +199,7 @@
 
       $prompt.find('a.close').click(function() {
         $prompt.remove();
+        return false;
       });
     },
 
@@ -366,6 +370,7 @@
     $(document).delegate('[data-event="firechat-close-tab"]', 'click', function(event) {
       var roomId = $(this).closest('[data-room-id]').data('room-id');
       self._chat.leaveRoom(roomId);
+      return false;
     });
   };
 
@@ -392,6 +397,7 @@
             } else {
               self._chat.enterRoom(roomId, roomName);
             }
+            return false;
           };
 
       self._chat.getRoomList(function(rooms) {
@@ -549,15 +555,18 @@
 
         $prompt.find('a.close').first().click(function() {
           $prompt.remove();
+          return false;
         });
 
         $prompt.find('[data-toggle=decline]').first().click(function() {
           $prompt.remove();
+          return false;
         });
 
         $prompt.find('[data-toggle=accept]').first().click(function() {
           self._chat.toggleUserMute(userId);
           $prompt.remove();
+          return false;
         });
       } else {
         self._chat.toggleUserMute(userId);
@@ -587,17 +596,22 @@
 
             $prompt.find('a.close').click(function() {
               $prompt.remove();
+              return false;
             });
 
             $prompt.find('[data-toggle=decline]').click(function() {
               $prompt.remove();
+              return false;
             });
 
             $prompt.find('[data-toggle=accept]').first().click(function() {
               $prompt.remove();
               self._chat.inviteUser(userId, roomId, room.name);
+              return false;
             });
+            return false;
           });
+          return false;
         },
         renderPrivateInvitePrompt = function(event) {
           var $this = $(this),
@@ -614,10 +628,12 @@
 
             $prompt.find('a.close').click(function() {
               $prompt.remove();
+              return false;
             });
 
             $prompt.find('[data-toggle=decline]').click(function() {
               $prompt.remove();
+              return false;
             });
 
             $prompt.find('[data-toggle=accept]').first().click(function() {
@@ -626,8 +642,10 @@
               self._chat.createRoom(roomName, 'private', function(roomId) {
                 self._chat.inviteUser(userId, roomId, roomName);
               });
+              return false;
             });
           }
+          return false;
         };
 
     $(document).delegate('[data-event="firechat-user-chat"]', 'click', renderPrivateInvitePrompt);
@@ -650,6 +668,7 @@
     // Handle click of the create new room prompt-button.
     $createRoomPromptButton.bind('click', function(event) {
       self.promptCreateRoom();
+      return false;
     });
 
     // Handle click of the create new room button.
@@ -657,6 +676,7 @@
       var roomName = $('#firechat-input-room-name').val();
       $('#firechat-prompt-create-room').remove();
       self._chat.createRoom(roomName);
+      return false;
     });
   };
 
@@ -821,6 +841,7 @@
 
       $prompt.find('.close').click(function() {
         $prompt.remove();
+        return false;
       });
       return;
   };
@@ -902,6 +923,7 @@
     // Sort each item in the user list alphabetically on click of the dropdown.
     $('#firechat-btn-room-user-list-' + roomId).bind('click', function() {
       self.sortListLexicographically('#firechat-room-user-list-' + roomId);
+      return false;
     });
 
     // Automatically select the new tab.
@@ -1052,7 +1074,7 @@
     var date = (timestamp) ? new Date(timestamp) : new Date(),
         hours = date.getHours() || 12,
         minutes = '' + date.getMinutes(),
-        ampm = (date.getHours() >= 12) ? 'pm' : 'am'; 
+        ampm = (date.getHours() >= 12) ? 'pm' : 'am';
 
     hours = (hours > 12) ? hours - 12 : hours;
     minutes = (minutes.length < 2) ? '0' + minutes : minutes;
@@ -1072,6 +1094,7 @@
     }));
     $prompt.find('a.close').first().click(function() {
       $prompt.remove();
+      return false;
     });
 
 
@@ -1081,6 +1104,7 @@
         self._chat.createRoom(name, 'public');
         $prompt.remove();
       }
+      return false;
     });
 
     $prompt.find('[data-input=firechat-room-name]').first().focus();
