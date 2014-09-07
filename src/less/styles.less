@@ -244,7 +244,7 @@
   }
 }
 
-/* Component: Dropdowns
+/* Component: dropdowns
 ============================================================ */
 #firechat {
   .caret {
@@ -259,10 +259,10 @@
     margin-top: 8px;
     margin-left: 2px;
   }
-  .dropdown {
+  .firechat-dropdown {
     position: relative;
   }
-  .dropdown-toggle {
+  .firechat-dropdown-toggle {
     .user-select(none);
     text-decoration: none;
     &:focus,
@@ -275,7 +275,7 @@
       height: 22px;
     }
   }
-  .dropdown-menu {
+  .firechat-dropdown-menu {
     .clearfix();
     .border-radii(0, 4px, 4px, 0);
     z-index: 1000;
@@ -298,13 +298,13 @@
     padding: 0;
     margin: -1px 0 0;
   }
-  .dropdown-menu ul {
+  .firechat-dropdown-menu ul {
     background-color: #ffffff;
     list-style: none;
     overflow-y: scroll;
     max-height: 300px;
   }
-  .dropdown-menu ul > li > a {
+  .firechat-dropdown-menu ul > li > a {
     display: block;
     padding: 1px 1px 1px 3px;
     clear: both;
@@ -313,36 +313,36 @@
     color: #333333;
     white-space: nowrap;
   }
-  .dropdown-menu ul > li > a.highlight {
+  .firechat-dropdown-menu ul > li > a.highlight {
     background-color: #d9edf7;
   }
-  .dropdown-menu ul > li > a:hover,
-  .dropdown-menu ul > li > a:focus,
-  .dropdown-menu ul > .active > a,
-  .dropdown-menu ul > .active > a:hover,
-  .dropdown-menu ul > .active > a:focus {
+  .firechat-dropdown-menu ul > li > a:hover,
+  .firechat-dropdown-menu ul > li > a:focus,
+  .firechat-dropdown-menu ul > .active > a,
+  .firechat-dropdown-menu ul > .active > a:hover,
+  .firechat-dropdown-menu ul > .active > a:focus {
     text-decoration: none;
     color: #000000;
     background-color: #d9edf7;
     outline: 0;
   }
-  .dropdown-menu ul > .disabled > a,
-  .dropdown-menu ul > .disabled > a:hover,
-  .dropdown-menu ul > .disabled > a:focus {
+  .firechat-dropdown-menu ul > .disabled > a,
+  .firechat-dropdown-menu ul > .disabled > a:hover,
+  .firechat-dropdown-menu ul > .disabled > a:focus {
     color: #999999;
     text-decoration: none;
     background-color: transparent;
     background-image: none;
     cursor: default;
   }
-  .dropdown-header {
+  .firechat-dropdown-header {
     position: relative;
     width: 100%;
     padding: 10px 0;
     background-color: #eeeeee;
     border-bottom: 1px solid #cccccc;
   }
-  .dropdown-footer {
+  .firechat-dropdown-footer {
     position: relative;
     width: 100%;
     padding: 10px 0px;
@@ -353,13 +353,13 @@
   .open {
     *z-index: 1000;
   }
-  .open > .dropdown-menu {
+  .open > .firechat-dropdown-menu {
     display: block;
     border: 1px solid #cccccc;
     .border-radii(0, 4px, 4px, 0);
   }
 
-  .open > .dropdown-toggle {
+  .open > .firechat-dropdown-toggle {
     outline: none;
     text-decoration: none;
     .border-radii(4px, 0, 0, 4px);
@@ -658,7 +658,7 @@
     vertical-align: middle;
     padding-bottom: 5px;
   }
-  .tab-pane-menu .dropdown {
+  .tab-pane-menu .firechat-dropdown {
     margin: 5px 0 0 5px;
   }
   .tab-pane-menu > .icon {

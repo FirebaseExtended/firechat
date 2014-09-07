@@ -522,7 +522,7 @@
     // Upon click of the dropdown, autofocus the input field and trigger list population.
     $(document).delegate('[data-event="firechat-user-search-btn"]', 'click', function(event) {
       event.stopPropagation();
-      var $input = $(this).next('div.dropdown-menu').find('input');
+      var $input = $(this).next('div.firechat-dropdown-menu').find('input');
       $input.focus();
       $input.trigger(jQuery.Event('keyup'));
     });
@@ -689,7 +689,7 @@
     var self = this,
         show = function($el) {
           var $this = $el,
-              $ul = $this.closest('ul:not(.dropdown-menu)'),
+              $ul = $this.closest('ul:not(.firechat-dropdown-menu)'),
               selector = $this.attr('data-target'),
               previous = $ul.find('.active:last a')[0],
               $target,
@@ -725,7 +725,7 @@
           function next() {
             $active
               .removeClass('active')
-              .find('> .dropdown-menu > .active')
+              .find('> .firechat-dropdown-menu > .active')
               .removeClass('active');
 
             element.addClass('active');
@@ -736,8 +736,8 @@
               element.removeClass('fade');
             }
 
-            if (element.parent('.dropdown-menu')) {
-              element.closest('li.dropdown').addClass('active');
+            if (element.parent('.firechat-dropdown-menu')) {
+              element.closest('li.firechat-dropdown').addClass('active');
             }
 
             if (callback) {
@@ -754,7 +754,7 @@
           $active.removeClass('in');
       };
 
-    $(document).delegate('[data-toggle="tab"]', 'click', function(event) {
+    $(document).delegate('[data-toggle="firechat-tab"]', 'click', function(event) {
       event.preventDefault();
       show($(this));
     });
@@ -767,7 +767,7 @@
    */
   FirechatUI.prototype._setupDropdowns = function() {
     var self = this,
-        toggle = '[data-toggle=dropdown]',
+        toggle = '[data-toggle=firechat-dropdown]',
         toggleDropdown = function(event) {
           var $this = $(this),
               $parent = getParent($this),
@@ -786,7 +786,7 @@
           return false;
         },
         clearMenus = function() {
-          $('[data-toggle=dropdown]').each(function() {
+          $('[data-toggle=firechat-dropdown]').each(function() {
             getParent($(this)).removeClass('open');
           });
         },
@@ -808,8 +808,8 @@
 
       $(document)
         .bind('click', clearMenus)
-        .delegate('.dropdown-menu', 'click', function(event) { event.stopPropagation(); })
-        .delegate('[data-toggle=dropdown]', 'click', toggleDropdown);
+        .delegate('.firechat-dropdown-menu', 'click', function(event) { event.stopPropagation(); })
+        .delegate('[data-toggle=firechat-dropdown]', 'click', toggleDropdown);
   };
 
   /**
@@ -964,7 +964,7 @@
     this.$tabList.children('li').css('width', tabWidth);
 
     // Automatically select the next tab if there is one.
-    this.$tabList.find('[data-toggle=tab]').first().trigger('click');
+    this.$tabList.find('[data-toggle="firechat-tab"]').first().trigger('click');
 
     // Update the room listing to reflect that we're now in the room.
     this.$roomList.children('[data-room-id=' + roomId + ']').children('a').removeClass('highlight');
