@@ -754,7 +754,7 @@
           $active.removeClass('in');
       };
 
-    $(document).delegate('[data-toggle="tab"]', 'click', function(event) {
+    $(document).delegate('[data-toggle="firechat-tab"]', 'click', function(event) {
       event.preventDefault();
       show($(this));
     });
@@ -964,7 +964,7 @@
     this.$tabList.children('li').css('width', tabWidth);
 
     // Automatically select the next tab if there is one.
-    this.$tabList.find('[data-toggle=tab]').first().trigger('click');
+    this.$tabList.find('[data-toggle="firechat-tab"]').first().trigger('click');
 
     // Update the room listing to reflect that we're now in the room.
     this.$roomList.children('[data-room-id=' + roomId + ']').children('a').removeClass('highlight');
