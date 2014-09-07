@@ -1,26 +1,26 @@
 <div id='<%- id %>' data-room-id='<%- id %>' class='tab-pane'>
   <div class='tab-pane-menu clearfix'>
 
-    <div class='dropdown twofifth'>
-      <a data-event='firechat-user-room-list-btn' class='full btn dropdown-toggle' data-toggle="dropdown" href='#' data-target='firechat-room-user-list-<%- id %>'>
+    <div class='firechat-dropdown twofifth'>
+      <a data-event='firechat-user-room-list-btn' class='full btn firechat-dropdown-toggle' data-toggle="firechat-dropdown" href='#' data-target='firechat-room-user-list-<%- id %>'>
         <span class='icon user-group'></span>
         In Room
         <span class='caret'></span>
       </a>
-      <div class='dropdown-menu' role='menu'>
+      <div class='firechat-dropdown-menu' role='menu'>
         <ul id='firechat-room-user-list-<%- id %>' class='full'></ul>
       </div>
     </div>
 
-    <div class='dropdown twofifth'>
-      <a data-event='firechat-user-search-btn' class='full btn dropdown-toggle' data-toggle="dropdown" href='#'>
+    <div class='firechat-dropdown twofifth'>
+      <a data-event='firechat-user-search-btn' class='full btn firechat-dropdown-toggle' data-toggle="firechat-dropdown" href='#'>
         <span class='icon plus'>+</span>
         Invite
         <span class='caret'></span>
       </a>
 
-      <div class='dropdown-menu' role='menu'>
-        <div class='dropdown-header aligncenter clearfix'>
+      <div class='firechat-dropdown-menu' role='menu'>
+        <div class='firechat-dropdown-header aligncenter clearfix'>
           <div class='search-wrapper'>
             <span class='icon search'></span>
             <input type='text' data-event='firechat-user-search' data-template='templates/room-user-search-list-item.html' data-target='firechat-room-user-search-<%- id %>' data-controls='firechat-room-user-search-controls-<%- id %>' class='center fivesixth'>
@@ -28,7 +28,7 @@
         </div>
         <ul id='firechat-room-user-search-<%- id %>'></ul>
 
-        <div class='dropdown-footer aligncenter clearfix'>
+        <div class='firechat-dropdown-footer aligncenter clearfix'>
           <div id='firechat-room-user-search-controls-<%- id %>' class='clearfix'>
 
             <span class="quarter"></span>
