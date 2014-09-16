@@ -78,9 +78,9 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
 // entering, or leaving chat rooms, initiating chats, sending messages,
 // and moderator actions such as warning, kicking, or suspending users.
 //
-//     Firechat.js 0.1.0
+//     Firechat.js 1.0.0
 //     https://firebase.com
-//     (c) 2013 Firebase
+//     (c) 2014 Firebase
 //     License: MIT
 
 // Setup
@@ -323,7 +323,8 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     var self = this;
 
     self._firebase.root().child('.info/authenticated').on('value', function(snapshot) {
-      if (snapshot.val() === true) {
+      var authenticated = snapshot.val();
+      if (authenticated) {
         self._firebase.root().child('.info/authenticated').off();
 
         self._userId = userId.toString();
@@ -335,6 +336,8 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
             self._setupDataEvents();
           }, 0);
         });
+      } else {
+        self.warn('Firechat requires an authenticated Firebase reference. Pass an authenticated reference before loading.');
       }
     });
   };
@@ -699,6 +702,17 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
 
   Firechat.prototype.userIsModerator = function() {
     return this._isModerator;
+  };
+
+  Firechat.prototype.warn = function(msg) {
+    if (console) {
+      msg = 'Firechat Warning: ' + msg;
+      if (typeof console.warn === 'function') {
+        console.warn(msg);
+      } else if (typeof console.log === 'function') {
+        console.log(msg);
+      }
+    }
   };
 })(Firebase);
 (function($) {
