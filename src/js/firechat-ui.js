@@ -1109,7 +1109,6 @@
 
     $prompt.find('[data-input=firechat-room-name]').first().focus();
     $prompt.find('[data-input=firechat-room-name]').first().bind('keydown', function(e) {
-
       if (e.which === 13) {
         var name = $prompt.find('[data-input=firechat-room-name]').first().val();
         if (name !== '') {
