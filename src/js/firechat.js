@@ -207,6 +207,24 @@
       this._invokeEventCallbacks('room-exit', roomId);
     },
 
+    // Events to monitor other users' entry and exit to our current rooms.
+    _onUserEnterRoom: function(roomId, snapshot) {
+      var sessions = snapshot.val();
+      for (var sessionKey in sessions) {
+        // Don't care about session, just user. Send one.
+        this._invokeEventCallbacks('user-enter-room', roomId, sessions[sessionKey]);
+        break;
+      }
+    },
+    _onUserLeaveRoom: function(roomId, snapshot) {
+      var sessions = snapshot.val();
+      for (var sessionKey in sessions) {
+        // Don't care about session, just user. Send one.
+        this._invokeEventCallbacks('user-leave-room', roomId, sessions[sessionKey]);
+        break;
+      }
+    },
+
     // Event to listen for notifications from administrators and moderators.
     _onNotification: function(snapshot) {
       var notification = snapshot.val();
@@ -315,7 +333,8 @@
 
   // Enter a chat room.
   Firechat.prototype.enterRoom = function(roomId) {
-    var self = this;
+    var self = this,
+        roomUsersRef;
     self.getRoom(roomId, function(room) {
       var roomName = room.name;
 
@@ -336,8 +355,10 @@
           active: true
         });
 
+        roomUsersRef = self._firebase.child('room-users').child(roomId);
+
         // Set presence bit for the room and queue it for removal on disconnect.
-        var presenceRef = self._firebase.child('room-users').child(roomId).child(self._userId).child(self._sessionId);
+        var presenceRef = roomUsersRef.child(self._userId).child(self._sessionId);
         self._queuePresenceOperation(presenceRef, {
           id: self._userId,
           name: self._userName
@@ -360,6 +381,15 @@
           self._onRemoveMessage(roomId, snapshot);
         }, /* onCancel */ function(){}, /* context */ self);
       }, /* onFailure */ function(){}, self);
+
+      // Setup monitoring of current users in the room.
+      roomUsersRef.on('child_added', function(snapshot) {
+        self._onUserEnterRoom(roomId, snapshot);
+      }, /* onCancel */ function(){}, self);
+
+      roomUsersRef.on('child_removed', function(snapshot) {
+        self._onUserLeaveRoom(roomId, snapshot);
+      }, /* onCancel */ function(){}, self);
     });
   };
 

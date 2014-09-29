@@ -105,6 +105,10 @@
       this._chat.on('message-add', this._onNewMessage.bind(this));
       this._chat.on('message-remove', this._onRemoveMessage.bind(this));
 
+      // Bind events for other users entering and leaving rooms.
+      this._chat.on('user-enter-room', this._onUserEnterRoom.bind(this));
+      this._chat.on('user-leave-room', this._onUserLeaveRoom.bind(this));
+
       // Bind events related to chat invitations.
       this._chat.on('room-invite', this._onChatInvite.bind(this));
       this._chat.on('room-invite-response', this._onChatInviteResponse.bind(this));
@@ -156,6 +160,13 @@
     },
     _onRemoveMessage: function(roomId, messageId) {
       this.removeMessage(roomId, messageId);
+    },
+
+    _onUserEnterRoom: function(roomId, user) {
+
+    },
+    _onUserLeaveRoom: function(roomId, user) {
+
     },
 
     // Events related to chat invitations.
