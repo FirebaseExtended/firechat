@@ -774,6 +774,9 @@
       event.preventDefault();
       show($(this));
     });
+    $(document).delegate('[data-event="firechat-user-search-btn"]', 'click', function(event) {
+      show($('#firechat-tab-list li.active a'));
+    });
   };
 
   /**
