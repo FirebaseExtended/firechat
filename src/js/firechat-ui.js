@@ -711,7 +711,12 @@
             selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '');
           }
 
-          if ($this.parent('li').hasClass('active')) return;
+          if ($this.parent('li').hasClass('active')) {
+            $this.parent('li').removeClass('active');
+            $target = $(selector);
+            $target.removeClass('active');
+            return;
+          }
 
           e = $.Event('show', { relatedTarget: previous });
 
