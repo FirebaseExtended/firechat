@@ -163,10 +163,10 @@
     },
 
     _onUserEnterRoom: function(roomId, user) {
-
+      this._updateRoomTitle(roomId);
     },
     _onUserLeaveRoom: function(roomId, user) {
-
+      this._updateRoomTitle(roomId);
     },
 
     // Events related to chat invitations.
@@ -233,6 +233,37 @@
           this.renderAlertPrompt('Suspended', 'A moderator has suspended you for violating site rules. You cannot send messages for another ' + timeLeft + '.');
         }
       }
+    },
+
+    _updateRoomTitle: function(roomId) {
+      var self = this;
+      self._chat.getUsersByRoom(roomId, function(roomUsers) {
+        var title = '',
+            arr = [];
+        for (var uid in roomUsers) {
+          if (uid !== self._user.id) {
+            arr.push(roomUsers[uid].name);
+          }
+        }
+        if (arr.length === 0) {
+          title = 'Empty Chat';
+        }
+        else if (arr.length === 1) {
+          title = arr[0]; // One person, "Eli Mallon"
+        }
+        else {
+          for (var i = 0; i < arr.length; i+=1) {
+            arr[i] = arr[i].split(' ')[0];
+          }
+          if (arr.length <= 3) {
+            title = arr.join(', '); // "Eli, Chase, Victor"
+          }
+          else {
+            title = arr[0] + ', ' + arr[1] + ', ' + (arr.length - 2) + ' others';
+          }
+        }
+        self.$tabList.children('[data-room-id=' + roomId + ']').children('a').html(title);
+      });
     }
   };
 
