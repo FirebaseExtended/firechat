@@ -91,6 +91,8 @@
           self._isModerator = !!snapshot.val();
           root.setTimeout(onComplete, 0);
         });
+        self._usersOnlineRef.on('child_added', self._onUserOnline, self);
+        self._usersOnlineRef.on('child_removed', self._onUserOffline, self);
       });
     },
 
@@ -183,6 +185,24 @@
     _onUpdateUser: function(snapshot) {
       this._user = snapshot.val();
       this._invokeEventCallbacks('user-update', this._user);
+    },
+
+    _onUserOnline: function(snapshot) {
+      var sessions = snapshot.val();
+      for (var sessionKey in sessions) {
+        // Don't care about session, just user. Send one.
+        this._invokeEventCallbacks('user-online', sessions[sessionKey]);
+        break;
+      }
+    },
+
+    _onUserOffline: function(snapshot) {
+      var sessions = snapshot.val();
+      for (var sessionKey in sessions) {
+        // Don't care about session, just user. Send one.
+        this._invokeEventCallbacks('user-offline', sessions[sessionKey]);
+        break;
+      }
     },
 
     // Event to monitor current auth + user state.

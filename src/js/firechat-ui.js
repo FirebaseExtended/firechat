@@ -32,6 +32,9 @@
     this._user = null;
     this._chat = new Firechat(firebaseRef, options);
 
+    // A count of currently-online users.
+    this._usersOnline = 0;
+
     // A list of rooms to enter once we've made room for them (once we've hit the max room limit).
     this._roomQueue = [];
 
@@ -109,6 +112,10 @@
       this._chat.on('user-enter-room', this._onUserEnterRoom.bind(this));
       this._chat.on('user-leave-room', this._onUserLeaveRoom.bind(this));
 
+      // Bind events for users going online and offline
+      this._chat.on('user-online', this._onUserOnline.bind(this));
+      this._chat.on('user-offline', this._onUserOffline.bind(this));
+
       // Bind events related to chat invitations.
       this._chat.on('room-invite', this._onChatInvite.bind(this));
       this._chat.on('room-invite-response', this._onChatInviteResponse.bind(this));
@@ -160,6 +167,15 @@
     },
     _onRemoveMessage: function(roomId, messageId) {
       this.removeMessage(roomId, messageId);
+    },
+
+    _onUserOnline: function(user) {
+      this._usersOnline += 1;
+      this._updateUsersOnline();
+    },
+    _onUserOffline: function(user) {
+      this._usersOnline -= 1;
+      this._updateUsersOnline();
     },
 
     _onUserEnterRoom: function(roomId, user) {
@@ -264,9 +280,20 @@
         }
         self.$tabList.children('[data-room-id=' + roomId + ']').children('a').html(title);
       });
-    }
-  };
+    },
 
+    _updateUsersOnline: function() {
+      var str;
+      if (this._usersOnline === 1) {
+        str = '1 user online (you)';
+      }
+      else {
+        str = '' + this._usersOnline + ' users online';
+      }
+      $('#firechat-header [data-event=firechat-user-search-btn]').html(str);
+    }
+    
+  };
   /**
    * Initialize an authenticated session with a user id and name.
    * This method assumes that the underlying Firebase reference has
