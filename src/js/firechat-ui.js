@@ -929,6 +929,19 @@
     // Attach on-shown event to move tab to front and scroll to bottom.
     $tab.bind('shown', function(event) {
       $messages.scrollTop($messages[0].scrollHeight);
+      // Got to move the chat box to this tab also
+      var box = this.getBoundingClientRect(),
+          bodyBox = document.body.getBoundingClientRect(),
+          $chatWindow = $('#firechat-tab-content'),
+          rightOffset = bodyBox.right - box.right - 1; // -1 so the borders line up
+      $chatWindow.css('left', 'auto');
+      $chatWindow.css('right', 'auto');
+      if (box.left > rightOffset) {
+        $chatWindow.css('right', rightOffset);
+      }
+      else {
+        $chatWindow.css('left', box.left);
+      }
     });
 
     // Dynamically update the width of each tab based upon the number open.
