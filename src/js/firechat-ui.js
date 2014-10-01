@@ -776,6 +776,7 @@
               .removeClass('active');
 
             element.addClass('active');
+            element.removeClass('new-message');
 
             if (transition) {
               element.addClass('in');
@@ -1086,6 +1087,13 @@
 
       if (scrollToBottom) {
         $messages.scrollTop($messages[0].scrollHeight);
+      }
+
+      var $tab = this.$tabList.find('[data-room-id=' + roomId + ']');
+      // Need to only show notifications for messages posted in the last couple seconds because
+      // this method is also used for the initial population of old chats on pageload
+      if (!$tab.hasClass('active') && ((new Date()).getTime() - rawMessage.timestamp) < 2000) {
+        $tab.addClass('new-message');
       }
     }
   };
