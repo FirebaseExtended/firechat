@@ -378,11 +378,10 @@
         roomUsersRef = self._firebase.child('room-users').child(roomId);
 
         // Set presence bit for the room and queue it for removal on disconnect.
-        var presenceRef = roomUsersRef.child(self._userId).child(self._sessionId);
-        self._queuePresenceOperation(presenceRef, {
+        roomUsersRef.child(self._userId).child(self._sessionId).set({
           id: self._userId,
           name: self._userName
-        }, null);
+        });
       }
 
       // Invoke our callbacks before we start listening for new messages.
@@ -421,12 +420,10 @@
     // Remove listener for new messages to this room.
     self._messageRef.child(roomId).off();
 
+    // Remove users-rooms ref
+    userRoomRef.child(self._userId).remove();
+
     if (self._user) {
-      var presenceRef = userRoomRef.child(self._userId).child(self._sessionId);
-
-      // Remove presence bit for the room and cancel on-disconnect removal.
-      self._removePresenceOperation(presenceRef.toString(), null);
-
       // Remove session bit for the room.
       self._userRef.child('rooms').child(roomId).remove();
     }
