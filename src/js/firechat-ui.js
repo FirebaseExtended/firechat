@@ -493,13 +493,13 @@
    * Binds user list dropdown per room to populate user list on-demand.
    */
   FirechatUI.prototype.updateUserRoomList = function(roomId) {
-    var self = this,
-        $room = $('#'+roomId);
-        template = FirechatDefaultTemplates["templates/room-user-list-item.html"],
-        $target = $room.find('.tab-pane-user-list ul.firechat-room-user-list');
+    var self = this;
     self._chat.getUsersByRoom(roomId, function(users) {
       var user,
-          count = 0;
+          count = 0,
+          $room = $('#'+roomId);
+          template = FirechatDefaultTemplates["templates/room-user-list-item.html"],
+          $target = $room.find('.tab-pane-user-list ul.firechat-room-user-list');
       $target.empty();
       for (var username in users) {
         count += 1;
