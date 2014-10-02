@@ -1,9 +1,12 @@
 <li data-user-id='<%- id %>' data-user-name='<%- name %>'>
   <a href='#!' class='clearfix'>
-    <span class='left twothird clipped' data-event='firechat-user-chat' title='<%- name %>'><%- name %></span>
+    <span class='left twothird clipped' data-event='firechat-user-chat' title='<%- name %>'>
+        <span class='firechat-user-status' data-user-id-online='<%- id %>'></span>
+        <%- name %>
+    </span>
 
     <% if (!disableActions) { %>
-      <span data-event='firechat-user-mute-toggle' class='icon user-mute right <% if (isMuted) { %> red <% } %>' title='Toggle User Mute'>&nbsp;</span>
+      <!-- <span data-event='firechat-user-mute-toggle' class='icon user-mute right <% if (isMuted) { %> red <% } %>' title='Toggle User Mute'>&nbsp;</span> -->
     <% } %>
   </a>
 </li>

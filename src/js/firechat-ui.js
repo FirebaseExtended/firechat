@@ -33,7 +33,7 @@
     this._chat = new Firechat(firebaseRef, options);
 
     // A count of currently-online users.
-    this._usersOnline = 0;
+    this._usersOnline = {};
 
     // A list of rooms to enter once we've made room for them (once we've hit the max room limit).
     this._roomQueue = [];
@@ -169,11 +169,13 @@
     },
 
     _onUserOnline: function(user) {
-      this._usersOnline += 1;
+      this._usersOnline[user.id] = user;
       this._updateUsersOnline();
     },
     _onUserOffline: function(user) {
-      this._usersOnline -= 1;
+      if (this._usersOnline[user.id]) {
+        delete this._usersOnline[user.id];
+      }
       this._updateUsersOnline();
     },
 
@@ -262,9 +264,13 @@
       var self = this;
       self._chat.getUsersByRoom(roomId, function(roomUsers) {
         var title = '',
-            arr = [];
+            arr = [],
+            firstUser = null;
         for (var uid in roomUsers) {
           if (uid !== self._user.id) {
+            if (firstUser === null) {
+              firstUser = roomUsers[uid];
+            }
             arr.push(roomUsers[uid].name);
           }
         }
@@ -285,19 +291,29 @@
             title = arr[0] + ', ' + arr[1] + ', ' + (arr.length - 2) + ' others';
           }
         }
-        self.$tabList.children('[data-room-id=' + roomId + ']').children('a').html(title);
+        var $tabLink = self.$tabList.children('[data-room-id=' + roomId + ']').children('a');
+        $tabLink.html(title);
+        if (arr.length === 1) {
+          $tabLink.prepend('<span class="firechat-user-status" data-user-id-online="' + firstUser.id + '"></span>');
+          self._updateUsersOnline();
+        }
       });
     },
 
     _updateUsersOnline: function() {
-      var str;
-      if (this._usersOnline === 1) {
+      var str,
+          userCount = Object.keys(this._usersOnline).length;
+      if (userCount === 1) {
         str = '1 user online (you)';
       }
       else {
-        str = '' + this._usersOnline + ' users online';
+        str = '' + userCount + ' users online';
       }
       $('#firechat-header [data-event=firechat-user-search-btn]').html(str);
+      $('.firechat-user-status').removeClass('online');
+      for (var uid in this._usersOnline) {
+        $('[data-user-id-online=' + uid + ']').addClass('online');
+      }
     }
   };
   /**
