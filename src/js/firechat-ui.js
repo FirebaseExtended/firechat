@@ -87,7 +87,6 @@
       this._bindForHeightChange();
       this._bindForTabControls();
       this._bindForRoomList();
-      this._bindForUserRoomList();
       this._bindForUserSearch();
       this._bindForUserMuting();
       this._bindForChatInvites();
@@ -179,10 +178,18 @@
     },
 
     _onUserEnterRoom: function(roomId, user) {
-      this._updateRoomTitle(roomId);
+      var self = this;
+      $(document).ready(function(){
+        self._updateRoomTitle(roomId);
+        self.updateUserRoomList(roomId);
+      });
     },
     _onUserLeaveRoom: function(roomId, user) {
-      this._updateRoomTitle(roomId);
+      var self = this;
+      $(document).ready(function(){
+        self._updateRoomTitle(roomId);
+        self.updateUserRoomList(roomId);
+      });
     },
 
     // Events related to chat invitations.
@@ -292,7 +299,6 @@
       }
       $('#firechat-header [data-event=firechat-user-search-btn]').html(str);
     }
-    
   };
   /**
    * Initialize an authenticated session with a user id and name.
@@ -486,30 +492,29 @@
   /**
    * Binds user list dropdown per room to populate user list on-demand.
    */
-  FirechatUI.prototype._bindForUserRoomList = function() {
-    var self = this;
-
-    // Upon click of the dropdown, autofocus the input field and trigger list population.
-    $(document).delegate('[data-event="firechat-user-room-list-btn"]', 'click', function(event) {
-      event.stopPropagation();
-
-      var $this = $(this),
-          roomId = $this.closest('[data-room-id]').data('room-id'),
-          template = FirechatDefaultTemplates["templates/room-user-list-item.html"],
-          targetId = $this.data('target'),
-          $target = $('#' + targetId);
-
+  FirechatUI.prototype.updateUserRoomList = function(roomId) {
+    var self = this,
+        $room = $('#'+roomId);
+        template = FirechatDefaultTemplates["templates/room-user-list-item.html"],
+        $target = $room.find('.tab-pane-user-list ul.firechat-room-user-list');
+    self._chat.getUsersByRoom(roomId, function(users) {
+      var user,
+          count = 0;
       $target.empty();
-      self._chat.getUsersByRoom(roomId, function(users) {
-        for (var username in users) {
-          user = users[username];
-          user.disableActions = (!self._user || user.id === self._user.id);
+      for (var username in users) {
+        count += 1;
+        user = users[username];
+        if (!(!self._user || user.id === self._user.id)) {
+          user.disableActions = false;
           user.nameTrimmed = self.trimWithEllipsis(user.name, self.maxLengthUsernameDisplay);
           user.isMuted = (self._user && self._user.muted && self._user.muted[user.id]);
           $target.append($(template(user)));
         }
-        self.sortListLexicographically('#' + targetId);
-      });
+      }
+      $room.removeClass('group-chat');
+      if (count >= 3) {
+        $room.addClass('group-chat');
+      }
     });
   };
 
@@ -1011,14 +1016,11 @@
     // Update the room listing to reflect that we're now in the room.
     this.$roomList.children('[data-room-id=' + roomId + ']').children('a').addClass('highlight');
 
-    // Sort each item in the user list alphabetically on click of the dropdown.
-    $('#firechat-btn-room-user-list-' + roomId).bind('click', function() {
-      self.sortListLexicographically('#firechat-room-user-list-' + roomId);
-      return false;
-    });
-
     // Automatically select the new tab.
     this.focusTab(roomId);
+
+    // Set up the list of users in that room.
+    this.updateUserRoomList(roomId);
   };
 
   /**

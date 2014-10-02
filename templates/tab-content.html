@@ -1,17 +1,6 @@
 <div id='<%- id %>' data-room-id='<%- id %>' class='tab-pane'>
-  <div class='tab-pane-menu clearfix'>
-
-    <div class='firechat-dropdown twofifth'>
-      <a data-event='firechat-user-room-list-btn' class='full btn firechat-dropdown-toggle' data-toggle="firechat-dropdown" href='#' data-target='firechat-room-user-list-<%- id %>'>
-        <span class='icon user-group'></span>
-        In Room
-        <span class='caret'></span>
-      </a>
-      <div class='firechat-dropdown-menu' role='menu'>
-        <ul id='firechat-room-user-list-<%- id %>' class='full'></ul>
-      </div>
-    </div>
-
+  <a href='#!' data-event='firechat-close-tab' class='icon close right' title='Leave Room'></a>
+  <div class="tab-pane-user-list">
     <div class='firechat-dropdown twofifth'>
       <a data-event='firechat-user-search-btn' class='full btn firechat-dropdown-toggle' data-toggle="firechat-dropdown" href='#'>
         <span class='icon plus'>+</span>
@@ -40,17 +29,18 @@
         </div>
       </div>
     </div>
-
-    <a href='#!' data-event='firechat-close-tab' class='icon close right' style='15px 5px' title='Leave Room'></a>
-
+    <ul id='firechat-room-user-list-<%- id %>' class='firechat-room-user-list full'></ul>
   </div>
 
-  <div class='clearfix'>
-    <div id='firechat-messages<%- id %>' class='chat'></div>
-  </div>
+  <div class="tab-pane-main-content">
 
-  <div class='clearfix firechat-message-input'>
-    <label>Your message:</label>
-    <textarea id='textarea<%- id %>' placeholder='Type your message here...'></textarea>
+    <div class='clearfix'>
+      <div id='firechat-messages<%- id %>' class='chat'></div>
+    </div>
+
+    <div class='clearfix firechat-message-input'>
+      <label>Your message:</label>
+      <textarea id='textarea<%- id %>' placeholder='Type your message here...'></textarea>
+    </div>
   </div>
 </div>
