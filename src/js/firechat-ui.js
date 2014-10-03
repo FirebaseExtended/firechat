@@ -184,6 +184,7 @@
       $(document).ready(function(){
         self._updateRoomTitle(roomId);
         self.updateUserRoomList(roomId);
+        this._updateUsersOnline();
       });
     },
     _onUserLeaveRoom: function(roomId, user) {
@@ -191,6 +192,7 @@
       $(document).ready(function(){
         self._updateRoomTitle(roomId);
         self.updateUserRoomList(roomId);
+        this._updateUsersOnline();
       });
     },
 
