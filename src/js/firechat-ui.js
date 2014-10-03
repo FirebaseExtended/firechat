@@ -1051,6 +1051,7 @@
         $tabLink.first().trigger('click');
       }
     }
+    this._updateUsersOnline();
   };
 
   /**
