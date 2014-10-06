@@ -192,7 +192,7 @@
       $(document).ready(function(){
         self._updateRoomTitle(roomId);
         self.updateUserRoomList(roomId);
-        this._updateUsersOnline();
+        self._updateUsersOnline();
       });
     },
 
