@@ -1,0 +1,10 @@
+{
+  "firebase": "whisperchat",
+  "public": ".",
+  "rules": "rules.json",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

@@ -1,0 +1,75 @@
+
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Firechat - open source chat built on Firebase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Firebase Firechat Documentation">
+  <meta name="author" content="Rob DiMarco, Engineer @ Firebase, rob@firebase.com">
+  <meta name="description" content="Open source, real-time chat built on Firebase." />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.min.css" />
+  <!-- <link rel="stylesheet" href="./css/pygments-borland.css" /> -->
+  <link rel="stylesheet" href="./styles.css" />
+  <link href="images/favicon.ico" rel="shortcut icon" />
+</head>
+
+<body class="home-page">
+
+  <header id="top-content">
+    <div class="header-title">
+      <div class="container text-center">
+        <div id="home-title"><span class="strong">Whisper</span><span class="satisfy">chat</span></div>
+        <div id="home-subtitle">Open-source real-time chat, built on Firebase</div>
+      </div>
+    </div>
+
+    <div class="header-content">
+      <div class="container text-center">
+        <div class="row">
+          <div class="span6 offset3">
+            <div id="firechat-container" class="clearfix"></div>
+            <div id="user-info">
+              Logged in as <span id="user-name">.</span>
+              <a href="javascript:logout();">Logout</a>
+            </div>
+          </div>
+        </div>
+    </div>
+  </header>
+
+  <!-- Firechat -->
+  <script src="https://cdn.firebase.com/js/client/1.1.3/firebase.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-modal.min.js"></script>
+
+  <!-- Download from https://github.com/firebase/Firechat -->
+  <link rel="stylesheet" href="./1.0.0/firechat-default.css" />
+  <script src="./1.0.0/firechat-default.js"></script>
+  <script>
+
+    var chatRef = new Firebase('https://whisperchat.firebaseio.com');
+    var chat = new FirechatUI(chatRef, document.getElementById("firechat-container"));
+    chatRef.authAnonymously(function(error, authData) {
+      if (error) {
+        // There was an error logging in anonymously
+      } else {
+        $('#user-name').text(authData.uid);
+        chat.setUser(authData.uid, authData.uid);
+        setTimeout(function() {
+          chat._chat.enterRoom('-J_Yqc2Ud8c0hn5m_2UO');
+        }, 500);
+      }
+    });
+
+    function logout() {
+      auth.logout();
+      location.reload();
+    }
+  </script>
+  
+</body>
+</html>
