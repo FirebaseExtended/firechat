@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     concat: {
       js: {
         src: [
-          'src/js/libs/underscore-1.4.4.min.js',
+          'src/js/libs/underscore-1.7.0.min.js',
           'compiled/templates.js',
           'src/js/shims.js',
           'src/js/firechat.js',

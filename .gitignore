@@ -9,3 +9,6 @@ _site
 
 # Compiled
 build
+
+# Bower
+bower_components
