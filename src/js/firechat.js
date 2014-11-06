@@ -6,7 +6,7 @@
 // entering, or leaving chat rooms, initiating chats, sending messages,
 // and moderator actions such as warning, kicking, or suspending users.
 //
-//     Firechat.js 1.0.0
+//     Firechat.js 2.0.0
 //     https://firebase.com
 //     (c) 2014 Firebase
 //     License: MIT
@@ -112,7 +112,7 @@
 
       // Generate a unique session id for the visit.
       var sessionRef = this._userRef.child('sessions').push();
-      this._sessionId = sessionRef.name();
+      this._sessionId = sessionRef.key();
       this._queuePresenceOperation(sessionRef, true, null);
 
       // Register our username in the public user listing.
@@ -196,11 +196,11 @@
     },
     _onNewMessage: function(roomId, snapshot) {
       var message = snapshot.val();
-      message.id = snapshot.name();
+      message.id = snapshot.key();
       this._invokeEventCallbacks('message-add', roomId, message);
     },
     _onRemoveMessage: function(roomId, snapshot) {
-      var messageId = snapshot.name();
+      var messageId = snapshot.key();
       this._invokeEventCallbacks('message-remove', roomId, messageId);
     },
     _onLeaveRoom: function(roomId) {
@@ -228,7 +228,7 @@
         return;
       }
 
-      invite.id = invite.id || snapshot.name();
+      invite.id = invite.id || snapshot.key();
       self.getRoom(invite.roomId, function(room) {
         invite.toRoomName = room.name;
         self._invokeEventCallbacks('room-invite', invite);
@@ -238,7 +238,7 @@
       var self = this,
           invite = snapshot.val();
 
-      invite.id = invite.id || snapshot.name();
+      invite.id = invite.id || snapshot.key();
       this._invokeEventCallbacks('room-invite-response', invite);
     }
   };
@@ -250,11 +250,8 @@
   Firechat.prototype.setUser = function(userId, userName, callback) {
     var self = this;
 
-    self._firebase.root().child('.info/authenticated').on('value', function(snapshot) {
-      var authenticated = snapshot.val();
-      if (authenticated) {
-        self._firebase.root().child('.info/authenticated').off();
-
+    self._firebase.onAuth(function(authData) {
+      if (authData) {
         self._userId = userId.toString();
         self._userName = userName.toString();
         self._userRef = self._firebase.child('users').child(self._userId);
@@ -291,7 +288,7 @@
         newRoomRef = this._roomRef.push();
 
     var newRoom = {
-      id: newRoomRef.name(),
+      id: newRoomRef.key(),
       name: roomName,
       type: roomType || 'public',
       createdByUserId: this._userId,
@@ -305,10 +302,10 @@
 
     newRoomRef.set(newRoom, function(error) {
       if (!error) {
-        self.enterRoom(newRoomRef.name());
+        self.enterRoom(newRoomRef.key());
       }
       if (callback) {
-        callback(newRoomRef.name());
+        callback(newRoomRef.key());
       }
     });
   };
@@ -349,14 +346,14 @@
 
       // Setup message listeners
       self._roomRef.child(roomId).once('value', function(snapshot) {
-        self._messageRef.child(roomId).limit(self._options.numMaxMessages).on('child_added', function(snapshot) {
+        self._messageRef.child(roomId).limitToLast(self._options.numMaxMessages).on('child_added', function(snapshot) {
           self._onNewMessage(roomId, snapshot);
         }, /* onCancel */ function() {
           // Turns out we don't have permission to access these messages.
           self.leaveRoom(roomId);
         }, /* context */ self);
 
-        self._messageRef.child(roomId).limit(self._options.numMaxMessages).on('child_removed', function(snapshot) {
+        self._messageRef.child(roomId).limitToLast(self._options.numMaxMessages).on('child_removed', function(snapshot) {
           self._onRemoveMessage(roomId, snapshot);
         }, /* onCancel */ function(){}, /* context */ self);
       }, /* onFailure */ function(){}, self);
@@ -478,7 +475,7 @@
         sendInvite = function() {
           var inviteRef = self._firebase.child('users').child(userId).child('invites').push();
           inviteRef.set({
-            id: inviteRef.name(),
+            id: inviteRef.key(),
             fromUserId: self._userId,
             fromUserName: self._userName,
             roomId: roomId
@@ -553,7 +550,7 @@
       limit = arguments[1];
     }
 
-    query = (limit) ? query.limit(limit) : query;
+    query = (limit) ? query.limitToLast(limit) : query;
 
     query.once('value', function(snapshot) {
       var usernames = snapshot.val() || {},
@@ -586,7 +583,7 @@
       query = (prefixLower) ? query.startAt(null, prefixLower) : query.startAt();
     }
 
-    query = (limit) ? query.limit(limit) : query;
+    query = (limit) ? query.limitToLast(limit) : query;
 
     query.once('value', function(snapshot) {
       var usernames = snapshot.val() || {},

@@ -2,13 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-  <script src="https://cdn.firebase.com/v0/firebase-simple-login.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
   <!-- Download from https://github.com/firebase/Firechat -->
-  <link rel="stylesheet" href="../dist/0.1.5/firechat-default.min.css" />
-  <script src="../dist/0.1.5/firechat-default.min.js"></script>
+  <link rel="stylesheet" href="../dist/2.0.0/firechat-default.min.css" />
+  <script src="../dist/2.0.0/firechat-default.min.js"></script>
   <style>
     #firechat-wrapper {
       height: 475px;
@@ -44,16 +43,22 @@
 <body>
   <div id="firechat-wrapper"></div>
   <script type='text/javascript'>
-    var chatRef = new Firebase('https://firechat-demo.firebaseio.com');
+    Firebase.INTERNAL.setAuthenticationServer('http://fblocal.com:12000');
+    var chatRef = new Firebase('http://firechat.fblocal.com:9000');
+    // var chatRef = new Firebase('https://firechat-demo.firebaseio.com');
     var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
-    var simpleLogin = new FirebaseSimpleLogin(chatRef, function(err, user) {
-      if (user) {
-        chat.setUser(user.id, 'Anonymous' + user.id.substr(0, 8));
+    chatRef.onAuth(function(authData) {
+      if (authData) {
+        chat.setUser(authData.uid, 'Anonymous' + authData.uid.substr(10, 8));
         setTimeout(function() {
           chat._chat.enterRoom('-Iy1N3xs4kN8iALHV0QA');
         }, 500);
       } else {
-        simpleLogin.login('anonymous');    
+        chatRef.authAnonymously(function(error, authData) {
+          if (error) {
+            console.log(error);
+          }
+        });
       }
     });
   </script>

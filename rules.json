@@ -8,43 +8,43 @@
       ".read": true,
       "$roomId": {
         // Append-only by anyone, and admins can add official rooms, and edit or remove rooms as well.
-        ".write": "(auth != null) && (!data.exists() || root.child('moderators').hasChild(auth.id) || data.child('createdByUserId').val() === auth.id)",
+        ".write": "(auth != null) && (!data.exists() || root.child('moderators').hasChild(auth.uid) || data.child('createdByUserId').val() === auth.uid)",
         ".validate": "newData.hasChildren(['name','type'])",
         "id": {
           ".validate": "(newData.val() === $roomId)"
         },
         "createdByUserId": {
-          ".validate": "(auth.id === newData.val())"
+          ".validate": "(auth.uid === newData.val())"
         },
         "numUsers": {
           ".validate": "(newData.isNumber())"
         },
         "type": {
-          ".validate": "('public' === newData.val()) || 'private' === newData.val() || ('official' === newData.val() && (root.child('moderators').hasChild(auth.id)))"
+          ".validate": "('public' === newData.val()) || 'private' === newData.val() || ('official' === newData.val() && (root.child('moderators').hasChild(auth.uid)))"
         },
         // A list of users that may read messages from this room.
         "authorizedUsers": {
-          ".write": "(auth != null) && (!data.exists() || root.child('moderators').hasChild(auth.id) || data.hasChild(auth.id))"
+          ".write": "(auth != null) && (!data.exists() || root.child('moderators').hasChild(auth.uid) || data.hasChild(auth.uid))"
         }
       }
     },
     "room-messages": {
       "$roomId": {
         // A list of messages by room, viewable by anyone for public rooms, or authorized users for private rooms.
-        ".read": "(root.child('room-metadata').child($roomId).child('type').val() != 'private' || root.child('room-metadata').child($roomId).child('authorizedUsers').hasChild(auth.id))",
+        ".read": "(root.child('room-metadata').child($roomId).child('type').val() != 'private' || root.child('room-metadata').child($roomId).child('authorizedUsers').hasChild(auth.uid))",
         "$msgId": {
           // Allow anyone to append to this list and allow admins to edit or remove.
-          ".write": "(auth != null) && (data.val() === null || root.child('moderators').hasChild(auth.id)) && (root.child('room-metadata').child($roomId).child('type').val() != 'private' || root.child('room-metadata').child($roomId).child('authorizedUsers').hasChild(auth.id)) && (!root.child('suspensions').hasChild(auth.id) || root.child('suspensions').child(auth.id).val() < now)",
+          ".write": "(auth != null) && (data.val() === null || root.child('moderators').hasChild(auth.uid)) && (root.child('room-metadata').child($roomId).child('type').val() != 'private' || root.child('room-metadata').child($roomId).child('authorizedUsers').hasChild(auth.uid)) && (!root.child('suspensions').hasChild(auth.uid) || root.child('suspensions').child(auth.uid).val() < now)",
           ".validate": "(newData.hasChildren(['userId','name','message','timestamp']))"
         }
       }
     },
     "room-users": {
       "$roomId": {
-        ".read": "(root.child('room-metadata').child($roomId).child('type').val() != 'private' || root.child('room-metadata').child($roomId).child('authorizedUsers').hasChild(auth.id))",
+        ".read": "(root.child('room-metadata').child($roomId).child('type').val() != 'private' || root.child('room-metadata').child($roomId).child('authorizedUsers').hasChild(auth.uid))",
         "$userId": {
           // A list of users by room, viewable by anyone for public rooms, or authorized users for private rooms.
-          ".write": "(auth != null) && ($userId === auth.id || root.child('moderators').hasChild(auth.id))",
+          ".write": "(auth != null) && ($userId === auth.uid || root.child('moderators').hasChild(auth.uid))",
           "$sessionId": {
             ".validate": "(!newData.exists() || newData.hasChildren(['id','name']))"
           }
@@ -54,25 +54,25 @@
     "users": {
       // A list of users and their associated metadata, which can be updated by the single user or a moderator.
       "$userId": {
-        ".write": "(auth != null) && (auth.id === $userId || (root.child('moderators').hasChild(auth.id)))",
-        ".read": "(auth != null) && (auth.id === $userId || (root.child('moderators').hasChild(auth.id)))",
+        ".write": "(auth != null) && (auth.uid === $userId || (root.child('moderators').hasChild(auth.uid)))",
+        ".read": "(auth != null) && (auth.uid === $userId || (root.child('moderators').hasChild(auth.uid)))",
         ".validate": "($userId === newData.child('id').val())",
         "invites": {
           // A list of chat invitations from other users, append-only by anyone.
           "$inviteId": {
             // Allow the user who created the invitation to read the status of the invitation.
-            ".read": "(auth != null) && (auth.id === data.child('fromUserId').val())",
-            ".write": "(auth != null) && (!data.exists() || $userId === auth.id || data.child('fromUserId').val() === auth.id)",
+            ".read": "(auth != null) && (auth.uid === data.child('fromUserId').val())",
+            ".write": "(auth != null) && (!data.exists() || $userId === auth.uid || data.child('fromUserId').val() === auth.uid)",
             ".validate": "newData.hasChildren(['fromUserId','fromUserName','roomId']) && (newData.child('id').val() === $inviteId)"
           }
         },
         "notifications": {
           // A list of notifications, which can only be appended to by moderators.
           "$notificationId": {
-            ".write": "(auth != null) && (data.val() === null) && (root.child('moderators').hasChild(auth.id))",
+            ".write": "(auth != null) && (data.val() === null) && (root.child('moderators').hasChild(auth.uid))",
             ".validate": "newData.hasChildren(['fromUserId','timestamp','notificationType'])",
             "fromUserId": {
-              ".validate": "newData.val() === auth.id"
+              ".validate": "newData.val() === auth.uid"
             }
           }
         }
@@ -83,9 +83,9 @@
       ".read": true,
       "$username": {
         "$sessionId": {
-          ".write": "(auth != null) && (!data.exists() || !newData.exists() || data.child('id').val() === auth.id)",
+          ".write": "(auth != null) && (!data.exists() || !newData.exists() || data.child('id').val() === auth.uid)",
           "id": {
-            ".validate": "(newData.val() === auth.id)" 
+            ".validate": "(newData.val() === auth.uid)"
           },
           "name": {
             ".validate": "(newData.isString())"
@@ -97,8 +97,8 @@
       ".read": "(auth != null)"
     },
     "suspensions": {
-      ".write": "(auth != null) && (root.child('moderators').hasChild(auth.id))",
-      ".read": "(auth != null) && (root.child('moderators').hasChild(auth.id))"
+      ".write": "(auth != null) && (root.child('moderators').hasChild(auth.uid))",
+      ".read": "(auth != null) && (root.child('moderators').hasChild(auth.uid))"
     }
   }
 }
