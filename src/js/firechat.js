@@ -250,11 +250,8 @@
   Firechat.prototype.setUser = function(userId, userName, callback) {
     var self = this;
 
-    self._firebase.root().child('.info/authenticated').on('value', function(snapshot) {
-      var authenticated = snapshot.val();
-      if (authenticated) {
-        self._firebase.root().child('.info/authenticated').off();
-
+    self._firebase.onAuth(function(authData) {
+      if (authData) {
         self._userId = userId.toString();
         self._userName = userName.toString();
         self._userRef = self._firebase.child('users').child(self._userId);
