@@ -54,9 +54,6 @@
       chatRef.onAuth(function(authData) {
         if (authData) {
           chat.setUser(authData.uid, "Anonymous" + authData.uid.substr(10, 8));
-          setTimeout(function() {
-            chat._chat.enterRoom("-Iy1N3xs4kN8iALHV0QA");
-          }, 500);
         } else {
           chatRef.authAnonymously(function(error, authData) {
             if (error) {
