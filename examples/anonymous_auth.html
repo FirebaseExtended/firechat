@@ -49,7 +49,7 @@
   <body>
     <div id="firechat-wrapper"></div>
     <script type="text/javascript">
-      var chatRef = new Firebase("https://firepad.firebaseio-demo.com");
+      var chatRef = new Firebase("https://firechat-demo.firebaseio.com");
       var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
       chatRef.onAuth(function(authData) {
         if (authData) {
