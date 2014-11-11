@@ -6,7 +6,7 @@
 // entering, or leaving chat rooms, initiating chats, sending messages,
 // and moderator actions such as warning, kicking, or suspending users.
 //
-//     Firechat.js 2.0.0
+//     Firechat.js 0.0.0
 //     https://firebase.com
 //     (c) 2014 Firebase
 //     License: MIT

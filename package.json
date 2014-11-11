@@ -1,23 +1,40 @@
 {
   "name": "firechat",
-  "title": "Firechat",
-  "description": "Open source, real-time chat powered by Firebase",
-  "homepage": "http://firebase.github.io/firechat",
-  "author": {
-    "name": "Firebase Inc.",
-    "url": "https://firebase.com"
-  },
+  "description": "Realtime open source chat client powered by Firebase",
+  "version": "0.0.0",
+  "author": "Firebase <support@firebase.com> (https://www.firebase.com/)",
+  "homepage": "https://firechat.firebaseapp.com/",
   "repository": {
     "type": "git",
-    "url": "git://github.com/firebase/firechat.git"
+    "url": "https://github.com/firebase/firechat.git"
   },
-  "bugs": "https://github.com/firebase/firechat/issues",
-  "licenses": [{
-    "type": "MIT",
-    "url": "http://firebase.mit-license.org/"
-  }],
-  "version": "2.0.0",
-  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/firebase/firechat/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://firebase.mit-license.org/"
+    }
+  ],
+  "keywords": [
+    "chat",
+    "talk",
+    "firebase",
+    "realtime",
+    "websocket",
+    "synchronization"
+  ],
+  "main": "dist/firechat.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "dependencies": {
+    "firebase": "2.0.x"
+  },
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-clean": "~0.4.1",
@@ -26,8 +43,10 @@
     "grunt-contrib-jst": "~0.5.0",
     "grunt-contrib-less": "~0.5.0",
     "grunt-contrib-uglify": "~0.1.0",
-    "grunt-contrib-watch": "~0.1.4",
-    "grunt-docco": "~0.2.0"
+    "grunt-contrib-watch": "~0.1.4"
   },
-  "keywords": ["firebase", "chat", "talk", "real-time", "synchronization", "websocket"]
+  "scripts": {
+    "test": "gulp test",
+    "travis": "gulp travis"
+  }
 }
