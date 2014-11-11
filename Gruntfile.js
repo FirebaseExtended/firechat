@@ -34,7 +34,7 @@ module.exports = function(grunt) {
     less: {
       development: {
         files: {
-          "build/firechat-default.css": "src/less/styles.less"
+          "dist/firechat.css": "src/less/styles.less"
         }
       },
       production: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
           yuicompress: true
         },
         files: {
-          "build/firechat-default.min.css": "src/less/styles.less"
+          "dist/firechat.min.css": "src/less/styles.less"
         }
       }
     },
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
           'src/js/firechat.js',
           'src/js/firechat-ui.js'
         ],
-        dest: 'build/firechat-default.js'
+        dest: 'dist/firechat.js'
       }
     },
 
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         src: ['<%= concat.js.dest %>'],
-        dest: 'build/firechat-default.min.js'
+        dest: 'dist/firechat.min.js'
       }
     },
 
@@ -89,7 +89,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-docco');
 
   // Default task operations if simply calling `grunt` without options.
   grunt.registerTask('default', ['jshint', 'jst', 'less', 'concat', 'uglify', 'clean']);

@@ -1,11 +1,11 @@
 {
   "name": "firechat",
-  "description": "Firechat: Real-time Chat powered by Firebase",
-  "version": "2.0.0",
+  "description": "Realtime open source chat client powered by Firebase",
+  "version": "0.0.0",
   "authors": [
     "Firebase <support@firebase.com> (https://www.firebase.com/)"
   ],
-  "homepage": "https://github.com/firebase/firechat/",
+  "homepage": "https://firechat.firebaseapp.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/firebase/firechat.git"
@@ -13,21 +13,24 @@
   "license": "MIT",
   "keywords": [
     "chat",
+    "talk",
+    "firebase",
     "realtime",
-    "Firebase",
     "websocket",
-    "authentication",
     "synchronization"
   ],
-  "main": [
-    "dist/0.1.6/firechat-default.min.css",
-    "dist/0.1.6/firechat-default.min.js"
-  ],
+  "main": "dist/firechat.js",
   "ignore": [
     "**/.*",
-    "node_modules/"
+    "src",
+    "examples",
+    "node_modules",
+    "bower_components",
+    "package.json",
+    "Gruntfile.js",
+    "changelog.txt"
   ],
   "dependencies": {
-    "firebase": "1.0.x"
+    "firebase": "2.0.x"
   }
 }

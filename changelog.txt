@@ -1,0 +1,1 @@
+feature - Added Firechat to the Firebase CDN and published it to Bower.
