@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -47,7 +49,7 @@
   <body>
     <div id="firechat-wrapper"></div>
     <script type="text/javascript">
-      var chatRef = new Firebase("https://firepad.firebaseio-demo");
+      var chatRef = new Firebase("https://firepad.firebaseio-demo.com");
       var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
       chatRef.onAuth(function(authData) {
         if (authData) {

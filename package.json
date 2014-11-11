@@ -43,7 +43,7 @@
     "grunt-contrib-jst": "~0.5.0",
     "grunt-contrib-less": "~0.5.0",
     "grunt-contrib-uglify": "~0.1.0",
-    "grunt-contrib-watch": "~0.1.4",
+    "grunt-contrib-watch": "~0.1.4"
   },
   "scripts": {
     "test": "gulp test",
