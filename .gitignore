@@ -9,3 +9,6 @@ bower_components/
 
 # Distribution files
 dist/
+
+# Jekyll
+_site/
