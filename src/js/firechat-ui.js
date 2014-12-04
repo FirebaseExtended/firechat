@@ -400,35 +400,35 @@
         };
 
     // Handle dismissal of message context menus (any non-right-click click event).
-    $(document).bind('click', { self: this }, function(event) {
+    $(document).bind('click.firechat', { self: this }, function(event) {
       if (!event.button || event.button != 2) {
         clearMessageContextMenus();
       }
     });
 
     // Handle display of message context menus (via right-click on a message).
-    $(document).delegate('[data-class="firechat-message"]', 'contextmenu', showMessageContextMenu);
+    $(document).delegate('[data-class="firechat-message"]', 'contextmenu.firechat', showMessageContextMenu);
 
     // Handle click of the 'Warn User' contextmenu item.
-    $(document).delegate('[data-event="firechat-user-warn"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-user-warn"]', 'click.firechat', function(event) {
       var messageVars = parseMessageVars.call(this, event);
       self._chat.warnUser(messageVars.userId);
     });
 
     // Handle click of the 'Suspend User (1 Hour)' contextmenu item.
-    $(document).delegate('[data-event="firechat-user-suspend-hour"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-user-suspend-hour"]', 'click.firechat', function(event) {
       var messageVars = parseMessageVars.call(this, event);
       self._chat.suspendUser(messageVars.userId, /* 1 Hour = 3600s */ 60*60);
     });
 
     // Handle click of the 'Suspend User (1 Day)' contextmenu item.
-    $(document).delegate('[data-event="firechat-user-suspend-day"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-user-suspend-day"]', 'click.firechat', function(event) {
       var messageVars = parseMessageVars.call(this, event);
       self._chat.suspendUser(messageVars.userId, /* 1 Day = 86400s */ 24*60*60);
     });
 
     // Handle click of the 'Delete Message' contextmenu item.
-    $(document).delegate('[data-event="firechat-message-delete"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-message-delete"]', 'click.firechat', function(event) {
       var messageVars = parseMessageVars.call(this, event);
       self._chat.deleteMessage(messageVars.roomId, messageVars.messageId);
     });
@@ -460,7 +460,7 @@
     var self = this;
 
     // Handle click of tab close button.
-    $(document).delegate('[data-event="firechat-close-tab"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-close-tab"]', 'click.firechat', function(event) {
       var roomId = $(this).closest('[data-room-id]').data('room-id');
       self._chat.leaveRoom(roomId);
       return false;
@@ -473,7 +473,7 @@
   FirechatUI.prototype._bindForRoomList = function() {
     var self = this;
 
-    $('#firechat-btn-rooms').bind('click', function() {
+    $('#firechat-btn-rooms').bind('click.firechat', function() {
       if ($(this).parent().hasClass('open')) {
         return;
       }
@@ -500,7 +500,7 @@
           if (room.type != "public") continue;
           room.isRoomOpen = !!self.$messages[room.id];
           var $roomItem = $(template(room));
-          $roomItem.children('a').bind('click', selectRoomListItem);
+          $roomItem.children('a').bind('click.firechat', selectRoomListItem);
           self.$roomList.append($roomItem.toggle(true));
         }
       });
@@ -608,19 +608,19 @@
           });
         };
 
-    $(document).delegate('[data-event="firechat-user-search"]', 'keyup', handleUserSearchSubmit);
-    $(document).delegate('[data-event="firechat-user-search"]', 'click', handleUserSearchSubmit);
+    $(document).delegate('[data-event="firechat-user-search"]', 'keyup.firechat', handleUserSearchSubmit);
+    $(document).delegate('[data-event="firechat-user-search"]', 'click.firechat', handleUserSearchSubmit);
 
     // Upon click of the dropdown, autofocus the input field and trigger list population.
-    $(document).delegate('[data-event="firechat-user-search-btn"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-user-search-btn"]', 'click.firechat', function(event) {
       event.stopPropagation();
       var $input = $(this).next('div.firechat-dropdown-menu').find('input');
       $input.focus();
-      $input.trigger(jQuery.Event('keyup'));
+      $input.trigger(jQuery.Event('keyup.firechat'));
     });
 
     // Ensure that the dropdown stays open despite clicking on the input element.
-    $(document).delegate('[data-event="firechat-user-search"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-user-search"]', 'click.firechat', function(event) {
       event.stopPropagation();
     });
   };
@@ -630,7 +630,7 @@
    */
   FirechatUI.prototype._bindForUserMuting = function() {
     var self = this;
-    $(document).delegate('[data-event="firechat-user-mute-toggle"]', 'click', function(event) {
+    $(document).delegate('[data-event="firechat-user-mute-toggle"]', 'click.firechat', function(event) {
       var $this = $(this),
           userId = $this.closest('[data-user-id]').data('user-id'),
           userName = $this.closest('[data-user-name]').data('user-name'),
@@ -740,8 +740,8 @@
           return false;
         };
 
-    $(document).delegate('[data-event="firechat-user-chat"]', 'click', renderPrivateInvitePrompt);
-    $(document).delegate('[data-event="firechat-user-invite"]', 'click', renderInvitePrompt);
+    $(document).delegate('[data-event="firechat-user-chat"]', 'click.firechat', renderPrivateInvitePrompt);
+    $(document).delegate('[data-event="firechat-user-invite"]', 'click.firechat', renderInvitePrompt);
   };
 
   /**
@@ -758,13 +758,13 @@
         };
 
     // Handle click of the create new room prompt-button.
-    $createRoomPromptButton.bind('click', function(event) {
+    $createRoomPromptButton.bind('click.firechat', function(event) {
       self.promptCreateRoom();
       return false;
     });
 
     // Handle click of the create new room button.
-    $createRoomButton.bind('click', function(event) {
+    $createRoomButton.bind('click.firechat', function(event) {
       var roomName = $('#firechat-input-room-name').val();
       $('#firechat-prompt-create-room').remove();
       self._chat.createRoom(roomName);
@@ -799,7 +799,7 @@
             return;
           }
 
-          e = $.Event('show', { relatedTarget: previous });
+          e = $.Event('show.firechat', { relatedTarget: previous });
 
           $this.trigger(e);
 
@@ -810,7 +810,7 @@
           activate($this.parent('li'), $ul);
           activate($target, $target.parent(), function () {
             $this.trigger({
-              type: 'shown',
+              type: 'shown.firechat',
               relatedTarget: previous
             });
           });
@@ -852,11 +852,11 @@
           $active.removeClass('in');
       };
 
-    $(document).delegate('[data-toggle="firechat-tab"]', 'click', function(event) {
+    $(document).delegate('[data-toggle="firechat-tab"]', 'click.firechat', function(event) {
       event.preventDefault();
       show($(this));
     });
-    $(document).delegate('#firechat-header [data-event="firechat-user-search-btn"]', 'click', function(event) {
+    $(document).delegate('#firechat-header [data-event="firechat-user-search-btn"]', 'click.firechat', function(event) {
       show($('#firechat-tab-list li.active a'));
     });
   };
@@ -908,9 +908,9 @@
         };
 
       $(document)
-        .bind('click', clearMenus)
-        .delegate('.firechat-dropdown-menu', 'click', function(event) { event.stopPropagation(); })
-        .delegate('[data-toggle=firechat-dropdown]', 'click', toggleDropdown);
+        .bind('click.firechat', clearMenus)
+        .delegate('.firechat-dropdown-menu', 'click.firechat', function(event) { event.stopPropagation(); })
+        .delegate('[data-toggle=firechat-dropdown]', 'click.firechat', toggleDropdown);
   };
 
   /**
@@ -920,7 +920,7 @@
    * attribute less the current value length.
    */
   FirechatUI.prototype._bindTextInputFieldLimits = function() {
-    $('body').delegate('input[data-provide="limit"], textarea[data-provide="limit"]', 'keyup', function(event) {
+    $('body').delegate('input[data-provide="limit"], textarea[data-provide="limit"]', 'keyup.firechat', function(event) {
       var $this = $(this),
           $target = $($this.data('counter')),
           limit = $this.attr('maxlength'),
@@ -994,7 +994,7 @@
 
     // Attach on-enter event to textarea.
     var $textarea = $tabContent.find('textarea').first();
-    $textarea.bind('keydown', function(e) {
+    $textarea.bind('keydown.firechat', function(e) {
       var message = self.trimWithEllipsis($textarea.val(), self.maxLengthMessage);
       if ((e.which === 13) && (message !== '')) {
         $textarea.val('');
@@ -1009,7 +1009,7 @@
     this.$tabList.prepend($tab);
 
     // Attach on-shown event to move tab to front and scroll to bottom.
-    $tab.bind('shown', function(event) {
+    $tab.bind('shown.firechat', function(event) {
       $messages.scrollTop($messages[0].scrollHeight);
       // Got to move the chat box to this tab also
       var box = this.getBoundingClientRect(),
@@ -1050,7 +1050,7 @@
     if (this.$messages[roomId]) {
       var $tabLink = this.$tabList.find('[data-room-id=' + roomId + ']').find('a');
       if ($tabLink.length) {
-        $tabLink.first().trigger('click');
+        $tabLink.first().trigger('click.firechat');
       }
     }
     this._updateUsersOnline();
@@ -1076,7 +1076,7 @@
     this.$tabList.children('li').css('width', tabWidth);
 
     // Automatically select the next tab if there is one.
-    this.$tabList.find('[data-toggle="firechat-tab"]').first().trigger('click');
+    this.$tabList.find('[data-toggle="firechat-tab"]').first().trigger('click.firechat');
 
     // Update the room listing to reflect that we're now in the room.
     this.$roomList.children('[data-room-id=' + roomId + ']').children('a').removeClass('highlight');
@@ -1227,7 +1227,7 @@
     });
 
     $prompt.find('[data-input=firechat-room-name]').first().focus();
-    $prompt.find('[data-input=firechat-room-name]').first().bind('keydown', function(e) {
+    $prompt.find('[data-input=firechat-room-name]').first().bind('keydown.firechat', function(e) {
       if (e.which === 13) {
         var name = $prompt.find('[data-input=firechat-room-name]').first().val();
         if (name !== '') {
