@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Firechat - Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Firebase Firechat Documentation">
+  <meta name="author" content="Rob DiMarco, Engineer @ Firebase, rob@firebase.com">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.min.css" />
+  <link rel="stylesheet" href="../css/pygments-borland.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link href="images/favicon.ico" rel="shortcut icon" />
+</head>
+
+<body class="docs-page">
+  <a href="https://github.com/firebase/firechat" target="_blank">
+    <img class="fork-on-github" src="../images/fork-on-github-white.png" alt="Fork me on GitHub">
+  </a>
+
+  <header class="header">
+    <div id="top-shadow"></div>
+    <div class="container text-center">
+      <div id="top-content" class="clerfix">
+        <div class="header-links" class="text-right">
+          <a href="../">Home</a>
+          <a href="#" class="selected">Documentation</a>
+        </div>
+        <a href="../"><div id="title-small"><span class="strong">Fire</span><span class="satisfy">chat</span></div></a>
+        <div id="page-title">Documentation</div>
+        <a href="https://github.com/firebase/firechat" target="_blank">
+          <button id="download-on-github" class="btn btn-large" type="button"><span class="satisfy">Download on GitHub</span></button>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" id="docs-container">
+    <div class="row">
+      <div class="span3 sidebar">
+        <ul class="nav nav-list sidenav" data-spy="affix" data-offset-top="175">
+          <li><a href="#getting_started"><i class="icon-chevron-right"></i> Getting Started</a></li>
+          <li><a href="#authentication"><i class="icon-chevron-right"></i> Authentication</a></li>
+          <li><a href="#customizing"><i class="icon-chevron-right"></i> Customizing Firechat</a></li>
+          <li><a href="#api"><i class="icon-chevron-right"></i> API</a></li>
+          <li><a href="#api_methods"><i class="icon-chevron-right"></i> API Methods</a></li>
+          <li><a href="#api_bindings"><i class="icon-chevron-right"></i> API Bindings</a></li>
+          <li><a href="#data_structure"><i class="icon-chevron-right"></i> Data Structure</a></li>
+        </ul>
+      </div>
+      <div class="span9">
+        <section class="docs-content">
+          {{ content }}
+          <div class="emphasis-box build-something">Build something cool using Firechat?  We'd
+            love to <a href="mailto:firechat@firebase.com?subject=[Firechat]">hear from you</a>!
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container text-center">
+      <p>
+        <div id="footer-links">
+          <a href="../docs/">Docs</a>
+          <a href="https://github.com/firebase/firechat" target="_blank">GitHub Project</a>
+          <a href="https://github.com/firebase/firechat/issues" target="_blank">Issues</a>
+          <a href="mailto:firechat@firebase.com?subject=[Firechat Question]" target="_blank">Contact</a>
+        </div>
+      </p>
+      <p>
+        <a id="powered-by-firebase" href="https://www.firebase.com/?utm_source=landing&utm_medium=site&utm_campaign=firechat" target="_blank">&nbsp;</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-affix.min.js"></script>
+  <script type="text/javascript">
+    // If loaded on GitHub pages, redirect to Firebase-hosted version.
+    if (window.location.host === 'firebase.github.io') {
+      window.location = window.location.href.replace('firebase.github.io/firechat', 'firechat.firebaseapp.com')
+    }
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37102688-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
+</html>

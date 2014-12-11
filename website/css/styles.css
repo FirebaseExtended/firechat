@@ -1,0 +1,559 @@
+@import url(https://fonts.googleapis.com/css?family=Satisfy|Lato:300,700,300italic,700italic);
+
+/* Global
+-------------------------------------------------- */
+body {
+  font: 14.5px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:#777;
+  font-weight:300;
+}
+
+a {
+  color: #08c;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #004f77;
+}
+
+img.fork-on-github {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  width: 149px;
+  height: 149px;
+  z-index: 1;
+}
+
+.strong { font-weight: bold; }
+
+.satisfy { font-family: 'Satisfy', cursive; }
+
+/* Global: Header
+-------------------------------------------------- */
+header {
+  position: relative;
+  min-height: 150px;
+  width: 100%;
+  color: white;
+  background-color: #ff8b00;
+}
+
+.header-title {
+  background-color: #d7690d;
+}
+
+.header-content {
+  background-color: #ff8b00;
+}
+
+.header-links {
+  padding-top: 15px;
+  text-align: right;
+  font-size: 15px;
+}
+
+.header-links a {
+  display: inline-block;
+  margin: 0 15px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.header-links a:hover {
+  text-decoration: underline;
+  color: #feffff;
+}
+
+.header-links a.selected {
+  text-decoration: underline;
+  /* color: #fff; */
+  color: #feffff;
+  cursor: default;
+}
+
+#download-on-github {
+  float: right;
+  font-size: 24px;
+  padding: 10px 40px;
+  margin: 35px 0;
+  border-bottom: 6px solid #ccc;
+}
+
+#top-shadow {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 60px;
+  background: url('../images/top-shadow.png') no-repeat center;
+  -webkit-background-size: cover;
+     -moz-background-size: cover;
+       -o-background-size: cover;
+          background-size: cover;
+}
+
+#title-small {
+  color: #fff;
+  position: absolute;
+  left: 150px;
+  top: 15px;
+  width: 126px;
+  height: 42px;
+  font-size: 34px;
+}
+
+#page-title {
+  position: absolute;
+  left: 150px;
+  top: 60px;
+  font-size: 60px;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+#page-links {
+  position: absolute;
+  left: 90px;
+  top: 155px;
+  font-size: 18px;
+}
+
+#page-links a {
+  color: #fff;
+}
+
+/* Firechat Demo
+-------------------------------------------------- */
+#firechat-container {
+  height: 475px;
+  max-width: 325px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin: auto auto;
+  text-align: center;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 5px 25px #666;
+     -moz-box-shadow: 0 5px 25px #666;
+          box-shadow: 0 5px 25px #666;
+}
+
+#auth-modal {
+  width: 30%;
+  margin-left: -15%;
+  left: 50%;
+}
+
+#user-info {
+  display: block;
+  margin-top: 10px;
+}
+
+#user-info a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Social Buttons
+-------------------------------------------------- */
+.social-container {
+  padding: 10px 0;
+  color: #5e5e5e;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f7f7f7;
+}
+.social-buttons {
+  margin-top: 2px;
+  margin-left: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.social-buttons li {
+  display: inline-block;
+  padding: 6px 8px 5px;
+  line-height: 1;
+  *display: inline;
+  *zoom: 1;
+}
+
+/************************************************/
+/* Stuff below-the-fold (the white part) */
+/************************************************/
+#bottom-container {
+  border: 1px solid #e2e2e2;
+  border-top: 0;
+  background-color: white;
+  margin: 0 auto;
+  z-index: 1;
+  -webkit-box-shadow: 0 0 6px 1px #bbb;
+     -moz-box-shadow: 0 0 6px 1px #bbb;
+          box-shadow: 0 0 6px 1px #bbb;
+}
+
+.bottom-content {
+  padding: 30px 0px 0;
+  color: #5e5e5e;
+  margin-bottom: 40px;
+}
+
+.bottom-content.separator {
+  margin-top: 40px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.build-something {
+  margin: auto;
+  margin-top: 30px;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Footer
+-------------------------------------------------- */
+footer {
+  border-top: 1px solid #ccc;
+  background-color: #f4f4f4;
+  margin-top: 50px;
+  height: 200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#footer-links {
+  padding-top: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#powered-by-firebase {
+  display: inline-block;
+  height: 34px;
+  width: 129px;
+  background: url('../images/powered-by-firebase-dim.png') no-repeat center;
+}
+
+#powered-by-firebase:hover {
+  background: url('../images/powered-by-firebase.png') no-repeat center;
+}
+
+#footer-links a {
+  font-size: 14px;
+  color: #999;
+  text-decoration: none;
+  margin: 0 20px;
+  display: inline-block;
+}
+
+#footer-links a:hover {
+  text-decoration: underline;
+  color: #333;
+}
+
+
+/* index.html
+-------------------------------------------------- */
+.home-page {
+  background-color: #f4f4f4;
+}
+
+.home-page #top-content {
+  height: 925px;
+  padding-bottom: 35px;
+}
+
+.home-page footer {
+  border-top: none;
+}
+
+#home-title {
+  margin: 45px auto -15px auto;
+  font-size: 72px;
+  text-align: center;
+}
+
+#home-subtitle {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 60px;
+  font-weight: 100;
+}
+
+#home-download-on-github {
+  font-size: 24px;
+  padding: 25px 55px 19px;
+  margin: -40px auto 35px;
+  border-bottom: 6px solid #ccc;
+}
+
+#code-container {
+  width: 600px;
+  margin: 22px auto;
+}
+
+#code-heading {
+  text-align: left;
+  font-size: 22px;
+  margin-bottom: 2px;
+}
+
+#code-heading a {
+  color: #f9e701;
+  text-decoration: underline;
+}
+
+#code-container pre {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  margin: 0;
+  padding: 20px;
+  text-align: left;
+  font-size: 14px;
+  color: #000;
+  line-height: 20px;
+  font-family: monospace;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+#code-examples-link {
+  display: block;
+  float: right;
+  margin-top: 5px;
+  font-size: 17px;
+  color: #fff;
+}
+
+.bottom-title {
+  font-size: 42px;
+  color: #333;
+  text-align: center;
+  padding: 30px 0 0;
+}
+
+/* Docs
+-------------------------------------------------- */
+.docs-page {
+  background: white;
+}
+.docs-content {
+  color: #5e5e5e;
+  margin-bottom: 40px;
+}
+.docs-page pre {
+  margin: 20px 10px;
+  padding: 15px 10px;
+}
+.docs-separator {
+  height: 0;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  border-top: 1px solid #e0e0e0;
+}
+.docs-content p {
+  margin: 0 0 10px;
+}
+
+.docs-content h1 {
+  margin: 20px 0 10px;
+}
+.docs-content h2 {
+  margin: 20px 0 10px;
+}
+.docs-content h3 {
+  margin: 20px 0 10px;
+}
+.docs-content h4 {
+  margin: 20px 0 10px;
+}
+.docs-content a {
+  color: #eb8717;
+}
+.docs-content .emphasis-box {
+  border: 1px solid #e5a165;
+  background: #ffbf86;
+  padding: 10px;
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+}
+.docs-content .emphasis-box a {
+  color: #dc4700;
+}
+.error-page #top {
+  height: 200px;
+}
+
+
+/* Sidenav for Docs
+-------------------------------------------------- */
+.sidenav {
+  width: 220px;
+  margin: 35px 0 0;
+  padding: 0;
+  background-color: #fcfcfc;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+          box-shadow: 0 1px 4px rgba(0,0,0,.065);
+}
+.sidenav > li > a {
+  display: block;
+  width: 190px \9;
+  margin: 0 0 -1px;
+  padding: 8px 14px;
+  border: 1px solid #e5e5e5;
+}
+.sidenav > li:first-child > a {
+  -webkit-border-radius: 6px 6px 0 0;
+     -moz-border-radius: 6px 6px 0 0;
+          border-radius: 6px 6px 0 0;
+}
+.sidenav > li:last-child > a {
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+}
+.sidenav > .active > a {
+  position: relative;
+  z-index: 2;
+  padding: 9px 15px;
+  border: 0;
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+     -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+          box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+}
+.sidenav .icon-chevron-right {
+  float: right;
+  margin-top: 2px;
+  margin-right: -6px;
+  opacity: .25;
+}
+.sidenav > li > a:hover {
+  background-color: #f5f5f5;
+}
+.sidenav a:hover .icon-chevron-right {
+  opacity: .5;
+}
+.sidenav .active .icon-chevron-right,
+.sidenav .active a:hover .icon-chevron-right {
+  background-image: url(//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.css);
+  opacity: 1;
+}
+.sidenav.affix {
+  top: 40px;
+}
+.sidenav.affix-bottom {
+  position: absolute;
+  top: auto;
+  bottom: 270px;
+}
+
+
+/* Responsive
+-------------------------------------------------- */
+
+/* Desktop large
+------------------------- */
+@media (min-width: 1200px) {
+  .sidenav {
+    width: 258px;
+  }
+  .sidenav > li > a {
+    width: 230px \9;
+  }
+}
+
+/* Desktop
+------------------------- */
+@media (max-width: 980px) {
+  .sidenav {
+    top: 0;
+    width: 218px;
+    margin-right: 0;
+  }
+}
+
+/* Tablet to desktop
+------------------------- */
+@media (min-width: 768px) and (max-width: 979px) {
+  .home-page #top-content {
+    height: 925px;
+  }
+  .sidenav {
+    width: 166px;
+  }
+  .sidenav.affix {
+    top: 0;
+  }
+}
+
+/* Tablet
+------------------------- */
+@media (min-width: 481px) and (max-width: 767px) {
+  body {
+    padding: 0;
+  }
+  .home-page #top-content {
+    height: 975px;
+  }
+  .sidenav {
+    width: auto;
+    margin-bottom: 20px;
+  }
+  .sidenav.affix {
+    position: static;
+    width: auto;
+    top: 0;
+  }
+  #docs-container {
+    padding: 0 15px;
+  }
+  .bottom-content {
+    padding: 0 15px;
+  }
+}
+
+/* Landscape phones
+------------------------- */
+@media (max-width: 480px) {
+  body {
+    padding: 0;
+  }
+  .home-page #top-content {
+    height: 985px;
+  }
+  .header-links {
+    text-align: center;
+  }
+  img.fork-on-github {
+    display: none;
+  }
+  .sidenav {
+    width: auto;
+    margin-bottom: 20px;
+  }
+  .sidenav.affix {
+    position: static;
+    width: auto;
+    top: 0;
+  }
+  #docs-container {
+    padding: 0 15px;
+  }
+  .social-buttons li {
+    padding: 6px 0px 5px;
+  }
+  .bottom-content {
+    padding: 0 15px;
+  }
+}
