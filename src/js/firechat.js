@@ -101,13 +101,9 @@
       // Monitor connection state so we can requeue disconnect operations if need be.
       this._firebase.root().child('.info/connected').on('value', function(snapshot) {
         if (snapshot.val() === true) {
-          // We're connected (or reconnected)! Set up our presence state.
+          // We're connected (or reconnected)! Refresh our presence state.
           for (var i = 0; i < this._presenceBits; i++) {
-            var op = this._presenceBits[i],
-                ref = this._firebase.root().child(op.ref);
-
-            ref.onDisconnect().set(op.offlineValue);
-            ref.set(op.onlineValue);
+            this._queuePresenceOperation(op.ref, op.onlineValue, op.offlineValue);
           }
         }
       }, this);
@@ -164,13 +160,16 @@
 
     // Keep track of on-disconnect events so they can be requeued if we disconnect the reconnect.
     _queuePresenceOperation: function(ref, onlineValue, offlineValue) {
-      ref.onDisconnect().set(offlineValue);
-      ref.set(onlineValue);
-      this._presenceBits[ref.toString()] = {
-        ref: ref,
-        onlineValue: onlineValue,
-        offlineValue: offlineValue
-      };
+      var self = this;
+      ref.onDisconnect().set(offlineValue, function(err){
+        if (err) throw new Error(err);
+        ref.set(onlineValue);
+        self._presenceBits[ref.toString()] = {
+          ref: ref,
+          onlineValue: onlineValue,
+          offlineValue: offlineValue
+        };
+      });
     },
 
     // Remove an on-disconnect event from firing upon future disconnect and reconnect.
