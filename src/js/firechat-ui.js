@@ -311,10 +311,11 @@
       else {
         str = '' + userCount + ' users online';
       }
-      $('#firechat-header [data-event=firechat-user-search-btn]').html(str);
-      $('.firechat-user-status').removeClass('online');
+      $firechat = $('#firechat');
+      $firechat.find('#firechat-header [data-event=firechat-user-search-btn]').html(str);
+      $firechat.find('.firechat-user-status').removeClass('online');
       for (var uid in this._usersOnline) {
-        $('[data-user-id-online=' + uid + ']').addClass('online');
+        $firechat.find('[data-user-id-online=' + uid + ']').addClass('online');
       }
     }, 300)
   };
