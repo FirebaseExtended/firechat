@@ -302,7 +302,7 @@
       });
     },
 
-    _updateUsersOnline: function() {
+    _updateUsersOnline: _.debounce(function() {
       var str,
           userCount = Object.keys(this._usersOnline).length;
       if (userCount === 1) {
@@ -316,7 +316,7 @@
       for (var uid in this._usersOnline) {
         $('[data-user-id-online=' + uid + ']').addClass('online');
       }
-    }
+    }, 300)
   };
   /**
    * Initialize an authenticated session with a user id and name.
