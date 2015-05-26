@@ -33,7 +33,8 @@
     "package.json"
   ],
   "dependencies": {
-    "firebase": "2.0.x"
+    "firebase": "2.0.x",
+    "firebase-token-generator": "^2.0.0"
   },
   "devDependencies": {
     "grunt": "~0.4.0",

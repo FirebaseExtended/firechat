@@ -173,54 +173,49 @@
   </div>
 
   <!-- Firechat -->
-  <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+  <!--script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script -->
+  <!-- Debug -->
+  <script src="https://cdn.firebase.com/js/client/2.0.2/firebase-debug.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-modal.min.js"></script>
 
   <!-- Download from https://github.com/firebase/Firechat -->
   <link rel="stylesheet" href="firechat-latest.css" />
   <script src="firechat-latest.js"></script>
+  <script src="https://cdn.firebase.com/v0/firebase-token-generator.js"></script>
   <script>
-    var chatRef = new Firebase('https://firechat-demo.firebaseio.com'),
-        target = document.getElementById("firechat-container"),
-        authModal = $('#auth-modal').modal({ show: false }),
-        chat = new FirechatUI(chatRef, target);
-
-    chat.on('auth-required', function() {
-      authModal.modal('show');
-      return false;
-    });
-
-    chatRef.onAuth(function(authData) {
-      if (authData) {
-        var userId = authData.uid,
-            username = authData[authData.provider].displayName;
-
-        chat.setUser(userId, username);
-        $('#user-name').text(username);
-        $('#user-info').show();
-        setTimeout(function() {
-          chat._chat.enterRoom('-Iy1N3xs4kN8iALHV0QA')
-        }, 500);
+    var tokenGenerator = new FirebaseTokenGenerator("LENnUH4jYdZSk4864WZDk5VgojFCE1h7UTKXcBW3");
+    var chatToken = tokenGenerator.createToken({uid: "custom:1", name: "Mark Nyon"});
+    function initChat(authData) {
+      var chat = new FirechatUI(chatRef, document.getElementById('firechat-container'));
+      chat._chat.setUser(authData.uid, "Mark Nyon", function(user) {
+        chat._chat._user = user;
+        chat._chat.getRoomList(function (rooms) {
+          // get the Tips room from the rooms
+          var tipRoomId = _.find(rooms, function (room) {
+            if (room.type === "public" && room.name === "Tips") {
+              return room;
+            }
+          }).id;
+          if (tipRoomId !== "undefined") {
+            // Happy case! Found the tip room!
+            chat._chat.enterRoom(tipRoomId);
+          } else {
+            // Happy case! Make a tip room!
+            chat._chat.createRoom("Tips", "public");
+          }
+        })
+      })
+    }
+    var chatRef = new Firebase('https://brilliant-fire-2797.firebaseio.com');
+    chatRef.authWithCustomToken(chatToken, function(error, authData) {
+      if (error) {
+        console.log("Chat Connection Failed!", error);
       } else {
-        $('#user-info').hide();
-        chat._chat.enterRoom('-Iy1N3xs4kN8iALHV0QA')
+        initChat(authData);
+        console.log("Chat Connection Succeeded!");
       }
     });
-
-    function login(provider) {
-      authModal.modal('hide');
-      chatRef.authWithOAuthPopup(provider, function(error, authData) {
-        if (error) {
-          console.log(error);
-        }
-      });
-    }
-
-    function logout() {
-      chatRef.unauth();
-      location.reload();
-    }
   </script>
 
   <!-- Twitter / Facebook / Google -->
