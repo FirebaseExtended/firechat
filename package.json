@@ -40,6 +40,7 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-concat": "~0.1.1",
+    "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-jshint": "~0.1.0",
     "grunt-contrib-jst": "~0.5.0",
     "grunt-contrib-less": "~0.5.0",
