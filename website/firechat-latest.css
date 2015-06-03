@@ -825,10 +825,21 @@
   height: 35px;
 }
 #firechat #upload-icon {
-  top: 20px;
-  right: 5px;
   position: absolute;
   float: right;
+  height: 16px;
+  width: 18px;
+}
+#firechat #file-upload {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  opacity: 0;
+}
+#firechat #upload-icon img {
+  top: 20px;
+  right: 5px;
 }
 #firechat .message {
   color: #333;

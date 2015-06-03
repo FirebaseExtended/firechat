@@ -605,11 +605,24 @@
   }
 
   #upload-icon {
-    top: 20px;
-    right: 5px;
     position: absolute;
     float: right;
+    height: 16px;
+    width: 18px;
   }
+
+  #file-upload {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+    opacity: 0;
+  }
+  #upload-icon img {
+    top: 20px;
+    right: 5px;
+  }
+
   .message {
     color: #333;
     padding: 3px 5px;

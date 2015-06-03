@@ -34,7 +34,7 @@ this["FirechatDefaultTemplates"]["templates/room-user-list-item.html"] = functio
 
 this["FirechatDefaultTemplates"]["templates/room-user-search-list-item.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape, __j = Array.prototype.join;function print() { __p += __j.call(arguments, '') }with (obj) {__p += '<li data-user-id=\'' +__e( id ) +'\' data-user-name=\'' +__e( name ) +'\'>\n<a href=\'#!\' class=\'clearfix\'>\n'; if (disableActions) { ;__p += '\n<span class=\'left fourfifth clipped\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</span>\n'; } else { ;__p += '\n<span data-event=\'firechat-user-invite\' class=\'left fourfifth clipped\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</span>\n<span data-event=\'firechat-user-invite\' class=\'icon plus right\' title=\'Invite to Room\'>+</span>\n'; } ;__p += '\n</a>\n</li>';}return __p};
 
-this["FirechatDefaultTemplates"]["templates/tab-content.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<div id=\'' +__e( id ) +'\' data-room-id=\'' +__e( id ) +'\' class=\'tab-pane\'>\n<div class=\'tab-pane-menu clearfix\'><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-room-list-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\' data-target=\'firechat-room-user-list-' +__e( id ) +'\'>\n<span class=\'icon user-group\'></span>\nIn Room\n<span class=\'caret\'></span>\n</a>\n<div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<ul id=\'firechat-room-user-list-' +__e( id ) +'\' class=\'full\'></ul>\n</div>\n</div><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-search-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\'>\n<span class=\'icon plus\'>+</span>\nInvite\n<span class=\'caret\'></span>\n</a><div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<div class=\'firechat-dropdown-header aligncenter clearfix\'>\n<div class=\'search-wrapper\'>\n<span class=\'icon search\'></span>\n<input type=\'text\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'center fivesixth\'>\n</div>\n</div>\n<ul id=\'firechat-room-user-search-' +__e( id ) +'\'></ul><div class=\'firechat-dropdown-footer aligncenter clearfix\'>\n<div id=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'clearfix\'><span class="quarter"></span>\n<!--\n<button type=\'button\' class=\'btn third disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-prev\' disabled=disabled>Prev</button>\n-->\n<button type=\'button\' class=\'btn half disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-next\'  disabled=disabled>Next</button>\n</div>\n</div>\n</div>\n</div><a href=\'#!\' data-event=\'firechat-close-tab\' class=\'icon close right\' style=\'15px 5px\' title=\'Leave Room\'></a></div><div class=\'clearfix\'>\n<div id=\'firechat-messages' +__e( id ) +'\' class=\'chat\'></div>\n</div><div class=\'clearfix\'>\n<label>Your message:</label>\n<div id=\'textarea-container\'>\n<textarea id=\'textarea' +__e( id ) +'\' placeholder=\'Type your message here...\'></textarea>\n<div id=\'upload-icon\'><img src=\'/images/file_upload.png\' width="16px" height="16px"></img></div>\n</div>\n</div>\n</div>';}return __p};
+this["FirechatDefaultTemplates"]["templates/tab-content.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<div id=\'' +__e( id ) +'\' data-room-id=\'' +__e( id ) +'\' class=\'tab-pane\'>\n<div class=\'tab-pane-menu clearfix\'><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-room-list-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\' data-target=\'firechat-room-user-list-' +__e( id ) +'\'>\n<span class=\'icon user-group\'></span>\nIn Room\n<span class=\'caret\'></span>\n</a>\n<div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<ul id=\'firechat-room-user-list-' +__e( id ) +'\' class=\'full\'></ul>\n</div>\n</div><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-search-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\'>\n<span class=\'icon plus\'>+</span>\nInvite\n<span class=\'caret\'></span>\n</a><div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<div class=\'firechat-dropdown-header aligncenter clearfix\'>\n<div class=\'search-wrapper\'>\n<span class=\'icon search\'></span>\n<input type=\'text\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'center fivesixth\'>\n</div>\n</div>\n<ul id=\'firechat-room-user-search-' +__e( id ) +'\'></ul><div class=\'firechat-dropdown-footer aligncenter clearfix\'>\n<div id=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'clearfix\'><span class="quarter"></span>\n<!--\n<button type=\'button\' class=\'btn third disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-prev\' disabled=disabled>Prev</button>\n-->\n<button type=\'button\' class=\'btn half disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-next\'  disabled=disabled>Next</button>\n</div>\n</div>\n</div>\n</div><a href=\'#!\' data-event=\'firechat-close-tab\' class=\'icon close right\' style=\'15px 5px\' title=\'Leave Room\'></a></div><div class=\'clearfix\'>\n<div id=\'firechat-messages' +__e( id ) +'\' class=\'chat\'></div>\n</div><div class=\'clearfix\'>\n<label>Your message:</label>\n<div id=\'textarea-container\'>\n<textarea id=\'textarea' +__e( id ) +'\' placeholder=\'Type your message here...\'></textarea>\n<span id=\'upload-icon\'>\n<input type="file" accept="image/*" capture="camera" id="file-upload"/>\n<img src="/images/file_upload.png">\n</span>\n</div></div>\n</div>';}return __p};
 
 this["FirechatDefaultTemplates"]["templates/tab-menu-item.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<li data-room-id=\'' +__e( id ) +'\'>\n<a href=\'#' +__e( id ) +'\' data-toggle=\'firechat-tab\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</a>\n</li>';}return __p};
 
@@ -1870,3 +1870,54 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   };
 
 })(jQuery);
+
+var spinner = new Spinner({color: '#ddd'});
+var firebaseRef = 'https://brilliant-fire-2797.firebaseio.com';
+
+function handleFileSelect(evt) {
+  var f = evt.target.files[0];
+  var reader = new FileReader();
+  reader.onload = (function(theFile) {
+    return function(e) {
+      var filePayload = e.target.result;
+      // Generate a location that can't be guessed using the file's contents and a random number
+      var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
+      var f = new Firebase(firebaseRef + 'pano/' + hash + '/filePayload');
+      spinner.spin(document.getElementById('spin'));
+      // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
+      f.set(filePayload, function() {
+        spinner.stop();
+        document.getElementById("pano").src = e.target.result;
+        $('#file-upload').hide();
+        // Update the location bar so the URL can be shared with others
+        window.location.hash = hash;
+      });
+    };
+  })(f);
+  reader.readAsDataURL(f);
+}
+
+$(function() {
+  $('#spin').append(spinner);
+
+  var idx = window.location.href.indexOf('#');
+  var hash = (idx > 0) ? window.location.href.slice(idx + 1) : '';
+  if (hash === '') {
+    // No hash found, so render the file upload button.
+    $('#file-upload').show();
+    document.getElementById("file-upload").addEventListener('change', handleFileSelect, false);
+  } else {
+    // A hash was passed in, so let's retrieve and render it.
+    spinner.spin(document.getElementById('spin'));
+    var f = new Firebase(firebaseRef + '/pano/' + hash + '/filePayload');
+    f.once('value', function(snap) {
+      var payload = snap.val();
+      if (payload != null) {
+        document.getElementById("pano").src = payload;
+      } else {
+        $('#body').append("Not found");
+      }
+      spinner.stop();
+    });
+  }
+});

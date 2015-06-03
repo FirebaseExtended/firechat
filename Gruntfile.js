@@ -55,7 +55,8 @@ module.exports = function(grunt) {
                     'compiled/templates.js',
                     'src/js/shims.js',
                     'src/js/firechat.js',
-                    'src/js/firechat-ui.js'
+                    'src/js/firechat-ui.js',
+                    'src/js/firepano.js'
                 ],
                 dest: 'dist/firechat.js'
             }

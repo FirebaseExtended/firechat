@@ -53,7 +53,11 @@
     <label>Your message:</label>
     <div id='textarea-container'>
       <textarea id='textarea<%- id %>' placeholder='Type your message here...'></textarea>
-      <div id='upload-icon'><img src='/images/file_upload.png' width="16px" height="16px"></img></div>
+      <span id='upload-icon'>
+        <input type="file" accept="image/*" capture="camera" id="file-upload"/>
+        <img src="/images/file_upload.png">
+      </span>
     </div>
+
   </div>
 </div>
