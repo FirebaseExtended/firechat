@@ -818,6 +818,18 @@
   overflow: auto;
   vertical-align: top;
 }
+#firechat #textarea-container {
+  position: relative;
+  width: 100%;
+  float: left;
+  height: 35px;
+}
+#firechat #upload-icon {
+  top: 20px;
+  right: 5px;
+  position: absolute;
+  float: right;
+}
 #firechat .message {
   color: #333;
   padding: 3px 5px;
