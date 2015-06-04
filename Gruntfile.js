@@ -56,7 +56,8 @@ module.exports = function(grunt) {
                     'src/js/shims.js',
                     'src/js/firechat.js',
                     'src/js/firechat-ui.js',
-                    'src/js/firepano.js'
+                    'src/js/firepano.js',
+                    'src/js/sha256.js'
                 ],
                 dest: 'dist/firechat.js'
             }
