@@ -10,12 +10,19 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine-jquery','jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'src/js/**/*.js', 'spec/**/*spec.js'
+      {pattern: 'website/index.html'},
+      'https://cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js',
+      'https://cdn.firebase.com/js/client/2.0.2/firebase-debug.js',
+      'https://cdn.firebase.com/v0/firebase-token-generator.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-modal.min.js',
+      'dist/*.js',
+      'spec/**/*spec.js',
+      // this file only gets watched and is otherwise ignored
     ],
 
 
@@ -55,9 +62,15 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: [],
+    browsers: ['PhantomJS'],
 
 
+    // Plugins
+    plugins: [
+      'karma-phantomjs-launcher',
+      'karma-jasmine-jquery',
+      'karma-jasmine'
+    ],
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true

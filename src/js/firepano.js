@@ -22,7 +22,3 @@ function handleFileSelect(evt) {
   })(f);
   reader.readAsDataURL(f);
 }
-
-$(function() {
-  $('#spin').append(spinner);
-});

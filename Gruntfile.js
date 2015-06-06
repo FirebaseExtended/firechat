@@ -52,6 +52,7 @@ module.exports = function(grunt) {
             js: {
                 src: [
                     'src/js/libs/underscore-1.7.0.min.js',
+                    'src/js/libs/spin.min.js',
                     'compiled/templates.js',
                     'src/js/shims.js',
                     'src/js/firechat.js',
