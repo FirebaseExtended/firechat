@@ -1,7 +1,8 @@
-describe('getDivAttribute', function() {
-  var d = document.querySelector('title');
-  it('Should show the title of the index page', function() {
-  	console.log("Title text = " + d.documentURI);
-    expect(d.innerHTML).toBe('Firechat - open source chat built on Firebase');
+describe('Loaded Libraries', function() {
+  it('The Firebase library should be loaded', function() {
+  	var createFirebase = function() {
+  		return new Firebase('https://brilliant-fire-2797.firebaseio.com');
+  	};
+  	expect(createFirebase).not.toThrow();
   });
 });
