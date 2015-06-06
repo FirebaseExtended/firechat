@@ -89,6 +89,7 @@
       this._bindForUserMuting();
       this._bindForChatInvites();
       this._bindForRoomListing();
+      this._bindForFileUpload();
 
       // Generic, non-chat-specific interactive elements.
       this._setupTabs();
@@ -445,6 +446,19 @@
   };
 
   /**
+   * Binds for file upload icon
+   */
+
+  FirechatUI.prototype._bindForFileUpload = function() {
+    var self = this, $el = $(this._el);
+    event.stopPropagation();
+    // Upon click of the file icon image
+    $(document).delegate('[data-event="firechat-user-file-upload"]', 'click', function(event) {
+
+    });
+  };
+
+  /**
    * Binds user search buttons, dropdowns, and input fields for searching all
    * active users currently in chat.
    */
@@ -679,6 +693,8 @@
       return false;
     });
   };
+
+
 
   /**
    * A stripped-down version of bootstrap-tab.js.

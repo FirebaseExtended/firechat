@@ -24,11 +24,5 @@ function handleFileSelect(evt) {
 }
 
 $(function() {
-    $('#spin').append(spinner);
-
-    $('#upload-image').ready(
-      $('#upload-image').click(function() {
-        $("#file-upload").get(0).addEventListener("click", handleFileSelect, false);
-      });
-    );
+  $('#spin').append(spinner);
 });

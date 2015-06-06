@@ -809,6 +809,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
       this._bindForUserMuting();
       this._bindForChatInvites();
       this._bindForRoomListing();
+      this._bindForFileUpload();
 
       // Generic, non-chat-specific interactive elements.
       this._setupTabs();
@@ -1165,6 +1166,20 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   };
 
   /**
+   * Binds for file upload icon
+   */
+
+  FirechatUI.prototype._bindForFileUpload = function() {
+    var self = this, $el = $(this._el);
+
+    console.log("New Bind function added");
+    // Upon click of the file icon image
+    $(document).delegate('[data-event="firechat-user-room-list-btn"]', 'click', function(event) {
+      event.stopPropagation();
+    });
+  };
+
+  /**
    * Binds user search buttons, dropdowns, and input fields for searching all
    * active users currently in chat.
    */
@@ -1399,6 +1414,8 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
       return false;
     });
   };
+
+
 
   /**
    * A stripped-down version of bootstrap-tab.js.
@@ -1897,11 +1914,7 @@ function handleFileSelect(evt) {
 }
 
 $(function() {
-    $('#spin').append(spinner);
-
-    $('#upload-image').click(function() {
-        $("#file-upload").get(0).addEventListener("click", handleFileSelect, false);
-    });
+  $('#spin').append(spinner);
 });
 
 /*
