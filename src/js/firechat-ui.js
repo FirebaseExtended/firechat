@@ -450,14 +450,59 @@
    */
 
   FirechatUI.prototype._bindForFileUpload = function() {
-    var self = this, $el = $(this._el);
-    console.log("New Bind function added");
+    var self = this;
+    var handleFileSelect = function(event) {
+      var f = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = (function(theFile) {
+        return function(e) {
+          var filePayload = e.target.result;
+          // Generate a location that can't be guessed using the file's contents and a random number
+          var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
+          var f = new Firebase(firebaseRef + '/pano/' + hash + '/filePayload');
+          spinner.spin(document.getElementById('spin'));
+          // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
+          f.set(filePayload, function() {
+            spinner.stop();
+            var imageFileName = firebaseRef + '/pano/' + hash + '/filePayload';
+            console.log("File with hash: " + imageFileName + ' created');
+            $('#file-upload').hide();
+            var roomId = $("textarea").attr("id").replace(/textarea/, "");
+            var message = self.trimWithEllipsis("File Uploaded from " + self._chat._userName, self.maxLengthMessage);
+            self._chat.sendMessage(roomId, message);
+            f.once('value', function(snap) {
+              var payload = snap.val();
+              if (payload !== null) {
+                var uploadImg = $('<img id="' + roomId + '-upload">');
+                uploadImg.attr("src", payload);
+                uploadImg.appendTo($(".message").last());
+                uploadImg.width(313);
+                uploadImg.show();
+              } else {
+                $('#body').append("Not found");
+              }
+              spinner.stop();
+            });
+          });
+        };
+      })(f);
+      reader.readAsDataURL(f);
+    };
     // Upon click of the file icon image
-    console.log("Does the link exist? ");
     $(document).delegate('[data-event="firechat-upload-file"]', 'click', function(event) {
       event.stopPropagation();
       console.log("Clicked on the button!");
+      $('#file-upload').show();
+      $("#file-upload").get(0).addEventListener('change', handleFileSelect, false);
     });
+
+    // Upon completed file upload
+    $(document).delegate('[data-event="firechat-file-uploaded"]', 'change', function(event) {
+      event.stopPropagation();
+      console.log("Upload Complete");
+      //
+    });
+
   };
 
   /**
@@ -1008,7 +1053,6 @@
       isSelfMessage   : (self._user && rawMessage.userId == self._user.id),
       disableActions  : (!self._user || rawMessage.userId == self._user.id)
     };
-
     // While other data is escaped in the Underscore.js templates, escape and
     // process the message content here to add additional functionality (add links).
     // Also trim the message length to some client-defined maximum.

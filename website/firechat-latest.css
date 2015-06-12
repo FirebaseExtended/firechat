@@ -824,6 +824,9 @@
   float: left;
   height: 35px;
 }
+#firechat #uploaded-image {
+  display: none;
+}
 #firechat #upload-icon {
   position: absolute;
   float: right;

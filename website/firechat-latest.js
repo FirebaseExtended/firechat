@@ -36,7 +36,7 @@ this["FirechatDefaultTemplates"]["templates/room-user-list-item.html"] = functio
 
 this["FirechatDefaultTemplates"]["templates/room-user-search-list-item.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape, __j = Array.prototype.join;function print() { __p += __j.call(arguments, '') }with (obj) {__p += '<li data-user-id=\'' +__e( id ) +'\' data-user-name=\'' +__e( name ) +'\'>\n<a href=\'#!\' class=\'clearfix\'>\n'; if (disableActions) { ;__p += '\n<span class=\'left fourfifth clipped\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</span>\n'; } else { ;__p += '\n<span data-event=\'firechat-user-invite\' class=\'left fourfifth clipped\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</span>\n<span data-event=\'firechat-user-invite\' class=\'icon plus right\' title=\'Invite to Room\'>+</span>\n'; } ;__p += '\n</a>\n</li>';}return __p};
 
-this["FirechatDefaultTemplates"]["templates/tab-content.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<div id=\'' +__e( id ) +'\' data-room-id=\'' +__e( id ) +'\' class=\'tab-pane\'>\n<div class=\'tab-pane-menu clearfix\'><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-room-list-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\' data-target=\'firechat-room-user-list-' +__e( id ) +'\'>\n<span class=\'icon user-group\'></span>\nIn Room\n<span class=\'caret\'></span>\n</a>\n<div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<ul id=\'firechat-room-user-list-' +__e( id ) +'\' class=\'full\'></ul>\n</div>\n</div><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-search-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\'>\n<span class=\'icon plus\'>+</span>\nInvite\n<span class=\'caret\'></span>\n</a><div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<div class=\'firechat-dropdown-header aligncenter clearfix\'>\n<div class=\'search-wrapper\'>\n<span class=\'icon search\'></span>\n<input type=\'text\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'center fivesixth\'>\n</div>\n</div>\n<ul id=\'firechat-room-user-search-' +__e( id ) +'\'></ul><div class=\'firechat-dropdown-footer aligncenter clearfix\'>\n<div id=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'clearfix\'><span class="quarter"></span>\n<!--\n<button type=\'button\' class=\'btn third disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-prev\' disabled=disabled>Prev</button>\n-->\n<button type=\'button\' class=\'btn half disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-next\'  disabled=disabled>Next</button>\n</div>\n</div>\n</div>\n</div><a href=\'#!\' data-event=\'firechat-close-tab\' class=\'icon close right\' style=\'15px 5px\' title=\'Leave Room\'></a></div><div class=\'clearfix\'>\n<div id=\'firechat-messages' +__e( id ) +'\' class=\'chat\'></div>\n</div><div class=\'clearfix\'>\n<label>Your message:</label>\n<div id=\'textarea-container\'>\n<textarea id=\'textarea' +__e( id ) +'\' placeholder=\'Type your message here...\'></textarea>\n<span id=\'upload-icon\'>\n<input type="file" accept="image/*" capture="camera" id="file-upload"/>\n<a id="upload-image-link" data-event=\'firechat-upload-file\'><img id="upload-image" src="/images/file_upload.png"></a>\n</span>\n</div></div>\n</div>';}return __p};
+this["FirechatDefaultTemplates"]["templates/tab-content.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<div id=\'' +__e( id ) +'\' data-room-id=\'' +__e( id ) +'\' class=\'tab-pane\'>\n<div class=\'tab-pane-menu clearfix\'><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-room-list-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\' data-target=\'firechat-room-user-list-' +__e( id ) +'\'>\n<span class=\'icon user-group\'></span>\nIn Room\n<span class=\'caret\'></span>\n</a>\n<div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<ul id=\'firechat-room-user-list-' +__e( id ) +'\' class=\'full\'></ul>\n</div>\n</div><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-search-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\'>\n<span class=\'icon plus\'>+</span>\nInvite\n<span class=\'caret\'></span>\n</a><div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<div class=\'firechat-dropdown-header aligncenter clearfix\'>\n<div class=\'search-wrapper\'>\n<span class=\'icon search\'></span>\n<input type=\'text\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'center fivesixth\'>\n</div>\n</div>\n<ul id=\'firechat-room-user-search-' +__e( id ) +'\'></ul><div class=\'firechat-dropdown-footer aligncenter clearfix\'>\n<div id=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'clearfix\'><span class="quarter"></span>\n<!--\n<button type=\'button\' class=\'btn third disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-prev\' disabled=disabled>Prev</button>\n-->\n<button type=\'button\' class=\'btn half disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-next\'  disabled=disabled>Next</button>\n</div>\n</div>\n</div>\n</div><a href=\'#!\' data-event=\'firechat-close-tab\' class=\'icon close right\' style=\'15px 5px\' title=\'Leave Room\'></a></div><div class=\'clearfix\'>\n<div id=\'firechat-messages' +__e( id ) +'\' class=\'chat\'></div>\n</div><div class=\'clearfix\'>\n<label>Your message:</label>\n<div id=\'textarea-container\'>\n<textarea id=\'textarea' +__e( id ) +'\' placeholder=\'Type your message here...\'></textarea>\n<label for=\'file-upload\'>\n<span id=\'upload-icon\'>\n<input type="file" accept="image/*" data-event=\'firechat-file-uploaded\' capture="camera" id="file-upload"/>\n<a id="upload-image-link" data-event=\'firechat-upload-file\'><img id="upload-image" src="/images/file_upload.png"></a>\n</span>\n</label>\n</div></div>\n</div>';}return __p};
 
 this["FirechatDefaultTemplates"]["templates/tab-menu-item.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<li data-room-id=\'' +__e( id ) +'\'>\n<a href=\'#' +__e( id ) +'\' data-toggle=\'firechat-tab\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</a>\n</li>';}return __p};
 
@@ -1172,14 +1172,59 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
    */
 
   FirechatUI.prototype._bindForFileUpload = function() {
-    var self = this, $el = $(this._el);
-    console.log("New Bind function added");
+    var self = this;
+    var handleFileSelect = function(event) {
+      var f = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = (function(theFile) {
+        return function(e) {
+          var filePayload = e.target.result;
+          // Generate a location that can't be guessed using the file's contents and a random number
+          var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
+          var f = new Firebase(firebaseRef + '/pano/' + hash + '/filePayload');
+          spinner.spin(document.getElementById('spin'));
+          // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
+          f.set(filePayload, function() {
+            spinner.stop();
+            var imageFileName = firebaseRef + '/pano/' + hash + '/filePayload';
+            console.log("File with hash: " + imageFileName + ' created');
+            $('#file-upload').hide();
+            var roomId = $("textarea").attr("id").replace(/textarea/, "");
+            var message = self.trimWithEllipsis("File Uploaded from " + self._chat._userName, self.maxLengthMessage);
+            self._chat.sendMessage(roomId, message);
+            f.once('value', function(snap) {
+              var payload = snap.val();
+              if (payload !== null) {
+                var uploadImg = $('<img id="' + roomId + '-upload">');
+                uploadImg.attr("src", payload);
+                uploadImg.appendTo($(".message").last());
+                uploadImg.width(313);
+                uploadImg.show();
+              } else {
+                $('#body').append("Not found");
+              }
+              spinner.stop();
+            });
+          });
+        };
+      })(f);
+      reader.readAsDataURL(f);
+    };
     // Upon click of the file icon image
-    console.log("Does the link exist? ");
     $(document).delegate('[data-event="firechat-upload-file"]', 'click', function(event) {
       event.stopPropagation();
       console.log("Clicked on the button!");
+      $('#file-upload').show();
+      $("#file-upload").get(0).addEventListener('change', handleFileSelect, false);
     });
+
+    // Upon completed file upload
+    $(document).delegate('[data-event="firechat-file-uploaded"]', 'change', function(event) {
+      event.stopPropagation();
+      console.log("Upload Complete");
+      //
+    });
+
   };
 
   /**
@@ -1730,7 +1775,6 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
       isSelfMessage   : (self._user && rawMessage.userId == self._user.id),
       disableActions  : (!self._user || rawMessage.userId == self._user.id)
     };
-
     // While other data is escaped in the Underscore.js templates, escape and
     // process the message content here to add additional functionality (add links).
     // Also trim the message length to some client-defined maximum.
