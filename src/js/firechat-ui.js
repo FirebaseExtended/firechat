@@ -451,11 +451,12 @@
 
   FirechatUI.prototype._bindForFileUpload = function() {
     var self = this, $el = $(this._el);
-    event.stopPropagation();
     console.log("New Bind function added");
     // Upon click of the file icon image
-    $(document).delegate('[data-event="firechat-user-file-upload"]', 'click', function(event) {
-
+    console.log("Does the link exist? ");
+    $(document).delegate('[data-event="firechat-upload-file"]', 'click', function(event) {
+      event.stopPropagation();
+      console.log("Clicked on the button!");
     });
   };
 
