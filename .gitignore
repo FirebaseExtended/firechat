@@ -7,8 +7,5 @@ node_modules/
 # Bower
 bower_components/
 
-# Distribution files
-dist/
-
 # Jekyll
 _site/

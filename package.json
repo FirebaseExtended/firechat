@@ -6,7 +6,7 @@
   "homepage": "https://firechat.firebaseapp.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/firebase/firechat.git"
+    "url": "https://github.com/trystant/firechat.git"
   },
   "bugs": {
     "url": "https://github.com/firebase/firechat/issues"
