@@ -1199,7 +1199,7 @@
     var self = this;
     if (self.imgPattern.test(str)) {
       console.log("image link with " + str);
-      return '<img src="' + str + '" width="313"/>';
+      return '<img src="' + str + '" width="100%"/>';
     } else {
       console.log("Not an image link with" + str);
       return str

@@ -1803,7 +1803,6 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     console.log("Message message = " + message.message + "for raw message " + rawMessage.message + " with id: " + rawMessage.id);
 
     if (!(message.message.search(self.imgPattern.test()))) {
-      console.log("The imgPattern " + self.imgPattern + " doesn't match" + message.message);
       message.message = self.trimWithEllipsis(message.message, self.maxLengthMessage);
     }
     // Populate and render the message template.
@@ -1948,7 +1947,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     var self = this;
     if (self.imgPattern.test(str)) {
       console.log("image link with " + str);
-      return '<img src="' + str + '" width="313"/>';
+      return '<img src="' + str + '" width="100%"/>';
     } else {
       console.log("Not an image link with" + str);
       return str
