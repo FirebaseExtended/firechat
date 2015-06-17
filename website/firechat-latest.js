@@ -14,6 +14,8 @@ this["FirechatDefaultTemplates"]["templates/layout-popout.html"] = function(obj)
 
 this["FirechatDefaultTemplates"]["templates/message-context-menu.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape, __j = Array.prototype.join;function print() { __p += __j.call(arguments, '') }with (obj) {__p += '<div data-toggle=\'firechat-contextmenu\' class=\'contextmenu\' data-message-id=\'' +__e( id ) +'\'>\n<ul>\n<li><a href=\'#!\' data-event=\'firechat-user-warn\'>Warn User</a></li>\n'; if (allowKick) { ;__p += '\n<li><a href=\'#!\' data-event=\'firechat-user-kick\'>Kick User</a></li>\n'; } ;__p += '\n<li><a href=\'#!\' data-event=\'firechat-user-suspend-hour\'>Suspend User (1 Hour)</a></li>\n<li><a href=\'#!\' data-event=\'firechat-user-suspend-day\'>Suspend User (1 Day)</a></li>\n<li><a href=\'#!\' data-event=\'firechat-message-delete\'>Delete Message</a></li>\n</ul>\n</div>';}return __p};
 
+this["FirechatDefaultTemplates"]["templates/message-image-upload.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += 'message-image-upload.html';}return __p};
+
 this["FirechatDefaultTemplates"]["templates/message.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape, __j = Array.prototype.join;function print() { __p += __j.call(arguments, '') }with (obj) {__p += '<div class=\'message message-' +__e( type ) +' '; if (isSelfMessage) { ;__p += ' message-self '; } ;__p += '\' data-message-id=\'' +__e( id ) +'\' data-user-id=\'' +__e( userId ) +'\' data-user-name=\'' +__e( name ) +'\' data-class="firechat-message">\n<div class=\'clearfix\'>\n<label class=\'fourfifth\'>\n<strong class=\'name\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</strong>\n<em>(' +__e( localtime ) +')</em>:\n</label>'; if (!disableActions) { ;__p += '\n<label class=\'fifth alignright\'>\n<a href=\'#!\' data-event=\'firechat-user-chat\' class=\'icon user-chat\' title=\'Invite to Private Chat\'>&nbsp;</a>\n<a href=\'#!\' data-event=\'firechat-user-mute-toggle\' class=\'icon user-mute\' title=\'Mute User\'>&nbsp;</a>\n</label>\n'; } ;__p += '</div>\n<div class=\'clearfix message-content\'>\n' +((__t = ( message )) == null ? '' : __t) +'\n</div>\n</div>';}return __p};
 
 this["FirechatDefaultTemplates"]["templates/prompt-alert.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<div class=\'aligncenter clearfix\'>\n<h6>' +__e( message ) +'</h6>\n<p class=\'clearfix\'>\n<button type=\'button\' class=\'btn quarter right close\'>Close</button>\n</p>\n</div>';}return __p};
@@ -785,12 +787,13 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     this.maxLengthUsername = 15;
     this.maxLengthUsernameDisplay = 15;
     this.maxLengthRoomName = 24;
-    this.maxLengthMessage = 120;
+    this.maxLengthMessage = 200;
     this.maxUserSearchResults = 100;
 
     // Define some useful regexes.
     this.urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
     this.pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    this.imgPattern = /data:image.*$/gim;
 
     this._renderLayout();
 
@@ -1206,7 +1209,6 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
           // Generate a location that can't be guessed using the file's contents and a random number
           var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
           var f = new Firebase(firebaseRef + '/pano/' + hash + '/filePayload');
-          spinner.spin(document.getElementById('spin'));
           // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
           f.set(filePayload, function() {
             spinner.stop();
@@ -1214,20 +1216,8 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
             console.log("File with hash: " + imageFileName + ' created');
             $('#file-upload').hide();
             var roomId = $("textarea").attr("id").replace(/textarea/, "");
-            f.once('value', function(snap) {
-              var payload = snap.val();
-              if (payload !== null) {
-                var uploadImg = $('<img id="' + roomId + '-upload">');
-                uploadImg.attr("src", payload);
-                uploadImg.appendTo($(".message").last());
-                uploadImg.width(313);
-                uploadImg.show();
-                self._chat.sendMessage(roomId, message);
-              } else {
-                $('#body').append("Not found");
-              }
-              spinner.stop();
-            });
+            var message = imageFileName;
+            self._chat.sendMessage(roomId, e.target.result);
           });
         };
       })(f);
@@ -1801,17 +1791,21 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     // While other data is escaped in the Underscore.js templates, escape and
     // process the message content here to add additional functionality (add links).
     // Also trim the message length to some client-defined maximum.
-    var messageConstructed = '';
     message.message = _.map(message.message.split(' '), function(token) {
-      console.log("ShowMessage: " + token);
-      if (self.urlPattern.test(token) || self.pseudoUrlPattern.test(token)) {
+      if (self.imgPattern.test(token)) {
+        return "<img src='" + token + "' width='313'>";
+      } else if (self.urlPattern.test(token) || self.pseudoUrlPattern.test(token)) {
         return self.linkify(encodeURI(token));
       } else {
         return _.escape(token);
       }
     }).join(' ');
-    message.message = self.trimWithEllipsis(message.message, self.maxLengthMessage);
+    console.log("Message message = " + message.message + "for raw message " + rawMessage.message + " with id: " + rawMessage.id);
 
+    if (!(message.message.search(self.imgPattern.test()))) {
+      console.log("The imgPattern " + self.imgPattern + " doesn't match" + message.message);
+      message.message = self.trimWithEllipsis(message.message, self.maxLengthMessage);
+    }
     // Populate and render the message template.
     var template = FirechatDefaultTemplates["templates/message.html"];
     var $message = $(template(message));
@@ -1952,9 +1946,15 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   // see http://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
   FirechatUI.prototype.linkify = function(str) {
     var self = this;
-    return str
-      .replace(self.urlPattern, '<a target="_blank" href="$&">$&</a>')
-      .replace(self.pseudoUrlPattern, '$1<a target="_blank" href="http://$2">$2</a>');
+    if (self.imgPattern.test(str)) {
+      console.log("image link with " + str);
+      return '<img src="' + str + '" width="313"/>';
+    } else {
+      console.log("Not an image link with" + str);
+      return str
+        .replace(self.urlPattern, '<a target="_blank" href="$&">$&</a>')
+        .replace(self.pseudoUrlPattern, '$1<a target="_blank" href="http://$2">$2</a>');
+    }
   };
 
 })(jQuery);
@@ -1973,11 +1973,11 @@ function handleFileSelect(evt) {
       // Generate a location that can't be guessed using the file's contents and a random number
       var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
       var f = new Firebase(firebaseRef + 'pano/' + hash + '/filePayload');
+      // Retrieve new posts as they are added to our database
       spinner.spin(document.getElementById('spin'));
       // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
       f.set(filePayload, function() {
-        spinner.stop();
-        console.log("File with hash: " + firebaseRef + 'pano/' + hash + '/filePayload created')
+        console.log("File with hash: " + firebaseRef + 'pano/' + hash + '/filePayload created');
       });
     };
   })(f);

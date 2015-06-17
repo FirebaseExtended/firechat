@@ -12,11 +12,11 @@ function handleFileSelect(evt) {
       // Generate a location that can't be guessed using the file's contents and a random number
       var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
       var f = new Firebase(firebaseRef + 'pano/' + hash + '/filePayload');
+      // Retrieve new posts as they are added to our database
       spinner.spin(document.getElementById('spin'));
       // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
       f.set(filePayload, function() {
-        spinner.stop();
-        console.log("File with hash: " + firebaseRef + 'pano/' + hash + '/filePayload created')
+        console.log("File with hash: " + firebaseRef + 'pano/' + hash + '/filePayload created');
       });
     };
   })(f);

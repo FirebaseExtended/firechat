@@ -39,12 +39,13 @@
     this.maxLengthUsername = 15;
     this.maxLengthUsernameDisplay = 15;
     this.maxLengthRoomName = 24;
-    this.maxLengthMessage = 120;
+    this.maxLengthMessage = 200;
     this.maxUserSearchResults = 100;
 
     // Define some useful regexes.
     this.urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
     this.pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    this.imgPattern = /data:image.*$/gim;
 
     this._renderLayout();
 
@@ -460,7 +461,6 @@
           // Generate a location that can't be guessed using the file's contents and a random number
           var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
           var f = new Firebase(firebaseRef + '/pano/' + hash + '/filePayload');
-          spinner.spin(document.getElementById('spin'));
           // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
           f.set(filePayload, function() {
             spinner.stop();
@@ -468,20 +468,8 @@
             console.log("File with hash: " + imageFileName + ' created');
             $('#file-upload').hide();
             var roomId = $("textarea").attr("id").replace(/textarea/, "");
-            f.once('value', function(snap) {
-              var payload = snap.val();
-              if (payload !== null) {
-                var uploadImg = $('<img id="' + roomId + '-upload">');
-                uploadImg.attr("src", payload);
-                uploadImg.appendTo($(".message").last());
-                uploadImg.width(313);
-                uploadImg.show();
-                self._chat.sendMessage(roomId, message);
-              } else {
-                $('#body').append("Not found");
-              }
-              spinner.stop();
-            });
+            var message = imageFileName;
+            self._chat.sendMessage(roomId, e.target.result);
           });
         };
       })(f);
@@ -1055,16 +1043,20 @@
     // While other data is escaped in the Underscore.js templates, escape and
     // process the message content here to add additional functionality (add links).
     // Also trim the message length to some client-defined maximum.
-    var messageConstructed = '';
     message.message = _.map(message.message.split(' '), function(token) {
-      if (self.urlPattern.test(token) || self.pseudoUrlPattern.test(token)) {
+      if (self.imgPattern.test(token)) {
+        return "<img src='" + token + "' width='313'>";
+      } else if (self.urlPattern.test(token) || self.pseudoUrlPattern.test(token)) {
         return self.linkify(encodeURI(token));
       } else {
         return _.escape(token);
       }
     }).join(' ');
-    message.message = self.trimWithEllipsis(message.message, self.maxLengthMessage);
+    console.log("Message message = " + message.message + "for raw message " + rawMessage.message + " with id: " + rawMessage.id);
 
+    if (!(message.message.search(self.imgPattern.test()))) {
+      message.message = self.trimWithEllipsis(message.message, self.maxLengthMessage);
+    }
     // Populate and render the message template.
     var template = FirechatDefaultTemplates["templates/message.html"];
     var $message = $(template(message));
@@ -1205,9 +1197,15 @@
   // see http://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
   FirechatUI.prototype.linkify = function(str) {
     var self = this;
-    return str
-      .replace(self.urlPattern, '<a target="_blank" href="$&">$&</a>')
-      .replace(self.pseudoUrlPattern, '$1<a target="_blank" href="http://$2">$2</a>');
+    if (self.imgPattern.test(str)) {
+      console.log("image link with " + str);
+      return '<img src="' + str + '" width="313"/>';
+    } else {
+      console.log("Not an image link with" + str);
+      return str
+        .replace(self.urlPattern, '<a target="_blank" href="$&">$&</a>')
+        .replace(self.pseudoUrlPattern, '$1<a target="_blank" href="http://$2">$2</a>');
+    }
   };
 
 })(jQuery);
