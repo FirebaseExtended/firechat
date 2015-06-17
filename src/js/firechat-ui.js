@@ -468,8 +468,6 @@
             console.log("File with hash: " + imageFileName + ' created');
             $('#file-upload').hide();
             var roomId = $("textarea").attr("id").replace(/textarea/, "");
-            var message = self.trimWithEllipsis("File Uploaded from " + self._chat._userName, self.maxLengthMessage);
-            self._chat.sendMessage(roomId, message);
             f.once('value', function(snap) {
               var payload = snap.val();
               if (payload !== null) {
@@ -478,6 +476,7 @@
                 uploadImg.appendTo($(".message").last());
                 uploadImg.width(313);
                 uploadImg.show();
+                self._chat.sendMessage(roomId, message);
               } else {
                 $('#body').append("Not found");
               }

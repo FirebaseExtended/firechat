@@ -28,6 +28,9 @@
         }
       }
     },
+    "pano": {
+      ".read" : true
+    },
     "room-messages": {
       "$roomId": {
         // A list of messages by room, viewable by anyone for public rooms, or authorized users for private rooms.

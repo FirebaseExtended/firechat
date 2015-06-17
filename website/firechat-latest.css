@@ -824,24 +824,6 @@
   float: left;
   height: 35px;
 }
-#firechat #uploaded-image {
-  display: none;
-}
-#firechat #upload-icon {
-  position: absolute;
-  float: right;
-  height: 16px;
-  width: 18px;
-  bottom: 0px;
-  right: 5px;
-}
-#firechat #file-upload {
-  display: none;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
-  opacity: 0;
-}
 #firechat .message {
   color: #333;
   padding: 3px 5px;

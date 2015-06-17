@@ -36,7 +36,7 @@ this["FirechatDefaultTemplates"]["templates/room-user-list-item.html"] = functio
 
 this["FirechatDefaultTemplates"]["templates/room-user-search-list-item.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape, __j = Array.prototype.join;function print() { __p += __j.call(arguments, '') }with (obj) {__p += '<li data-user-id=\'' +__e( id ) +'\' data-user-name=\'' +__e( name ) +'\'>\n<a href=\'#!\' class=\'clearfix\'>\n'; if (disableActions) { ;__p += '\n<span class=\'left fourfifth clipped\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</span>\n'; } else { ;__p += '\n<span data-event=\'firechat-user-invite\' class=\'left fourfifth clipped\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</span>\n<span data-event=\'firechat-user-invite\' class=\'icon plus right\' title=\'Invite to Room\'>+</span>\n'; } ;__p += '\n</a>\n</li>';}return __p};
 
-this["FirechatDefaultTemplates"]["templates/tab-content.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<div id=\'' +__e( id ) +'\' data-room-id=\'' +__e( id ) +'\' class=\'tab-pane\'>\n<div class=\'tab-pane-menu clearfix\'><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-room-list-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\' data-target=\'firechat-room-user-list-' +__e( id ) +'\'>\n<span class=\'icon user-group\'></span>\nIn Room\n<span class=\'caret\'></span>\n</a>\n<div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<ul id=\'firechat-room-user-list-' +__e( id ) +'\' class=\'full\'></ul>\n</div>\n</div><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-search-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\'>\n<span class=\'icon plus\'>+</span>\nInvite\n<span class=\'caret\'></span>\n</a><div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<div class=\'firechat-dropdown-header aligncenter clearfix\'>\n<div class=\'search-wrapper\'>\n<span class=\'icon search\'></span>\n<input type=\'text\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'center fivesixth\'>\n</div>\n</div>\n<ul id=\'firechat-room-user-search-' +__e( id ) +'\'></ul><div class=\'firechat-dropdown-footer aligncenter clearfix\'>\n<div id=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'clearfix\'><span class="quarter"></span>\n<!--\n<button type=\'button\' class=\'btn third disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-prev\' disabled=disabled>Prev</button>\n-->\n<button type=\'button\' class=\'btn half disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-next\'  disabled=disabled>Next</button>\n</div>\n</div>\n</div>\n</div><a href=\'#!\' data-event=\'firechat-close-tab\' class=\'icon close right\' style=\'15px 5px\' title=\'Leave Room\'></a></div><div class=\'clearfix\'>\n<div id=\'firechat-messages' +__e( id ) +'\' class=\'chat\'></div>\n</div><div class=\'clearfix\'>\n<label>Your message:</label>\n<div id=\'textarea-container\'>\n<textarea id=\'textarea' +__e( id ) +'\' placeholder=\'Type your message here...\'></textarea>\n<label for=\'file-upload\'>\n<span id=\'upload-icon\'>\n<input type="file" accept="image/*" data-event=\'firechat-file-uploaded\' capture="camera" id="file-upload"/>\n<a id="upload-image-link" data-event=\'firechat-upload-file\'><img id="upload-image" src="/images/file_upload.png"></a>\n</span>\n</label>\n</div></div>\n</div>';}return __p};
+this["FirechatDefaultTemplates"]["templates/tab-content.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<div id=\'' +__e( id ) +'\' data-room-id=\'' +__e( id ) +'\' class=\'tab-pane\'>\n<div class=\'tab-pane-menu clearfix\'><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-room-list-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\' data-target=\'firechat-room-user-list-' +__e( id ) +'\'>\n<span class=\'icon user-group\'></span>\nIn Room\n<span class=\'caret\'></span>\n</a>\n<div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<ul id=\'firechat-room-user-list-' +__e( id ) +'\' class=\'full\'></ul>\n</div>\n</div><div class=\'firechat-dropdown twofifth\'>\n<a data-event=\'firechat-user-search-btn\' class=\'full btn firechat-dropdown-toggle\' data-toggle="firechat-dropdown" href=\'#\'>\n<span class=\'icon plus\'>+</span>\nInvite\n<span class=\'caret\'></span>\n</a><div class=\'firechat-dropdown-menu\' role=\'menu\'>\n<div class=\'firechat-dropdown-header aligncenter clearfix\'>\n<div class=\'search-wrapper\'>\n<span class=\'icon search\'></span>\n<input type=\'text\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'center fivesixth\'>\n</div>\n</div>\n<ul id=\'firechat-room-user-search-' +__e( id ) +'\'></ul><div class=\'firechat-dropdown-footer aligncenter clearfix\'>\n<div id=\'firechat-room-user-search-controls-' +__e( id ) +'\' class=\'clearfix\'><span class="quarter"></span>\n<button type=\'button\' class=\'btn half disabled\' data-event=\'firechat-user-search\' data-template=\'templates/room-user-search-list-item.html\' data-target=\'firechat-room-user-search-' +__e( id ) +'\' data-controls=\'firechat-room-user-search-controls-' +__e( id ) +'\' data-toggle=\'firechat-pagination-next\'  disabled=disabled>Next</button>\n</div>\n</div>\n</div>\n</div><a href=\'#!\' data-event=\'firechat-close-tab\' class=\'icon close right\' style=\'15px 5px\' title=\'Leave Room\'></a></div><div class=\'clearfix\'>\n<div id=\'firechat-messages' +__e( id ) +'\' class=\'chat\'></div>\n</div><div class=\'clearfix\'>\n<label>Your message:</label>\n<div id=\'textarea-container\'>\n<textarea id=\'textarea' +__e( id ) +'\' placeholder=\'Type your message here...\'></textarea>\n<label for=\'file-upload\'>\n<span id=\'upload-icon\'>\n<input type="file" accept="image/*" data-event=\'firechat-file-uploaded\' capture="camera" id="file-upload"/>\n<a id="upload-image-link" data-event=\'firechat-upload-file\'><img id="upload-image" src="/images/file_upload.png"></a>\n</span>\n</label>\n</div></div>\n</div>';}return __p};
 
 this["FirechatDefaultTemplates"]["templates/tab-menu-item.html"] = function(obj) {obj || (obj = {});var __t, __p = '', __e = _.escape;with (obj) {__p += '<li data-room-id=\'' +__e( id ) +'\'>\n<a href=\'#' +__e( id ) +'\' data-toggle=\'firechat-tab\' title=\'' +__e( name ) +'\'>' +__e( name ) +'</a>\n</li>';}return __p};
 
@@ -485,6 +485,30 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     newMessageRef = self._messageRef.child(roomId).push();
     newMessageRef.setWithPriority(message, Firebase.ServerValue.TIMESTAMP, cb);
   };
+
+  Firechat.prototype.sendPhotoMessage = function(roomId, payload, messageType, cb) {
+    var self = this,
+        message = {
+          userId: self._userId,
+          name: self._userName,
+          timestamp: Firebase.ServerValue.TIMESTAMP,
+          message: payload,
+          type: 'image'
+        },
+        newMessageRef;
+
+    if (!self._user) {
+      self._onAuthRequired();
+      if (cb) {
+        cb(new Error('Not authenticated or user not set!'));
+      }
+      return;
+    }
+
+    newMessageRef = self._messageRef.child(roomId).push();
+    newMessageRef.setWithPriority(message, Firebase.ServerValue.TIMESTAMP, cb);
+  };
+
 
   Firechat.prototype.deleteMessage = function(roomId, messageId, cb) {
     var self = this;
@@ -1190,8 +1214,6 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
             console.log("File with hash: " + imageFileName + ' created');
             $('#file-upload').hide();
             var roomId = $("textarea").attr("id").replace(/textarea/, "");
-            var message = self.trimWithEllipsis("File Uploaded from " + self._chat._userName, self.maxLengthMessage);
-            self._chat.sendMessage(roomId, message);
             f.once('value', function(snap) {
               var payload = snap.val();
               if (payload !== null) {
@@ -1200,6 +1222,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
                 uploadImg.appendTo($(".message").last());
                 uploadImg.width(313);
                 uploadImg.show();
+                self._chat.sendMessage(roomId, message);
               } else {
                 $('#body').append("Not found");
               }
@@ -1780,6 +1803,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     // Also trim the message length to some client-defined maximum.
     var messageConstructed = '';
     message.message = _.map(message.message.split(' '), function(token) {
+      console.log("ShowMessage: " + token);
       if (self.urlPattern.test(token) || self.pseudoUrlPattern.test(token)) {
         return self.linkify(encodeURI(token));
       } else {

@@ -27,7 +27,7 @@
   ],
   "main": "dist/firechat.js",
   "files": [
-    "dist/**",
+    "templates"
     "LICENSE",
     "README.md",
     "package.json"

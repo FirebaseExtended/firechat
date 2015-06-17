@@ -407,6 +407,30 @@
     newMessageRef.setWithPriority(message, Firebase.ServerValue.TIMESTAMP, cb);
   };
 
+  Firechat.prototype.sendPhotoMessage = function(roomId, payload, messageType, cb) {
+    var self = this,
+        message = {
+          userId: self._userId,
+          name: self._userName,
+          timestamp: Firebase.ServerValue.TIMESTAMP,
+          message: payload,
+          type: 'image'
+        },
+        newMessageRef;
+
+    if (!self._user) {
+      self._onAuthRequired();
+      if (cb) {
+        cb(new Error('Not authenticated or user not set!'));
+      }
+      return;
+    }
+
+    newMessageRef = self._messageRef.child(roomId).push();
+    newMessageRef.setWithPriority(message, Firebase.ServerValue.TIMESTAMP, cb);
+  };
+
+
   Firechat.prototype.deleteMessage = function(roomId, messageId, cb) {
     var self = this;
 
