@@ -20,7 +20,7 @@ module.exports = function(config) {
       'https://cdn.firebase.com/js/client/2.0.2/firebase-debug.js',
       'https://cdn.firebase.com/v0/firebase-token-generator.js',
       'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-modal.min.js',
-      'dist/firechat.js',
+      'website/firechat-latest.js',
       'spec/**/*spec.js',
       // this file only gets watched and is otherwise ignored
     ],
