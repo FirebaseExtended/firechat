@@ -4,6 +4,7 @@
     // By default, make all data private unless specified otherwise.
     ".read": false,
     ".write": false,
+    "chat" : {
     "room-metadata": {
       ".read": true,
       "$roomId": {
@@ -99,6 +100,7 @@
     "suspensions": {
       ".write": "(auth != null) && (root.child('moderators').hasChild(auth.uid))",
       ".read": "(auth != null) && (root.child('moderators').hasChild(auth.uid))"
+    }
     }
   }
 }
