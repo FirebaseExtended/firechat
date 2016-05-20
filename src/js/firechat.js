@@ -671,4 +671,4 @@
     }
     return ref;
   };
-})(Firebase);
+})(firebase);
