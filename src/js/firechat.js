@@ -652,7 +652,7 @@
     return key;
   };
 
-  Firechat.prototype.getRef = (snapshotOrRef) {
+  Firechat.prototype.getRef = function(snapshotOrRef) {
     var ref;
     if (typeof snapshotOrRef.ref === 'function') {
       ref = snapshotOrRef.ref();
@@ -662,7 +662,7 @@
     return ref;
   };
 
-  Firechat.prototype.getRoot = (snapshotOrRef) {
+  Firechat.prototype.getRoot = function(snapshotOrRef) {
     var ref;
     if (typeof snapshotOrRef.root === 'function') {
       ref = snapshotOrRef.root();
