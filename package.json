@@ -33,7 +33,7 @@
     "package.json"
   ],
   "dependencies": {
-    "firebase": "2.0.x"
+    "firebase": "3.0.x"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
