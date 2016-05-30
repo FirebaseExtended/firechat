@@ -45,12 +45,12 @@
 
     // Commonly-used Firebase references.
     this._userRef        = null;
-    this._messageRef     = this._firebase.child('room-messages');
-    this._roomRef        = this._firebase.child('room-metadata');
-    this._privateRoomRef = this._firebase.child('room-private-metadata');
-    this._moderatorsRef  = this._firebase.child('moderators');
-    this._suspensionsRef = this._firebase.child('suspensions');
-    this._usersOnlineRef = this._firebase.child('user-names-online');
+    this._messageRef     = this._firebase.database().ref().child('room-messages');
+    this._roomRef        = this._firebase.database().ref().child('room-metadata');
+    this._privateRoomRef = this._firebase.database().ref().child('room-private-metadata');
+    this._moderatorsRef  = this._firebase.database().ref().child('moderators');
+    this._suspensionsRef = this._firebase.database().ref().child('suspensions');
+    this._usersOnlineRef = this._firebase.database().ref().child('user-names-online');
 
     // Setup and establish default options.
     this._options = options || {};

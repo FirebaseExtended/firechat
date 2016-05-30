@@ -226,10 +226,10 @@
     };
 
     //    var chatRef = new Firebase('firechat-2ed14.firebaseio.com'),
-    var chatRef   = firebase.initializeApp(config),
-        target    = document.getElementById("firechat-container"),
-        authModal = $('#auth-modal').modal({show: false}),
-        chat      = new FirechatUI(chatRef, target);
+    var chatRef   = firebase.initializeApp(config);
+    var target    = document.getElementById("firechat-container");
+    var authModal = $('#auth-modal').modal({show: false});
+    var chat      = new FirechatUI(chatRef, target);
 
     chat.on('auth-required', function () {
         authModal.modal('show');
@@ -263,8 +263,11 @@
     }
 
     function logout() {
-        chatRef.unauth();
-        location.reload();
+        chatRef.auth().signOut().then(function(){
+            location.reload();
+        }, function(error){
+           console.log('could not logout' + error);
+        });
     }
 </script>
 
