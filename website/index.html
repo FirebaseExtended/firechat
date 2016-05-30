@@ -195,7 +195,7 @@
     </div>
     <div class="modal-body text-center">
         <p>
-            <a id="twitter-signin" href="javascript:login('twitter');">
+            <a id="twitter-signin" href="javascript:login();">
                 <img id="twitter-signin-btn" src="images/sign-in-with-twitter.png">
             </a>
         </p>
@@ -236,10 +236,12 @@
         return false;
     });
 
-    chatRef.onAuth(function (authData) {
+    chatRef.auth().onAuthStateChanged(function(authData){
+        console.log('onAuthStateChanged!');
+
         if (authData) {
             var userId   = authData.uid,
-                username = authData[authData.provider].displayName;
+                username = authData.providerData[0].displayName;
 
             chat.setUser(userId, username);
             $('#user-name').text(username);
@@ -253,20 +255,29 @@
         }
     });
 
-    function login(provider) {
+
+    function login() {
         authModal.modal('hide');
-        chatRef.authWithOAuthPopup(provider, function (error, authData) {
-            if (error) {
-                console.log(error);
-            }
-        });
+
+        var provider = new firebase.auth.TwitterAuthProvider();
+        chatRef.auth().signInWithPopup(provider)
+                .then(function(authData){
+                    console.log('logged in using twitter');
+
+                })
+                .catch(function (error) {
+                            if (error) {
+                                console.log(error);
+                            }
+                        }
+                );
     }
 
     function logout() {
-        chatRef.auth().signOut().then(function(){
+        chatRef.auth().signOut().then(function () {
             location.reload();
-        }, function(error){
-           console.log('could not logout' + error);
+        }, function (error) {
+            console.log('could not logout' + error);
         });
     }
 </script>

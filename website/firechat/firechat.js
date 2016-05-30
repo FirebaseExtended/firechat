@@ -174,12 +174,12 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     // Initialize Firebase listeners and callbacks for the supported bindings.
     _setupDataEvents: function() {
       // Monitor connection state so we can requeue disconnect operations if need be.
-      this.getRoot(this._firebase).child('.info/connected').on('value', function(snapshot) {
+      this.getRoot(this._firebase.database().ref()).child('.info/connected').on('value', function(snapshot) {
         if (snapshot.val() === true) {
           // We're connected (or reconnected)! Set up our presence state.
           for (var i = 0; i < this._presenceBits; i++) {
             var op = this._presenceBits[i],
-                ref = this.getRoot(this._firebase).child(op.ref);
+                ref = this.getRoot(this._firebase.database().ref()).child(op.ref);
 
             ref.onDisconnect().set(op.offlineValue);
             ref.set(op.onlineValue);
@@ -327,11 +327,11 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   Firechat.prototype.setUser = function(userId, userName, callback) {
     var self = this;
 
-    self._firebase.onAuth(function(authData) {
+    self._firebase.auth().onAuthStateChanged(function(authData) {
       if (authData) {
         self._userId = userId.toString();
         self._userName = userName.toString();
-        self._userRef = self._firebase.child('users').child(self._userId);
+        self._userRef = self._firebase.database().ref().child('users').child(self._userId);
         self._loadUserMetadata(function() {
           root.setTimeout(function() {
             callback(self._user);
@@ -378,7 +378,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
       name: roomName,
       type: roomType || 'public',
       createdByUserId: this._userId,
-      createdAt: Firebase.ServerValue.TIMESTAMP
+      createdAt: firebase.database.ServerValue.TIMESTAMP
     };
 
     if (roomType === 'private') {
@@ -420,7 +420,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
         });
 
         // Set presence bit for the room and queue it for removal on disconnect.
-        var presenceRef = self._firebase.child('room-users').child(roomId).child(self._userId).child(self._sessionId);
+        var presenceRef = self._firebase.database().ref().child('room-users').child(roomId).child(self._userId).child(self._sessionId);
         self._queuePresenceOperation(presenceRef, {
           id: self._userId,
           name: self._userName
@@ -449,7 +449,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   // Leave a chat room.
   Firechat.prototype.leaveRoom = function(roomId) {
     var self = this,
-        userRoomRef = self._firebase.child('room-users').child(roomId);
+        userRoomRef = self._firebase.database().ref().child('room-users').child(roomId);
 
     // Remove listener for new messages to this room.
     self._messageRef.child(roomId).off();
@@ -475,7 +475,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
         message = {
           userId: self._userId,
           name: self._userName,
-          timestamp: Firebase.ServerValue.TIMESTAMP,
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
           message: messageContent,
           type: messageType || 'default'
         },
@@ -490,7 +490,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
     }
 
     newMessageRef = self._messageRef.child(roomId).push();
-    newMessageRef.setWithPriority(message, Firebase.ServerValue.TIMESTAMP, cb);
+    newMessageRef.setWithPriority(message, firebase.database.ServerValue.TIMESTAMP, cb);
   };
 
   Firechat.prototype.deleteMessage = function(roomId, messageId, cb) {
@@ -521,11 +521,11 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   // Send a moderator notification to a specific user.
   Firechat.prototype.sendSuperuserNotification = function(userId, notificationType, data, cb) {
     var self = this,
-        userNotificationsRef = self._firebase.child('users').child(userId).child('notifications');
+        userNotificationsRef = self._firebase.database().ref().child('users').child(userId).child('notifications');
 
     userNotificationsRef.push({
       fromUserId: self._userId,
-      timestamp: Firebase.ServerValue.TIMESTAMP,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
       notificationType: notificationType,
       data: data || {}
     }, cb);
@@ -559,7 +559,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   Firechat.prototype.inviteUser = function(userId, roomId) {
     var self = this,
         sendInvite = function() {
-          var inviteRef = self._firebase.child('users').child(userId).child('invites').push();
+          var inviteRef = self._firebase.database().ref().child('users').child(userId).child('invites').push();
           inviteRef.set({
             id: self.getKey(inviteRef),
             fromUserId: self._userId,
@@ -628,7 +628,7 @@ this["FirechatDefaultTemplates"]["templates/user-search-list-item.html"] = funct
   Firechat.prototype.getUsersByRoom = function() {
     var self = this,
         roomId = arguments[0],
-        query = self._firebase.child('room-users').child(roomId),
+        query = self._firebase.database().ref().child('room-users').child(roomId),
         cb = arguments[arguments.length - 1],
         limit = null;
 
