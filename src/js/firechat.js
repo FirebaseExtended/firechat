@@ -97,12 +97,12 @@
     // Initialize Firebase listeners and callbacks for the supported bindings.
     _setupDataEvents: function() {
       // Monitor connection state so we can requeue disconnect operations if need be.
-      this._firebase.root().child('.info/connected').on('value', function(snapshot) {
+      this.getRoot(this._firebase).child('.info/connected').on('value', function(snapshot) {
         if (snapshot.val() === true) {
           // We're connected (or reconnected)! Set up our presence state.
           for (var i = 0; i < this._presenceBits; i++) {
             var op = this._presenceBits[i],
-                ref = this._firebase.root().child(op.ref);
+                ref = this.getRoot(this._firebase).child(op.ref);
 
             ref.onDisconnect().set(op.offlineValue);
             ref.set(op.onlineValue);
@@ -112,7 +112,7 @@
 
       // Generate a unique session id for the visit.
       var sessionRef = this._userRef.child('sessions').push();
-      this._sessionId = sessionRef.key();
+      this._sessionId = this.getKey(sessionRef);
       this._queuePresenceOperation(sessionRef, true, null);
 
       // Register our username in the public user listing.
@@ -196,11 +196,11 @@
     },
     _onNewMessage: function(roomId, snapshot) {
       var message = snapshot.val();
-      message.id = snapshot.key();
+      message.id = Firechat.prototype.getKey(snapshot);
       this._invokeEventCallbacks('message-add', roomId, message);
     },
     _onRemoveMessage: function(roomId, snapshot) {
-      var messageId = snapshot.key();
+      var messageId = Firechat.prototype.getKey(snapshot);
       this._invokeEventCallbacks('message-remove', roomId, messageId);
     },
     _onLeaveRoom: function(roomId) {
@@ -212,7 +212,7 @@
       var notification = snapshot.val();
       if (!notification.read) {
         if (notification.notificationType !== 'suspension' || notification.data.suspendedUntil < new Date().getTime()) {
-          snapshot.ref().child('read').set(true);
+          snapshot.ref.child('read').set(true);
         }
         this._invokeEventCallbacks('notification', notification);
       }
@@ -228,7 +228,7 @@
         return;
       }
 
-      invite.id = invite.id || snapshot.key();
+      invite.id = invite.id || self.getKey(snapshot);
       self.getRoom(invite.roomId, function(room) {
         invite.toRoomName = room.name;
         self._invokeEventCallbacks('room-invite', invite);
@@ -238,7 +238,7 @@
       var self = this,
           invite = snapshot.val();
 
-      invite.id = invite.id || snapshot.key();
+      invite.id = invite.id || self.getKey(snapshot);
       this._invokeEventCallbacks('room-invite-response', invite);
     }
   };
@@ -288,7 +288,7 @@
         newRoomRef = this._roomRef.push();
 
     var newRoom = {
-      id: newRoomRef.key(),
+      id: self.getKey(newRoomRef),
       name: roomName,
       type: roomType || 'public',
       createdByUserId: this._userId,
@@ -302,10 +302,10 @@
 
     newRoomRef.set(newRoom, function(error) {
       if (!error) {
-        self.enterRoom(newRoomRef.key());
+        self.enterRoom(self.getKey(newRoomRef));
       }
       if (callback) {
-        callback(newRoomRef.key());
+        callback(self.getKey(newRoomRef));
       }
     });
   };
@@ -475,7 +475,7 @@
         sendInvite = function() {
           var inviteRef = self._firebase.child('users').child(userId).child('invites').push();
           inviteRef.set({
-            id: inviteRef.key(),
+            id: self.getKey(inviteRef),
             fromUserId: self._userId,
             fromUserName: self._userName,
             roomId: roomId
@@ -639,4 +639,36 @@
       }
     }
   };
-})(Firebase);
+
+  Firechat.prototype.getKey = function(snapshot) {
+    var key;
+    if (typeof snapshot.key === 'function') {
+      key = snapshot.key();
+    } else if (typeof snapshot.key === 'string') {
+      key = snapshot.key;
+    } else {
+      key = snapshot.name();
+    }
+    return key;
+  };
+
+  Firechat.prototype.getRef = function(snapshotOrRef) {
+    var ref;
+    if (typeof snapshotOrRef.ref === 'function') {
+      ref = snapshotOrRef.ref();
+    } else {
+      ref = snapshotOrRef.ref;
+    }
+    return ref;
+  };
+
+  Firechat.prototype.getRoot = function(snapshotOrRef) {
+    var ref;
+    if (typeof snapshotOrRef.root === 'function') {
+      ref = snapshotOrRef.root();
+    } else {
+      ref = snapshotOrRef.root;
+    }
+    return ref;
+  };
+})(firebase.database);
