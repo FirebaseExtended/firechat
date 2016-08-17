@@ -2,7 +2,7 @@
   "name": "firechat",
   "description": "Realtime open source chat client powered by Firebase",
   "version": "0.0.0",
-  "author": "Firebase <support@firebase.com> (https://www.firebase.com/)",
+  "author": "Firebase (https://firebase.google.com/)",
   "homepage": "https://firechat.firebaseapp.com/",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "package.json"
   ],
   "dependencies": {
-    "firebase": "3.0.x"
+    "firebase": "3.x.x"
   },
   "devDependencies": {
     "grunt": "~0.4.0",

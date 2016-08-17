@@ -3,7 +3,7 @@
   "description": "Realtime open source chat client powered by Firebase",
   "version": "0.0.0",
   "authors": [
-    "Firebase <support@firebase.com> (https://www.firebase.com/)"
+    "Firebase (https://firebase.google.com/)"
   ],
   "homepage": "https://firechat.firebaseapp.com/",
   "repository": {
@@ -31,6 +31,6 @@
     "changelog.txt"
   ],
   "dependencies": {
-    "firebase": "3.0.x"
+    "firebase": "3.x.x"
   }
 }
