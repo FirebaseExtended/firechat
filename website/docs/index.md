@@ -221,6 +221,12 @@ chat.setUser(userId, userName, function(user) {
 <a name="api_methods"> </a>
 #### API - Public Methods
 
+`new Firechat(ref, options)`
+
+> Creates a new instance of Firechat. `ref` is a Firebase Database reference. `options` is a
+> configuration object. The only available option is `numMaxMessages` which overrides the default
+> number of messages shown in each chat room.
+
 `Firechat.setUser(userId, userName, onComplete)`
 
 > Initiates the authenticated connection to Firebase, loads any user metadata,
