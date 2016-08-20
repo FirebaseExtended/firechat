@@ -25,8 +25,8 @@ JavaScript files:
 <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
 <!-- Firechat -->
-<link rel='stylesheet' href='https://cdn.firebase.com/libs/firechat/2.1.0/firechat.min.css' />
-<script src='https://cdn.firebase.com/libs/firechat/2.1.0/firechat.min.js'></script>
+<link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
+<script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
 ```
 
 giving your users a way to authenticate:
@@ -41,7 +41,7 @@ giving your users a way to authenticate:
     });
   }
 
-  chatRef.onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function(user) {
     // Once authenticated, instantiate Firechat with the logged in user
     if (user) {
       initChat(user);
@@ -61,14 +61,14 @@ and initializing the chat:
     var chatRef = firebase.database().ref("chat");
 
     // Create a Firechat instance
-    var chat = new FirechatUI(chatRef, document.getElementById('firechat-wrapper'));
+    var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
 
     // Set the Firechat user
     chat.setUser(user.uid, user.displayName);
   }
 </script>
 
-<div id='firechat-wrapper'></div>
+<div id="firechat-wrapper"></div>
 ```
 
 For detailed integration instructions, see the [Firechat documentation](https://firechat.firebaseapp.com/docs/).
