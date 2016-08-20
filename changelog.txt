@@ -1,0 +1,1 @@
+feature - Upgraded the `firebase` dependency to `3.x.x`. No Firechat APIs have changed, but Firechat will no longer work with the Firebase `2.x.x` SDK. See the [web migration guide](https://firebase.google.com/support/guides/firebase-web) for detailed instructions on how to upgrade to the Firebase `3.x.x` SDK.
