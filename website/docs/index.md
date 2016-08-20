@@ -114,16 +114,16 @@ Let's put it all together, using Twitter authentication in our example:
 <a name="authentication"> </a>
 ### Authentication
 
-Firechat uses [Firebase Authentication](https://firebase.google.com/docs/auth/) and the
-[Database Security Rules](https://firebase.google.com/docs/database/security/), giving you the
-flexibility to authenticate with either your own custom authentication system or a number of
-built-in providers.
+Firechat uses [Firebase Authentication](https://firebase.google.com/docs/auth/?utm_source=firechat)
+and the [Database Security Rules](https://firebase.google.com/docs/database/security/?utm_source=firechat),
+giving you the flexibility to authenticate with either your own custom authentication system or a
+number of built-in providers.
 
 #### Integrate Your Own Authentication
 
 If you already have authentication built into your application, you can integrate it with Firebase
 by generating your own JSON Web Tokens (JWT). You can learn how to generate these tokens in our
-[custom token documentation](https://firebase.google.com/docs/auth/server/create-custom-tokens).
+[custom token documentation](https://firebase.google.com/docs/auth/server/create-custom-tokens/?utm_source=firechat).
 
 After generating the custom token, authenticate the Firebase SDK with it:
 
@@ -135,16 +135,22 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
-firebase.auth().signInWithCustomToken(<TOKEN>).catch(function(error) {
+firebase.auth().signInWithCustomToken(<CUSTOM_TOKEN>).catch(function(error) {
   console.log("Error authenticating user:", error);
 });
 {% endhighlight %}
 
 #### Delegate Authentication to Firebase
 
-Firebase has a built-in service that allows you to authenticate with [Facebook](https://firebase.google.com/docs/auth/web/facebook-login), [Twitter](https://firebase.google.com/docs/auth/web/twitter-login), [GitHub](https://firebase.google.com/docs/auth/web/github-auth), [Google](https://firebase.google.com/docs/auth/web/google-signin), or [email / password](https://firebase.google.com/docs/auth/web/password-auth) using only client-side code.
+Firebase has a built-in service that allows you to authenticate with
+[Facebook](https://firebase.google.com/docs/auth/web/facebook-login?utm_source=firechat),
+[Twitter](https://firebase.google.com/docs/auth/web/twitter-login/?utm_source=firechat),
+[GitHub](https://firebase.google.com/docs/auth/web/github-auth/?utm_source=firechat),
+[Google](https://firebase.google.com/docs/auth/web/google-signin/?utm_source=firechat), or
+[email / password](https://firebase.google.com/docs/auth/web/password-auth/?utm_source=firechat)
+using only client-side code.
 
-* To begin, enable your provider of choice in your Firebase account. Social login services may require you to create and configure an application and an authorized origin for the request.
+* To begin, enable your provider of choice in your Firebase console. Social login services may require you to create and configure an application and an authorized origin for the request.
 
 * Then authenticate the user on the client using your provider of choice:
 
@@ -164,7 +170,7 @@ firebase.auth().signInWithPopup(provider).catch(function(error) {
 {% endhighlight %}
 
 For more information, check out the documentation for
-[Firebase Authentication](https://firebase.google.com/docs/auth/).
+[Firebase Authentication](https://firebase.google.com/docs/auth/?utm_source=firechat).
 
 
 <a name="customizing"> </a>
@@ -182,7 +188,7 @@ Dive into the Firechat code to tweak the default interface or add a new one, cha
 
 #### Modifying the Default UI
 
-The default Firechat UI is built using jQuery and Underscore.js, as well as Bootstrap for some styles and UI elements. To get started making changes, see `firechat-default.js` and `styles.less` to begin modifying the look and feel of the UI.
+The default Firechat UI is built using jQuery and Underscore.js, as well as Bootstrap for some styles and UI elements. To get started making changes, see `firechat.js` and `styles.less` to begin modifying the look and feel of the UI.
 
 When you're ready to build, simply execute `grunt` from the root directory of the project to compile your code into the combined output.
 

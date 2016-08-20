@@ -10,10 +10,8 @@
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
     <!-- Firechat -->
-    <!-- <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
-    <script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script> -->
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.css" />
-    <script src="../../dist/firechat.js"></script>
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
+    <script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
 
     <!-- Custom CSS -->
     <style>
@@ -61,7 +59,7 @@
       firebase.initializeApp(config);
 
       // Get a reference to the Firebase Realtime Database
-      var chatRef = firebase.database().ref('firechat-demo');
+      var chatRef = firebase.database().ref("firechat-demo");
 
       // Create an instance of Firechat
       var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
@@ -74,7 +72,7 @@
         } else {
           // If the user is not logged in, sign them in anonymously
           firebase.auth().signInAnonymously().catch(function(error) {
-            console.log('Error signing user in anonymously:', error);
+            console.log("Error signing user in anonymously:", error);
           });
         }
       });
