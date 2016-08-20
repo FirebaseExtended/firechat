@@ -100,9 +100,9 @@
       this._firebase.root().child('.info/connected').on('value', function(snapshot) {
         if (snapshot.val() === true) {
           // We're connected (or reconnected)! Set up our presence state.
-          for (var i = 0; i < this._presenceBits; i++) {
-            var op = this._presenceBits[i],
-                ref = this._firebase.root().child(op.ref);
+          for (var path in this._presenceBits) {
+            var op = this._presenceBits[path],
+                ref = op.ref;
 
             ref.onDisconnect().set(op.offlineValue);
             ref.set(op.onlineValue);
