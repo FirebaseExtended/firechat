@@ -21,10 +21,8 @@
 
   function Firechat(firebaseRef, options) {
 
-    // Cache the provided Database reference, a root Database reference, and the firebase.App
-    // instance
+    // Cache the provided Database reference and the firebase.App instance
     this._firechatRef = firebaseRef;
-    this._rootRef = firebaseRef.root;
     this._firebaseApp = firebaseRef.database.app;
 
     // User-specific instance variables.
@@ -99,7 +97,7 @@
     // Initialize Firebase listeners and callbacks for the supported bindings.
     _setupDataEvents: function() {
       // Monitor connection state so we can requeue disconnect operations if need be.
-      var connectedRef = this._rootRef.child('.info/connected');
+      var connectedRef = this._firechatRef.root.child('.info/connected');
       connectedRef.on('value', function(snapshot) {
         if (snapshot.val() === true) {
           // We're connected (or reconnected)! Set up our presence state.
