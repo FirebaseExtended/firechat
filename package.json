@@ -1,7 +1,7 @@
 {
   "name": "firechat",
   "description": "Realtime open source chat client powered by Firebase",
-  "version": "3.0.0",
+  "version": "0.0.0",
   "author": "Firebase (https://firebase.google.com/)",
   "homepage": "https://firechat.firebaseapp.com/",
   "repository": {
