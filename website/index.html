@@ -209,7 +209,7 @@
       return false;
     });
 
-    firebase.auth.onAuthStateChange(function(user) {
+    firebase.auth().onAuthStateChange(function(user) {
       if (user) {
         var userId = user.uid,
             username = user.displayName;
