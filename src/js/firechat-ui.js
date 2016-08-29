@@ -799,7 +799,7 @@
             selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '');
           }
 
-          $parent = selector && $(selector);
+          $parent = selector && (selector !== '#') && $(selector);
 
           if (!$parent || !$parent.length) $parent = $this.parent();
 

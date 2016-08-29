@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
 
     <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
     <!-- Firebase -->
-    <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
     <!-- Firechat -->
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.css" />
-    <script src="https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
+    <script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
 
     <!-- Custom CSS -->
     <style>
@@ -49,16 +49,29 @@
   <body>
     <div id="firechat-wrapper"></div>
     <script type="text/javascript">
-      var chatRef = new Firebase("https://firechat-demo.firebaseio.com");
+      // Initialize Firebase SDK
+      var config = {
+        apiKey: "AIzaSyDFlsisAa2yeDhRjSPdoC6Ez0UjOrSf9sc",
+        authDomain: "firechat-demo-app.firebaseapp.com",
+        databaseURL: "https://firechat-demo-app.firebaseio.com"
+      };
+      firebase.initializeApp(config);
+
+      // Get a reference to the Firebase Realtime Database
+      var chatRef = firebase.database().ref("firechat-demo");
+
+      // Create an instance of Firechat
       var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
-      chatRef.onAuth(function(authData) {
-        if (authData) {
-          chat.setUser(authData.uid, "Anonymous" + authData.uid.substr(10, 8));
+
+      // Listen for authentication state changes
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // If the user is logged in, set them as the Firechat user
+          chat.setUser(user.uid, "Anonymous" + user.uid.substr(10, 8));
         } else {
-          chatRef.authAnonymously(function(error, authData) {
-            if (error) {
-              console.log(error);
-            }
+          // If the user is not logged in, sign them in anonymously
+          firebase.auth().signInAnonymously().catch(function(error) {
+            console.log("Error signing user in anonymously:", error);
           });
         }
       });

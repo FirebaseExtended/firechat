@@ -63,10 +63,7 @@ module.exports = function(grunt) {
 
     // Minify concatenated files.
     uglify: {
-      dist: {
-        src: ['<%= concat.js.dest %>'],
-        dest: 'dist/firechat.min.js'
-      }
+      'dist/firechat.min.js': ['dist/firechat.js'],
     },
 
     // Clean up temporary files.
