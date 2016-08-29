@@ -199,7 +199,7 @@
     firebase.initializeApp(config);
 
     // Get a reference to the Firebase Realtime Database
-    var chatRef = firebase.database().ref("firechat-demo"),
+    var chatRef = firebase.database().ref(),
         target = document.getElementById("firechat-container"),
         authModal = $('#auth-modal').modal({ show: false }),
         chat = new FirechatUI(chatRef, target);

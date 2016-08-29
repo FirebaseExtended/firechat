@@ -58,7 +58,7 @@
       firebase.initializeApp(config);
 
       // Get a reference to the Firebase Realtime Database
-      var chatRef = firebase.database().ref("firechat-demo");
+      var chatRef = firebase.database().ref();
 
       // Create an instance of Firechat
       var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
