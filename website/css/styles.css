@@ -228,18 +228,11 @@ footer {
 #footer-links {
   padding-top: 24px;
   text-align: center;
-  margin-bottom: 20px;
 }
 
 #powered-by-firebase {
   display: inline-block;
-  height: 34px;
-  width: 129px;
-  background: url('../images/powered-by-firebase-dim.png') no-repeat center;
-}
-
-#powered-by-firebase:hover {
-  background: url('../images/powered-by-firebase.png') no-repeat center;
+  width: 200px;
 }
 
 #footer-links a {
