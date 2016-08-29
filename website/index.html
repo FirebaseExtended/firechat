@@ -9,8 +9,13 @@
   <meta name="author" content="Rob DiMarco, Engineer @ Firebase, rob@firebase.com">
   <meta name="description" content="Open source, real-time chat built on Firebase." />
 
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" />
+
+  <!-- Firechat -->
+  <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
+
   <link rel="stylesheet" href="./css/pygments-borland.css" />
   <link rel="stylesheet" href="./css/styles.css" />
   <link href="images/favicon.ico" rel="shortcut icon" />
@@ -68,10 +73,10 @@
               <iframe class="github-btn" src="https://mdo.github.io/github-buttons/github-btn.html?user=firebase&repo=firechat&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="102px" height="20px"></iframe>
             </li>
             <li class="tweet-btn">
-              <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://firebase.github.io/firechat" data-count="horizontal" data-via="firebase" data-related="Firechat: Open-source chat built on Firebase">Tweet</a>
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://firechat.firebaseapp.com/" data-count="horizontal" data-via="firebase" data-related="Firechat: Open-source chat built on Firebase">Tweet</a>
             </li>
             <li class="fb-btn">
-              <div class="fb-like" data-href="http://firebase.github.io/firechat" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false"></div>
+              <div class="fb-like" data-href="https://firechat.firebaseapp.com/" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false"></div>
             </li>
           </ul>
         </div>
@@ -91,7 +96,7 @@
               <div class="span5">
                 <h3>Which technologies does Firechat use?</h3>
                 <p class="answer">
-                  The core data layer under Firechat uses <a href="/?utm_source=landing&utm_medium=site&utm_campaign=firechat" target="_blank">Firebase</a> for real-time data synchronization and persistence.
+                  The core data layer under Firechat uses <a href="https://firebase.google.com/?g=firechat" target="_blank">Firebase</a> for authentication, real-time data synchronization, and data persistence.
                   <br/><br/>
                   The default interface uses <a href="http://jquery.com/" target="_blank">jQuery</a>, <a href="http://underscorejs.org/" target="_blank">Underscore.js</a>, and <a href="http://twitter.github.io/bootstrap/" target="_blank">Bootstrap</a>. Icons by <a href="http://glyphicons.com/" target="_blank">Glyphicons</a>. Build and compilation managed with <a href="http://gruntjs.com/" target="_blank">Grunt</a> and code hosted by <a href="https://github.com/" target="_blank">GitHub</a>.
                 </p>
@@ -101,7 +106,7 @@
               <div class="span5 offset1">
                 <h3>What can I do with Firechat?</h3>
                 <p class="answer">
-                  With Firechat, you get full-featured chat in your application with a few simple script includes. Additionally, Firechat is easy to modify and extend. Based upon it's simple underlying data model and <a href="/?utm_source=landing&utm_medium=site&utm_campaign=firechat" target="_blank">Firebase</a>-powered data synchronization, it's easy to add new features, modify the UI, and customize to fit your specific needs.
+                  With Firechat, you get full-featured chat in your application with a few simple script includes. Additionally, Firechat is easy to modify and extend. Based upon it's simple underlying data model and <a href="https://firebase.google.com/?g=firechat" target="_blank">Firebase</a>-powered data synchronization, it's easy to add new features, modify the UI, and customize to fit your specific needs.
                 </p>
                 <p>
                   If Firechat doesn't currently meet your needs, feel free to fork the repo and tweak the code!
@@ -110,7 +115,7 @@
               <div class="span5">
                 <h3>Who's behind Firechat?</h3>
                 <p class="answer">
-                  Firechat was built by the folks at <a href="/?utm_source=landing&utm_medium=site&utm_campaign=firechat" target="_blank">Firebase</a> in San Francisco, California.
+                  Firechat was built by the folks at <a href="https://firebase.google.com/?g=firechat" target="_blank">Firebase</a> in San Francisco, California.
                   <br/><br/>
                   Community submissions are encouraged! <a href="https://github.com/firebase/firechat" target="_blank">Star Firechat on GitHub</a> and send a pull request when you're ready to contribute!
                 </p>
@@ -129,7 +134,7 @@
               <div class="span5 ">
                 <h3>How is Firechat Licensed?</h3>
                 <p class="answer">
-                  Firechat is published under the <a href="http://firebase.mit-license.org/" target="_blank">MIT license</a>.
+                  Firechat is published under the <a href="https://firebase.mit-license.org/" target="_blank">MIT license</a>.
                 </p>
               </div>
             </div>
@@ -150,7 +155,7 @@
         </div>
       </p>
       <p>
-        <a id="powered-by-firebase" href="https://www.firebase.com/?utm_source=landing&utm_medium=site&utm_campaign=firechat" target="_blank">&nbsp;</a>
+        <a id="powered-by-firebase" href="https://firebase.google.com/?utm_source=firechat" target="_blank">&nbsp;</a>
       </p>
     </div>
   </footer>
@@ -162,7 +167,7 @@
     </div>
     <div class="modal-body text-center">
       <p>
-        <a id="twitter-signin" href="javascript:login('twitter');">
+        <a id="twitter-signin" href="javascript:login();">
           <img id="twitter-signin-btn" src="images/sign-in-with-twitter.png">
         </a>
       </p>
@@ -172,16 +177,29 @@
     </div>
   </div>
 
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
   <!-- Firechat -->
-  <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
+
+  <!-- Bootstrap -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-modal.min.js"></script>
 
-  <!-- Download from https://github.com/firebase/Firechat -->
-  <link rel="stylesheet" href="firechat/2.0.0/firechat-default.css" />
-  <script src="firechat/2.0.0/firechat-default.js"></script>
   <script>
-    var chatRef = new Firebase('https://firechat-demo.firebaseio.com'),
+    // Initialize Firebase SDK
+    var config = {
+        apiKey: "AIzaSyDFlsisAa2yeDhRjSPdoC6Ez0UjOrSf9sc",
+        authDomain: "firechat-demo-app.firebaseapp.com",
+        databaseURL: "https://firechat-demo-app.firebaseio.com"
+    };
+    firebase.initializeApp(config);
+
+    // Get a reference to the Firebase Realtime Database
+    var chatRef = firebase.database().ref("firechat-demo"),
         target = document.getElementById("firechat-container"),
         authModal = $('#auth-modal').modal({ show: false }),
         chat = new FirechatUI(chatRef, target);
@@ -191,10 +209,10 @@
       return false;
     });
 
-    chatRef.onAuth(function(authData) {
-      if (authData) {
-        var userId = authData.uid,
-            username = authData[authData.provider].displayName;
+    firebase.auth.onAuthStateChange(function(user) {
+      if (user) {
+        var userId = user.uid,
+            username = user.displayName;
 
         chat.setUser(userId, username);
         $('#user-name').text(username);
@@ -208,18 +226,22 @@
       }
     });
 
-    function login(provider) {
+    function login() {
       authModal.modal('hide');
-      chatRef.authWithOAuthPopup(provider, function(error, authData) {
-        if (error) {
-          console.log(error);
-        }
+
+      // Log the user in via Twitter
+      var provider = new firebase.auth.TwitterAuthProvider();
+      firebase.auth().signInWithPopup(provider).catch(function(error) {
+        console.log("Error authenticating user:", error);
       });
     }
 
     function logout() {
-      chatRef.unauth();
-      location.reload();
+      firebase.auth().signOut().then(function() {
+        location.reload();
+      }).catch(function(error) {
+        console.log("Error signing user out:", error);
+      });
     }
   </script>
 
@@ -227,11 +249,6 @@
   <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
   <div id="fb-root"></div>
   <script>
-    // If loaded on GitHub pages, redirect to Firebase-hosted version.
-    if (window.location.host === 'firebase.github.io') {
-      window.location = window.location.href.replace('firebase.github.io/firechat', 'firechat.firebaseapp.com')
-    }
-
     (function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;

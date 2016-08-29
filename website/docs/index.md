@@ -5,9 +5,11 @@ layout: docs
 <a name="overview"> </a>
 ### Overview
 
-Firechat is a simple, extensible chat widget powered by [Firebase](https://firebase.com/?utm_source=docs&utm_medium=site&utm_campaign=firechat).
+Firechat is a simple, extensible chat widget powered by
+[Firebase](https://firebase.google.com/?utm_source=firechat).
 
-It is intended to serve as a concise, documented foundation for chat products built on Firebase. It works out of the box, and is easily extended.
+It is intended to serve as a concise, documented foundation for chat products built on Firebase. It
+works out of the box, and is easily extended.
 
 
 <a name="getting_started"> </a>
@@ -23,21 +25,15 @@ In order to use Firechat in your project, you need to include the following file
 
 {% highlight html %}
 <!-- jQuery -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <!-- Firebase -->
-<script src='https://cdn.firebase.com/js/client/2.0.2/firebase.js'></script>
+<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
 <!-- Firechat -->
-<link rel='stylesheet' href='https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.css' />
-<script src='https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.js'></script>
+<link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
+<script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
 {% endhighlight %}
-
-Use the URLs above to download both the minified and non-minified versions of the Firechat JavaScript
-and CSS files from the Firebase CDN. You can also download them from the
-[releases page of the Firechat GitHub repository](https://github.com/firebase/firechat/releases).
-[Firebase](https://www.firebase.com/docs/web/quickstart.html?utm_source=firechat) and
-[jQuery](https://code.jquery.com/) can be downloaded directly from their respective websites.
 
 You can also install Firechat via npm or Bower and its dependencies will be downloaded
 automatically:
@@ -52,8 +48,8 @@ $ bower install firechat --save
 
 #### Getting Started with Firebase
 
-Firechat requires Firebase in order to sync and store data. You can
-[sign up here for a free account](https://www.firebase.com/signup/?utm_medium=web&utm_source=firechat).
+Firechat requires Firebase in order to authenticate users and store data. You can
+[sign up here](https://console.firebase.google.com/?utm_source=firechat) for a free account.
 
 
 #### Short Example
@@ -69,36 +65,46 @@ Let's put it all together, using Twitter authentication in our example:
     <meta charset='utf-8' />
 
     <!-- jQuery -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
     <!-- Firebase -->
-    <script src='https://cdn.firebase.com/js/client/2.0.2/firebase.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
     <!-- Firechat -->
-    <link rel='stylesheet' href='https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.css' />
-    <script src='https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.js'></script>
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
+    <script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
   </head>
   <body>
-    <script type='text/javascript'>
-      // Create a new Firebase reference, and a new instance of the Login client
-      var chatRef = new Firebase('https://<YOUR-FIREBASE>.firebaseio.com/chat');
-      chatRef.onAuth(function(authData) {
-        // Once authenticated, instantiate Firechat with our user id and user name
-        if (authData) {
-          var chat = new FirechatUI(chatRef, document.getElementById('firechat-wrapper'));
-          chat.setUser(authData.uid, authData[authData.provider].displayName);
-        }
-      });
-      function login(provider) {
-        chatRef.authWithOAuthPopup(provider, function(error, authData) {
-          if (error) {
-            console.log(error);
-          }
+    <script>
+      function login() {
+        // Log the user in via Twitter
+        var provider = new firebase.auth.TwitterAuthProvider();
+        firebase.auth().signInWithPopup(provider).catch(function(error) {
+          console.log("Error authenticating user:", error);
         });
       }
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        // Once authenticated, instantiate Firechat with the logged in user
+        if (user) {
+          initChat(user);
+        }
+      });
+
+      function initChat(user) {
+        // Get a Firebase Database ref
+        var chatRef = firebase.database().ref("chat");
+
+        // Create a Firechat instance
+        var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+
+        // Set the Firechat user
+        chat.setUser(user.uid, user.displayName);
+      }
     </script>
-    <div id='firechat-wrapper'>
-      <a href='#' onclick='login("twitter");'>Login</a>
+
+    <div id="firechat-wrapper">
+      <button onclick="login('twitter');">Login with Twitter</button>
     </div>
   </body>
 </html>
@@ -108,51 +114,63 @@ Let's put it all together, using Twitter authentication in our example:
 <a name="authentication"> </a>
 ### Authentication
 
-Firechat uses Firebase [Authentication](https://firebase.com/docs/security/authentication.html?utm_source=docs&utm_medium=site&utm_campaign=firechat) and [Security Rules](https://firebase.com/docs/security/security-rules.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), giving you the flexibility to authenticate with either your own custom authentication system or a number of built-in providers.
+Firechat uses [Firebase Authentication](https://firebase.google.com/docs/auth/?utm_source=firechat)
+and the [Database Security Rules](https://firebase.google.com/docs/database/security/?utm_source=firechat),
+giving you the flexibility to authenticate with either your own custom authentication system or a
+number of built-in providers.
 
 #### Integrate Your Own Authentication
 
-If you already have authentication built into your application, you can integrate it with Firebase by generating your own JSON Web Tokens (JWT).
+If you already have authentication built into your application, you can integrate it with Firebase
+by generating your own JSON Web Tokens (JWT). You can learn how to generate these tokens in our
+[custom token documentation](https://firebase.google.com/docs/auth/server/create-custom-tokens/?utm_source=firechat).
 
-Firebase provide helper libraries to generate these tokens for various languages, including: [.NET](https://github.com/firebase/firebase-token-generator-dotNet), [Java](https://github.com/firebase/firebase-token-generator-java), [Node.js](https://github.com/firebase/firebase-token-generator-node), [PHP](https://github.com/firebase/firebase-token-generator-php), [Python](https://github.com/firebase/firebase-token-generator-python), [Ruby](https://github.com/firebase/firebase-token-generator-ruby).
-
-Each token should be generated with a `uid`:
-
-  * The `uid` is the unique identifier for the user (*string*).
-
-After generating the JWT, authenticate your Firebase reference:
+After generating the custom token, authenticate the Firebase SDK with it:
 
 {% highlight javascript %}
-var firechatRef = new Firebase('https://<YOUR-FIREBASE>.firebaseio.com');
-firechatRef.authWithCustomToken(<token>, function(error, authData) {
-  if (error) {
-    console.log(error);
+firebase.auth().onAuthStateChanged(function(user) {
+  // Once authenticated, instantiate Firechat with the logged in user
+  if (user) {
+    initChat(user);
   }
+});
+
+firebase.auth().signInWithCustomToken(<CUSTOM_TOKEN>).catch(function(error) {
+  console.log("Error authenticating user:", error);
 });
 {% endhighlight %}
 
-For more information, check out the documentation for [Firebase Custom Login](https://www.firebase.com/docs/web/guide/login/custom.html?utm_source=docs&utm_medium=site&utm_campaign=firechat).
-
 #### Delegate Authentication to Firebase
 
-Firebase has a built-in service that allows you to authenticate with [Facebook](https://www.firebase.com/docs/web/guide/login/facebook.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), [Twitter](https://www.firebase.com/docs/web/guide/login/twitter.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), [GitHub](https://www.firebase.com/docs/web/guide/login/github.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), [Google](https://www.firebase.com/docs/web/guide/login/google.html?utm_source=docs&utm_medium=site&utm_campaign=firechat), or [email / password](https://www.firebase.com/docs/web/guide/login/password.html?utm_source=docs&utm_medium=site&utm_campaign=firechat) using only client-side code.
+Firebase has a built-in service that allows you to authenticate with
+[Facebook](https://firebase.google.com/docs/auth/web/facebook-login?utm_source=firechat),
+[Twitter](https://firebase.google.com/docs/auth/web/twitter-login/?utm_source=firechat),
+[GitHub](https://firebase.google.com/docs/auth/web/github-auth/?utm_source=firechat),
+[Google](https://firebase.google.com/docs/auth/web/google-signin/?utm_source=firechat), or
+[email / password](https://firebase.google.com/docs/auth/web/password-auth/?utm_source=firechat)
+using only client-side code.
 
-* To begin, enable your provider of choice in your Firebase account, at `https://<YOUR-FIREBASE>.firebaseio.com`. Social login services may require you to create and configure an application and an authorized origin for the request.
+* To begin, enable your provider of choice in your Firebase console. Social login services may require you to create and configure an application and an authorized origin for the request.
 
 * Then authenticate the user on the client using your provider of choice:
 
 {% highlight javascript %}
-var firechatRef = new Firebase('https://<YOUR-FIREBASE>.firebaseio.com');
-firechatRef.onAuth(function(authData) { ... });
-...
-firechatRef.authWithOAuthPopup('twitter' /* or 'facebook', 'github, 'persona', 'password' */, function(error, authData) {
-  if (error) {
-    console.log(error);
+firebase.auth().onAuthStateChanged(function(user) {
+  // Once authenticated, instantiate Firechat with the logged in user
+  if (user) {
+    initChat(user);
   }
+});
+
+// Log the user in via Twitter (or Google or GitHub or email / password or etc.)
+var provider = new firebase.auth.TwitterAuthProvider();
+firebase.auth().signInWithPopup(provider).catch(function(error) {
+  console.log("Error authenticating user:", error);
 });
 {% endhighlight %}
 
-For more information, check out the documentation for [User Authentication](https://www.firebase.com/docs/web/guide/user-auth.html?utm_source=docs&utm_medium=site&utm_campaign=firechat).
+For more information, check out the documentation for
+[Firebase Authentication](https://firebase.google.com/docs/auth/?utm_source=firechat).
 
 
 <a name="customizing"> </a>
@@ -170,7 +188,7 @@ Dive into the Firechat code to tweak the default interface or add a new one, cha
 
 #### Modifying the Default UI
 
-The default Firechat UI is built using jQuery and Underscore.js, as well as Bootstrap for some styles and UI elements. To get started making changes, see `firechat-default.js` and `styles.less` to begin modifying the look and feel of the UI.
+The default Firechat UI is built using jQuery and Underscore.js, as well as Bootstrap for some styles and UI elements. To get started making changes, see `firechat.js` and `styles.less` to begin modifying the look and feel of the UI.
 
 When you're ready to build, simply execute `grunt` from the root directory of the project to compile your code into the combined output.
 
@@ -192,6 +210,7 @@ Firechat exposes a number of useful methods and bindings to initiate chat, enter
 
 #### Instantiating Firechat
 {% highlight javascript %}
+var firebaseRef = firebase.database().ref("firechat");
 var chat = new Firechat(firebaseRef);
 chat.setUser(userId, userName, function(user) {
   chat.resumeSession();
@@ -201,6 +220,12 @@ chat.setUser(userId, userName, function(user) {
 
 <a name="api_methods"> </a>
 #### API - Public Methods
+
+`new Firechat(ref, options)`
+
+> Creates a new instance of Firechat. `ref` is a Firebase Database reference. `options` is a
+> configuration object. The only available option is `numMaxMessages` which overrides the default
+> number of messages shown in each chat room.
 
 `Firechat.setUser(userId, userName, onComplete)`
 
@@ -286,7 +311,7 @@ To bind events to Firechat, invoke the public `on` method using an event ID and 
 <a name="data_structure"> </a>
 ### Data Structure
 
-Firechat uses [Firebase](https://www.firebase.com/?utm_source=docs&utm_medium=site&utm_campaign=firechat) for its data storage and synchronization. This means (a) you don't need to run any server code and (b) you get access to all the the Firebase features, including first-class data security, automatic scaling, and data portability.
+Firechat uses [Firebase](https://firebase.google.com/?utm_source=firechat) to authenticate users and store and synchronize data. This means (a) you don't need to run any server code and (b) you get access to all the the Firebase features, including first-class data security, automatic scaling, and data portability.
 
 You own all of the data and can interact with it in a variety of ways. Firechat stores your data at the Firebase location you specify using the
 following data structure:
@@ -318,9 +343,10 @@ following data structure:
         * `muted` - A list of user ids currently muted by the user.
         * `rooms` - A list of currently active rooms, used for sessioning.
 
-You may find it useful to interact directly with the Firebase data when building related features on your site. See the code or view the data in Forge (just enter your Firebase URL in a browser) for more details.
+You may find it useful to interact directly with the Firebase data when building related features on your site. See the code or view the data (just enter your Firebase URL in a browser) for more details.
 
 ### Security
-To lock down your Firechat data, you can use Firebase's builtin
-[Security features](https://www.firebase.com/docs/security-quickstart.html?utm_source=docs&utm_medium=site&utm_campaign=firechat).  For some example
-security rules for Firechat, see these [example rules on Github](https://github.com/firebase/firechat/tree/master/rules.json).
+To lock down your Firechat data, you can use Firebase's built-in
+[Database Security Rules](https://firebase.google.com/docs/database/security/?utm_source=firechat).
+For some example Security Rules for Firechat, see these
+[example rules on GitHub](https://github.com/firebase/firechat/tree/master/rules.json).

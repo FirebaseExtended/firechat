@@ -11,12 +11,7 @@
   "bugs": {
     "url": "https://github.com/firebase/firechat/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://firebase.mit-license.org/"
-    }
-  ],
+  "license": "MIT",
   "keywords": [
     "chat",
     "talk",
@@ -33,21 +28,17 @@
     "package.json"
   ],
   "dependencies": {
-    "firebase": "2.0.x"
+    "firebase": "3.x.x"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-clean": "~0.4.1",
-    "grunt-contrib-concat": "~0.1.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-jshint": "~0.1.0",
     "grunt-contrib-jst": "~0.5.0",
     "grunt-contrib-less": "~0.5.0",
-    "grunt-contrib-uglify": "~0.1.0",
-    "grunt-contrib-watch": "~0.1.4"
-  },
-  "scripts": {
-    "test": "gulp test",
-    "travis": "gulp travis"
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0"
   }
 }
