@@ -111,10 +111,8 @@
         }
       }, this);
 
-      // Generate a unique session id for the visit.
-      var sessionRef = this._userRef.child('sessions').push();
-      this._sessionId = sessionRef.key;
-      this._queuePresenceOperation(sessionRef, true, null);
+      // Queue up a presence operation to remove the session when presence is lost
+      this._queuePresenceOperation(this._sessionRef, true, null);
 
       // Register our username in the public user listing.
       var usernameRef = this._usersOnlineRef.child(this._userName.toLowerCase());
@@ -256,6 +254,9 @@
         self._userId = userId.toString();
         self._userName = userName.toString();
         self._userRef = self._firechatRef.child('users').child(self._userId);
+        self._sessionRef = self._userRef.child('sessions').push();
+        self._sessionId = self._sessionRef.key;
+
         self._loadUserMetadata(function() {
           root.setTimeout(function() {
             callback(self._user);
