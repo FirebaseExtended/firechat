@@ -181,6 +181,7 @@
     // Event to monitor current user state.
     _onUpdateUser: function(snapshot) {
       this._user = snapshot.val();
+      this._userName = this._user.name;
       this._invokeEventCallbacks('user-update', this._user);
     },
 
