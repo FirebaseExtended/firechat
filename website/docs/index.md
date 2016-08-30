@@ -31,8 +31,8 @@ In order to use Firechat in your project, you need to include the following file
 <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
 <!-- Firechat -->
-<link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
-<script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
+<link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
+<script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
 {% endhighlight %}
 
 You can also install Firechat via npm or Bower and its dependencies will be downloaded
@@ -71,8 +71,8 @@ Let's put it all together, using Twitter authentication in our example:
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
     <!-- Firechat -->
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.css" />
-    <script src="https://cdn.firebase.com/libs/firechat/3.0.0/firechat.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
+    <script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
   </head>
   <body>
     <script>

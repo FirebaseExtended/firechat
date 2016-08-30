@@ -1,0 +1,2 @@
+fixed - Fixed race condition which led to a Firebase write exception due to a `null` session ID.
+fixed - Fixed issue where the logged in user's name would not be updated when it changed on a different client (thanks to @oddui).
