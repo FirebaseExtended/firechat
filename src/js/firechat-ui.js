@@ -297,7 +297,8 @@
           self._chat.getRoom(messageVars.roomId, function(room) {
             // Show the context menu.
             $template = $(template({
-              id: $message.data('message-id')
+              id: $message.data('message-id'),
+              allowKick: false
             }));
             $template.css({
               left: event.clientX,
