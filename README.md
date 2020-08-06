@@ -5,6 +5,12 @@ Firechat is a simple, extensible chat widget powered by
 documented foundation for chat products built on Firebase. It works out of the box, and is easily
 extended.
 
+## Status
+
+![Status: Archived](https://img.shields.io/badge/Status-Archived-red)
+
+This sample is no longer actively maintained and is left here for reference only.
+
 ## Live Demo
 
 Visit [firechat.firebaseapp.com](https://firechat.firebaseapp.com/) to see a live demo of Firechat.
