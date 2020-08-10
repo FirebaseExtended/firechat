@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🛑 Repository Archived
+    url: https://firebase.google.com/docs/samples
+    about: This repository is archived. Visit our samples page for a list of up-to-date samples.
